@@ -17,6 +17,11 @@ const SELECT_GLOBAL_STYLES = `
         cursor: inherit;
         user-select: none;
     }
+    .mymui-select-wrapper input:focus{
+      outline: none; 
+      border: none;
+      box-shadow: none;
+  }
 `;
 export default function Select({ label, reminder, options, onChange, width }: TSelect) {
   const [value, setValue] = useState<string>("");
@@ -68,7 +73,7 @@ export default function Select({ label, reminder, options, onChange, width }: TS
             size={5}
             style={{
               width: toLength(width),
-              minWidth: "96px",
+              minWidth: "56px",
               lineHeight: "23px",
               color: "transparent",
               background: "transparent",
