@@ -1,4 +1,5 @@
 import App, { AppProps } from "next/app";
+
 import { ToastContainer } from "react-toastify";
 import Head from "next/head";
 import "highlight.js/styles/tokyo-night-dark.css";
@@ -29,11 +30,11 @@ function SnoopApp({ Component, pageProps: { session, ...pageProps } }: AppProps)
 //     </SessionProvider>
 //   );
 // }
-SnoopApp.getInitialProps = async (appContext) => {
-  // calls page's `getInitialProps` and fills `appProps.pageProps`
-  const appProps = await App.getInitialProps(appContext);
+// SnoopApp.getInitialProps = async (appContext: AppProps) => {
+//   // calls page's `getInitialProps` and fills `appProps.pageProps`
+//   const appProps = await App.getInitialProps(appContext);
 
-  return { ...appProps };
-};
+//   return { ...appProps };
+// };
 
 export default SnoopApp;
