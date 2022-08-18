@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon } from "@heroicons/react/outline";
 import { classNames } from "@/lib/utils";
-export function NavBar() {
-  const [currentNav, setCurrentNav] = useState<"addPage" | "preview" | "publish" | "share">("addPage");
+import { useRouter } from "next/router";
+type AvailableNav = "addPage" | "preview" | "publish" | "share";
+export function NavBar({ currentNav }: { currentNav: AvailableNav }) {
+  // const [currentNav, setCurrentNav] = useState<>("addPage");
+  const router = useRouter();
   return (
     <div className="flex items-center justify-center flex-shrink-0 border-b border-ui-gray-light bg-ui-gray-lighter">
       <nav className="flex space-x-10" aria-label="resultModes">
@@ -11,7 +14,7 @@ export function NavBar() {
           label="Page"
           icon={DocumentAddIcon}
           onClick={() => {
-            setCurrentNav("addPage");
+            router.push(`/`);
             //addPage()
           }}
           active={currentNav === "addPage"}
@@ -21,18 +24,17 @@ export function NavBar() {
           label="Preview"
           icon={EyeIcon}
           onClick={() => {
-            setCurrentNav("preview");
+            router.push(`/preview`);
             //addPage()
           }}
           active={currentNav === "preview"}
-          disabled
         ></Navigation>
         <Navigation
           id="publish"
           label="Publish"
           icon={PaperAirplaneIcon}
           onClick={() => {
-            setCurrentNav("publish");
+            //setCurrentNav("publish");
             //publishChanges()
           }}
           active={currentNav === "publish"}
@@ -43,7 +45,7 @@ export function NavBar() {
           label="Share"
           icon={ShareIcon}
           onClick={() => {
-            setCurrentNav("share");
+            //setCurrentNav("share");
             //addPage()
           }}
           active={currentNav === "share"}

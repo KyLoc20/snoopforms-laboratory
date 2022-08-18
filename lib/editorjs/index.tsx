@@ -18,7 +18,7 @@ import RatingQuestion from "./tools/RatingQuestion";
 // import WebsiteQuestion from "./tools/WebsiteQuestion";
 // import PhoneQuestion from "./tools/PhoneQuestion";
 // import NumberQuestion from "./tools/NumberQuestion";
-
+import { useNoCodeForm, persistNoCodeForm } from "@/lib/noCodeForm";
 interface EditorProps {
   id: string;
   autofocus: boolean;
@@ -27,8 +27,11 @@ interface EditorProps {
   initAction?: (editor: EditorJS) => void;
 }
 export default function SnoopFormsEditor({ id, autofocus = false, editorRef, formId, initAction }: EditorProps) {
+  const { noCodeForm, isLoadingNoCodeForm, mutateNoCodeForm } = useNoCodeForm("123");
+
   useEffect(() => {
-    if (!editorRef.current) {
+    console.log("SnoopFormsEditor isLoadingNoCodeForm: ", isLoadingNoCodeForm);
+    if (!isLoadingNoCodeForm && !editorRef.current) {
       initEditor();
     }
     return () => {
@@ -41,34 +44,54 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
         editorRef.current = null;
       }
     }
-  }, []);
+  }, [isLoadingNoCodeForm]);
   const initEditor = () => {
+    console.log("initEditor", noCodeForm.blocksDraft);
     const editor = new EditorJS({
       minHeight: 0,
       holder: id,
-      data: { blocks: [] },
+      data: { blocks: noCodeForm.blocksDraft },
       onReady: () => {
         console.log("Editor.js is ready to work!");
         editorRef.current = editor;
-        // new DragDrop(editor);
-        // new Undo({ editor });
-        // if (editor.blocks.getBlocksCount() === 1) {
-        //   initAction(editor);
-        // }
+        new DragDrop(editor);
+        new Undo({ editor });
+        /**
+         * Init Blocks by default
+         */
+        if (editor.blocks.getBlocksCount() === 1) {
+          // initAction(editor); //Init Blocks here, not callback to Builder
+          editor.blocks.insert("header", {
+            text: "Welcome",
+          });
+          const focusBlock = editor.blocks.insert("ratingQuestion");
+          // editor.blocks.insert("pageTransition", {
+          //   submitLabel: "Submit",
+          // });
+          editor.blocks.insert("header", {
+            text: "Thank you",
+          });
+          editor.blocks.insert("paragraph", {
+            text: "Thanks a lot for your time and insights 🙏",
+          });
+          editor.blocks.delete(0); // remove defaultBlock
+          editor.caret.setToBlock(editor.blocks.getBlockIndex(focusBlock.id));
+        }
       },
       onChange: async (api, event) => {
         //this will trigger when DOM including className changes
         let content = await editor.saver.save();
-        console.log("SnoopFormsEditor", content, api, event);
-        // const newNoCodeForm = JSON.parse(JSON.stringify(noCodeForm));
-        // newNoCodeForm.blocksDraft = content.blocks;
-        // await persistNoCodeForm(newNoCodeForm);
-        // mutateNoCodeForm(newNoCodeForm);
+        console.log("-> SnoopFormsEditor got some updates:", content);
+        //todo diff
+        const newNoCodeForm = JSON.parse(JSON.stringify(noCodeForm));
+        newNoCodeForm.blocksDraft = content.blocks;
+        await persistNoCodeForm(newNoCodeForm);
+        mutateNoCodeForm(newNoCodeForm);
       },
-      placeholder: "Let`s write an awesome story!",
+      placeholder: "Let`s create an awesome form!",
       autofocus: autofocus,
-      // defaultBlock: "paragraph",
-      defaultBlock: "ratingQuestion",
+      defaultBlock: "paragraph",
+      // defaultBlock: "ratingQuestion",
       tools: {
         textQuestion: TextQuestion,
         ratingQuestion: RatingQuestion,
@@ -86,16 +109,17 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
         // phoneQuestion: PhoneQuestion,
         // websiteQuestion: WebsiteQuestion,
         // pageTransition: PageTransition,
-        // paragraph: {
-        //   class: Paragraph,
-        //   inlineToolbar: true,
-        //   config: {
-        //     placeholder: "Start with your content or hit tab-key to insert block",
-        //   },
-        // },
+        paragraph: {
+          class: Paragraph,
+          inlineToolbar: true,
+          config: {
+            placeholder: "Start with your content or hit tab-key to insert block",
+          },
+        },
       },
     });
   };
+  console.log("RENDER SnoopFormsEditor");
   return (
     <Fragment>
       <div id={id} />

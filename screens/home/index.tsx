@@ -6,7 +6,7 @@ import Container from "@/components/layout/Container";
 export default function HomeScreen() {
   return (
     <Container>
-      <NavBar></NavBar>
+      <NavBar currentNav="addPage"></NavBar>
       <FullWidth>
         <Builder></Builder>
       </FullWidth>
