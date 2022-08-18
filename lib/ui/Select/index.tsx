@@ -99,6 +99,8 @@ export default function Select({ label, reminder, options, onChange, width }: TS
             <div
               className="select-menu"
               style={{
+                maxHeight: "196px",
+                overflowY: "auto",
                 position: "absolute",
                 zIndex: 100,
                 // display: isMenuOpen ? "flex" : "none",

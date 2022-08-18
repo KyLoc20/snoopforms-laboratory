@@ -1,16 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "@/lib/ui/Select";
 import Rating from "./Rating";
 import { Listbox } from "@headlessui/react";
 import Switch from "@/lib/ui/Switch";
 import QuestionInput from "../../base/QuestionInput";
 type AvailableIcon = "stars" | "hearts";
-interface RatingQuestionProps {}
-export default function RatingQuestionComponent({}: RatingQuestionProps) {
-  const [num, setNum] = useState(5);
-  const [icon, setIcon] = useState<AvailableIcon>("stars");
-  const [isRequired, setIsRequired] = useState(false);
-
+export type RatingComponentCustomData = {
+  num: number;
+  icon: AvailableIcon;
+  isRequired: boolean;
+};
+interface RatingQuestionProps {
+  onDataChange: (data: RatingComponentCustomData) => void;
+  initialData: RatingComponentCustomData;
+}
+export default function RatingQuestionComponent({ onDataChange, initialData }: RatingQuestionProps) {
+  const [num, setNum] = useState(initialData.num);
+  const [icon, setIcon] = useState<AvailableIcon>(initialData.icon);
+  const [isRequired, setIsRequired] = useState(initialData.isRequired);
+  useEffect(() => {
+    onDataChange({ num, icon, isRequired });
+  }, [num, icon, isRequired]);
   return (
     <div className="question-container" style={{ paddingBottom: "20px" }}>
       <div style={{ position: "relative" }}>
@@ -45,7 +55,9 @@ export default function RatingQuestionComponent({}: RatingQuestionProps) {
         }}
       >
         <Select
-          options={["1", "2", "3", "4", "5"].map((name, i) => ({ name }))}
+          options={Array(10)
+            .fill(0)
+            .map((_, i) => ({ name: (i + 1).toString() }))}
           label={"num"}
           width={40}
           onChange={(value) => {

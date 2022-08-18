@@ -26,7 +26,7 @@ interface EditorProps {
   formId?: string;
   initAction?: (editor: EditorJS) => void;
 }
-export default function BestEditor({ id, autofocus = false, editorRef, formId, initAction }: EditorProps) {
+export default function SnoopFormsEditor({ id, autofocus = false, editorRef, formId, initAction }: EditorProps) {
   useEffect(() => {
     if (!editorRef.current) {
       initEditor();
@@ -59,7 +59,7 @@ export default function BestEditor({ id, autofocus = false, editorRef, formId, i
       onChange: async (api, event) => {
         //this will trigger when DOM including className changes
         let content = await editor.saver.save();
-        console.log("onChange", content, api, event);
+        console.log("SnoopFormsEditor", content, api, event);
         // const newNoCodeForm = JSON.parse(JSON.stringify(noCodeForm));
         // newNoCodeForm.blocksDraft = content.blocks;
         // await persistNoCodeForm(newNoCodeForm);

@@ -1,10 +1,14 @@
 import { API, BlockTool, BlockToolData, ToolConfig } from "@editorjs/editorjs";
-import RatingQuestionComponent from "./Component";
+import RatingQuestionComponent, { RatingComponentCustomData } from "./Component";
 import ReactDOM from "react-dom";
 interface RatingQuestionData extends BlockToolData {
   label: string;
   placeholder: string;
   required: boolean;
+}
+//extends RatingComponentConfigData
+interface RatingQuestionData {
+  _component: RatingComponentCustomData;
 }
 export default class RatingQuestion implements BlockTool {
   rootNode: undefined | HTMLElement;
@@ -17,8 +21,11 @@ export default class RatingQuestion implements BlockTool {
       label: data?.label ?? "",
       placeholder: data?.placeholder ?? "",
       required: data?.required ?? true,
-      state: {
-        value: "good",
+      //as initialData
+      _component: {
+        num: 5,
+        icon: "stars",
+        isRequired: false,
       },
     };
   }
@@ -29,15 +36,21 @@ export default class RatingQuestion implements BlockTool {
     };
   }
   save(block: HTMLElement) {
-    return {
-      value: this.data.state.value,
-    };
+    console.log("RatingQuestion save", this.data);
+    return this.data;
   }
   render(): HTMLElement {
     //what if init this.wrapper in the constructor
     this.rootNode = document.createElement("div");
     this.rootNode.classList.add("block-root");
-    ReactDOM.render(<RatingQuestionComponent></RatingQuestionComponent>, this.rootNode);
+    const handleDataChange = (data: RatingComponentCustomData) => {
+      this.data._component = data;
+      console.log("RatingQuestion handleDataChange", data, this.data);
+    };
+    ReactDOM.render(
+      <RatingQuestionComponent onDataChange={handleDataChange} initialData={{ num: 5, icon: "stars", isRequired: false }}></RatingQuestionComponent>,
+      this.rootNode
+    );
     return this.rootNode;
   }
 }
