@@ -8,9 +8,9 @@ const sharedMockData: NoCodeFormData = {
   blocks: [],
   blocksDraft: [
     { id: "1", type: "header", data: { text: "Welcome" } },
-    { id: "2", type: "ratingQuestion", data: { num: 5, icon: "stars", isRequired: false } },
+    { id: "2", type: "ratingQuestion", data: { _component: { num: 8, icon: "hearts", isRequired: false } } },
     { id: "3", type: "header", data: { text: "Thank you" } },
-    { id: "4", type: "paragraph", data: { text: "Thanks a lot for your time and insights 🙏" } },
+    { id: "4", type: "paragraph", data: { text: "Congratulations!" } },
   ],
 };
 

@@ -23,9 +23,9 @@ export default class RatingQuestion implements BlockTool {
       required: data?.required ?? true,
       //as initialData
       _component: {
-        num: data?._component.num ?? 5,
-        icon: data?._component.icon ?? "stars",
-        isRequired: data?._component.isRequired ?? false,
+        num: data?._component?.num ?? 5,
+        icon: data?._component?.icon ?? "stars",
+        isRequired: data?._component?.isRequired ?? false,
       },
     };
   }

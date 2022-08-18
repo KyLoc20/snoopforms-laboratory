@@ -3,7 +3,6 @@ import { fetcher } from "./utils";
 import { NoCodeFormData } from "./types";
 export const useNoCodeForm = (formId: string) => {
   const { data, error, mutate } = useSWR(`/api/forms/${formId}/nocodeform`, fetcher);
-  console.log("useNoCodeForm", error);
   return {
     noCodeForm: data as NoCodeFormData,
     isLoadingNoCodeForm: !error && !data,

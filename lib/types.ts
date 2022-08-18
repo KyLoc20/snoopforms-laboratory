@@ -1,5 +1,10 @@
+export type BlockData = {
+  id: string;
+  type: string;
+  data: any;
+};
 export type NoCodeFormData = {
   formId: string;
-  blocksDraft: any[];
-  blocks: any[];
+  blocksDraft: BlockData[];
+  blocks: BlockData[];
 };

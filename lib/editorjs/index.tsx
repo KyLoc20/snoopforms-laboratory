@@ -46,13 +46,12 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
     }
   }, [isLoadingNoCodeForm]);
   const initEditor = () => {
-    console.log("initEditor", noCodeForm.blocksDraft);
     const editor = new EditorJS({
       minHeight: 0,
       holder: id,
       data: { blocks: noCodeForm.blocksDraft },
       onReady: () => {
-        console.log("Editor.js is ready to work!");
+        console.log("Editor.js is ready to work!", editor.blocks.getBlocksCount());
         editorRef.current = editor;
         new DragDrop(editor);
         new Undo({ editor });
