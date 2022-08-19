@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Select from "@/lib/editorjs/ui/Select";
 import Rating from "./Rating";
-import { Listbox } from "@headlessui/react";
 import Switch from "@/lib/editorjs/ui/Switch";
 import QuestionInput from "../../base/QuestionInput";
 import QuestionTitle from "../../base/QuestionTitle";
@@ -87,7 +86,6 @@ export default function RatingQuestionComponent({ onDataChange, initialData, con
           <Button>Add options</Button>
           <Divider h={38}></Divider>
           <Switch label={"Required"} onChange={() => setIsRequired((prev) => !prev)} defaultValue={true}></Switch>
-          <div>Required</div>
         </div>
       )}
     </div>
