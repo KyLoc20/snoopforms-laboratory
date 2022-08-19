@@ -1,0 +1,1 @@
+This is an enhancement draft for [snoopforms-react](https://github.com/snoopForms/snoopforms-react) to build new Questions painlessly.
