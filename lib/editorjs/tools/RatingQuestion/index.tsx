@@ -23,6 +23,7 @@ export default class RatingQuestion implements BlockTool {
       required: data?.required ?? true,
       //as initialData
       _component: {
+        title: data?._component?.title ?? "Input",
         num: data?._component?.num ?? 5,
         icon: data?._component?.icon ?? "stars",
         isRequired: data?._component?.isRequired ?? false,
@@ -47,7 +48,10 @@ export default class RatingQuestion implements BlockTool {
       this.data._component = data;
       console.log("RatingQuestion handleDataChange", data, this.data);
     };
-    ReactDOM.render(<RatingQuestionComponent onDataChange={handleDataChange} initialData={this.data._component}></RatingQuestionComponent>, this.rootNode);
+    ReactDOM.render(
+      <RatingQuestionComponent onDataChange={handleDataChange} initialData={this.data._component} configurable></RatingQuestionComponent>,
+      this.rootNode
+    );
     return this.rootNode;
   }
 }

@@ -87,7 +87,12 @@ const createFormElement = (type: string, block: BlockData) => {
         return (
           <RatingQuestionComponent
             onDataChange={() => {}}
-            initialData={{ num: block.data._component?.num, icon: block.data._component?.icon, isRequired: block.data._component?.isRequired }}
+            initialData={{
+              title: block.data._component?.title,
+              num: block.data._component?.num,
+              icon: block.data._component?.icon,
+              isRequired: block.data._component?.isRequired,
+            }}
           />
         );
       };

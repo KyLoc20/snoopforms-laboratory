@@ -1,23 +1,19 @@
 import { PropsWithChildren, useRef, useState } from "react";
+import { FORM_RED, FORM_GRAY_1, FORM_GRAY_LIGHT, withAlpha } from "../../base/design";
 const TRANSITION = "all .2s cubic-bezier(.4,.2,0,1)";
-// const TEXT_COLOR = "#fff"; //"rgba(0, 0, 0, 0.87)";
-// const TEXT_LIGHT_COLOR = "#fff"; //"rgba(0, 0, 0, 0.54)";
-// const LINE_COLOR = "#fff"; //"rgba(0, 0, 0, 0.42)";
-// const LINE_COLOR_H = "#fff"; //"rgba(0, 0, 0, 0.87)";
-// const FOCUS_COLOR = "rgba(59, 73, 223, 1)"; //"rgba(25, 118, 210, 1)";
-const TEXT_COLOR = "rgba(0, 0, 0, 0.87)";
-const TEXT_LIGHT_COLOR = "rgba(0, 0, 0, 0.54)";
-const LINE_COLOR = "rgba(0, 0, 0, 0.42)";
-const LINE_COLOR_H = "rgba(0, 0, 0, 0.87)";
-const FOCUS_COLOR = "rgba(25, 118, 210, 1)";
+const TEXT_COLOR = withAlpha(FORM_GRAY_1, 0.7); //"rgba(0, 0, 0, 0.87)";
+const TEXT_LIGHT_COLOR = withAlpha(FORM_GRAY_1, 0.4); //"rgba(0, 0, 0, 0.54)";
+const LINE_COLOR = TEXT_COLOR; //"rgba(0, 0, 0, 0.42)";
+const LINE_COLOR_H = TEXT_COLOR; //"rgba(0, 0, 0, 0.87)";
+const FOCUS_COLOR = FORM_RED; //"rgba(25, 118, 210, 1)";
 const SELECT_GLOBAL_STYLES = `
-    .mymui-select-wrapper input{
+    .snoopforms-select-wrapper input{
         padding: 0;
         border: none;
         cursor: inherit;
         user-select: none;
     }
-    .mymui-select-wrapper input:focus{
+    .snoopforms-select-wrapper input:focus{
       outline: none; 
       border: none;
       box-shadow: none;
@@ -44,7 +40,7 @@ export default function Select({ label, reminder, options, onChange, width }: TS
   return (
     <>
       <div
-        className="mymui-select-wrapper"
+        className="snoopforms-select-wrapper"
         style={{ display: "inline-flex", flexDirection: "column" }}
         onMouseDown={(e) => {
           e.stopPropagation();
@@ -110,7 +106,7 @@ export default function Select({ label, reminder, options, onChange, width }: TS
                 width: "100%",
                 background: "#fff",
                 padding: "8px 0",
-                boxShadow: "0 5px 5px -3px rgb(0 0 0 / 20%), 0 8px 10px 1px rgb(0 0 0 / 14%), 0 3px 14px 2px rgb(0 0 0 / 12%)",
+                boxShadow: "0 5px 5px -3px rgb(0 0 0 / 10%), 0 8px 10px 1px rgb(0 0 0 / 7%), 0 3px 14px 2px rgb(0 0 0 / 6%)",
               }}
             >
               <div
@@ -176,7 +172,7 @@ function MenuItem({ children, value, onSelect }: PropsWithChildren<{ onSelect: (
         userSelect: "none",
         cursor: "pointer",
         padding: "6px 16px",
-        color: "rgba(0,0,0,0.87)",
+        color: TEXT_COLOR,
         background: isHovering ? "rgba(0,0,0,0.04)" : undefined,
         fontSize: "16px",
         fontWeight: 400,
@@ -263,7 +259,7 @@ function Toggle({ isFocused }: PropsWithChildren<{ isFocused: boolean }>) {
         alignItems: "center",
       }}
     >
-      <svg fill={TEXT_LIGHT_COLOR} focusable="false" viewBox="0 0 24 24" width={24} height={24}>
+      <svg style={{ fill: TEXT_COLOR }} focusable="false" viewBox="0 0 24 24" width={24} height={24}>
         <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
       </svg>
     </div>
