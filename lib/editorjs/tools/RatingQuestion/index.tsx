@@ -17,13 +17,14 @@ export default class RatingQuestion implements BlockTool {
   constructor({ data, api }: { api: API; config?: ToolConfig; data?: RatingQuestionData }) {
     this.rootNode = undefined;
     this.api = api;
+
     this.data = {
       label: data?.label ?? "",
       placeholder: data?.placeholder ?? "",
       required: data?.required ?? true,
       //as initialData
       _component: {
-        title: data?._component?.title ?? "Input",
+        title: data?._component?.title ?? "",
         num: data?._component?.num ?? 5,
         icon: data?._component?.icon ?? "stars",
         isRequired: data?._component?.isRequired ?? false,
@@ -37,7 +38,6 @@ export default class RatingQuestion implements BlockTool {
     };
   }
   save(block: HTMLElement) {
-    console.log("RatingQuestion save", this.data);
     return this.data;
   }
   render(): HTMLElement {

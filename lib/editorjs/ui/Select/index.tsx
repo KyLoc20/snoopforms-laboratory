@@ -32,11 +32,9 @@ export default function Select({ label, reminder, options, onChange, width }: TS
     setValue(value);
     onChange(value);
     const elInput = refInput.current;
-    if (elInput) {
-      elInput.blur();
-    }
+    if (elInput) elInput.blur();
   };
-  // console.log("REDNER Select", isFocused);
+
   return (
     <>
       <div

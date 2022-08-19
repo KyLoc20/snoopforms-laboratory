@@ -7,10 +7,11 @@ const sharedMockData: NoCodeFormData = {
   formId: "thisisatest",
   blocks: [],
   blocksDraft: [
-    { id: "1", type: "header", data: { text: "Welcome" } },
-    { id: "2", type: "ratingQuestion", data: { _component: { num: 8, icon: "hearts", isRequired: false } } },
-    { id: "3", type: "header", data: { text: "Thank you" } },
-    { id: "4", type: "paragraph", data: { text: "Congratulations!" } },
+    { id: "1", type: "header", data: { text: "Form for Testing", level: 1 } },
+    { id: "2", type: "header", data: { text: "Welcome to Snoopforms Lab", level: 2 } },
+    { id: "3", type: "ratingQuestion", data: { _component: { num: 5, icon: "stars", isRequired: true } } },
+    { id: "4", type: "ratingQuestion", data: { _component: { num: 10, icon: "hearts", isRequired: false, title: "How do you like this stuff?" } } },
+    { id: "5", type: "paragraph", data: { text: "Thanks a lot for your time and insights 🙏" } },
   ],
 };
 
@@ -51,7 +52,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
     //fetch from mock
     const data = sharedMockData;
-    console.log("GET /api/forms/:id/nocodeform", data.blocksDraft[1].data);
+    // console.log("GET /api/forms/:id/nocodeform", data.blocksDraft[1].data);
     //return res.status(200).json(data); // Got -> Status Code: 304 OK
     res.status(200).json(data);
   } else if (req.method === "POST") {
@@ -84,7 +85,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     sharedMockData.formId = payloadData.formId;
     sharedMockData.blocks = payloadData.blocks;
     sharedMockData.blocksDraft = payloadData.blocksDraft;
-    console.log("POST /api/forms/:id/nocodeform", sharedMockData.blocksDraft[1].data);
+    // console.log("POST /api/forms/:id/nocodeform", sharedMockData.blocksDraft[1].data);
     return res.status(200).json({ isOk: true });
   }
   // Unknown HTTP Method

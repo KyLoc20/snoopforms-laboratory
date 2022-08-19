@@ -29,18 +29,8 @@ export default function RatingQuestionComponent({ onDataChange, initialData, con
   return (
     <div className="question-container" style={{ paddingBottom: "20px" }}>
       <div style={{ position: "relative" }}>
-        {configurable ? (
-          <QuestionInput placeholder="Type Your Question Here" onChange={(v) => setTitle(v)} />
-        ) : (
-          <QuestionTitle>{initialData.title}</QuestionTitle>
-        )}
-        {isRequired && (
-          <div
-            style={{ paddingRight: "12px", color: "rgba(245, 59, 87, 1)", lineHeight: "24px", fontSize: "18px", position: "absolute", top: "0", right: "0" }}
-          >
-            *
-          </div>
-        )}
+        {configurable ? <QuestionInput defaultValue={title} onChange={(v) => setTitle(v)} /> : <QuestionTitle title={title} />}
+        <Mark active={isRequired}></Mark>
       </div>
       <div style={{ marginTop: "8px" }}>
         <Rating
@@ -59,8 +49,6 @@ export default function RatingQuestionComponent({ onDataChange, initialData, con
             paddingTop: "8px",
             display: "flex",
             alignItems: "center",
-            // rowGap: "8px",
-            // columnGap: "8px",
           }}
         >
           <Select
@@ -83,11 +71,18 @@ export default function RatingQuestionComponent({ onDataChange, initialData, con
             }}
           ></Select>
           <Divider h={38}></Divider>
-          <Button>Add options</Button>
-          <Divider h={38}></Divider>
-          <Switch label={"Required"} onChange={() => setIsRequired((prev) => !prev)} defaultValue={true}></Switch>
+          <Switch label={"Required"} onChange={() => setIsRequired((prev) => !prev)} defaultValue={isRequired}></Switch>
         </div>
       )}
     </div>
   );
+}
+function Mark({ active }: { active: boolean }) {
+  if (active)
+    return (
+      <div style={{ paddingRight: "12px", color: "rgba(245, 59, 87, 1)", lineHeight: "24px", fontSize: "18px", position: "absolute", top: "0", right: "0" }}>
+        *
+      </div>
+    );
+  else return null;
 }

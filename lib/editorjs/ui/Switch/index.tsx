@@ -30,7 +30,7 @@ export default function Switch({ defaultValue, onChange, label }: { onChange: (v
 }
 function DumbSwitch({ active, onChange }: { active: boolean; onChange?: () => void }) {
   // const [isHovering, setIsHovering] = useState(false);
-  const thumbLeft = active ? "2px" : "14px";
+  const thumbLeft = active ? "14px" : "2px";
   // const thumbBoxShadow = isHovering ? `0 0 2px 3px ${THUMB_HOVER_SHADOW}` : "";
   return (
     <>
@@ -46,7 +46,7 @@ function DumbSwitch({ active, onChange }: { active: boolean; onChange?: () => vo
           height: "16px", //"24px",
           borderRadius: "8px",
           padding: "2px",
-          background: active ? TRACK_COLOR : TRACK_COLOR_ACTIVE,
+          background: active ? TRACK_COLOR_ACTIVE : TRACK_COLOR,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",

@@ -30,7 +30,6 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
   const { noCodeForm, isLoadingNoCodeForm, mutateNoCodeForm } = useNoCodeForm("123");
 
   useEffect(() => {
-    console.log("SnoopFormsEditor isLoadingNoCodeForm: ", isLoadingNoCodeForm);
     if (!isLoadingNoCodeForm && !editorRef.current) {
       initEditor();
     }
@@ -92,7 +91,7 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
       defaultBlock: "paragraph",
       // defaultBlock: "ratingQuestion",
       tools: {
-        textQuestion: TextQuestion,
+        // textQuestion: TextQuestion,
         ratingQuestion: RatingQuestion,
         header: {
           class: Header as unknown as ToolConstructable,
@@ -118,7 +117,6 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
       },
     });
   };
-  console.log("RENDER SnoopFormsEditor");
   return (
     <Fragment>
       <div id={id} />
