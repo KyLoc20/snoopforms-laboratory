@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Rating from "../common/Rating";
 import Mark from "../common/Mark";
 import { QuestionTitle } from "../../toolkit/ui";
+import useInputValidator from "../../toolkit/base/validate";
 type AvailableIcon = "stars" | "hearts";
 type RatingQuestionConfigData = {
   title: string; //Question title
@@ -24,11 +25,15 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
   const _options = Array(num)
     .fill(0)
     .map((_, n) => ({ name: n.toString() }));
+
   const canSubmit = isRequired ? value > 0 : true;
+  const { Validator, shouldShowReminder, hideReminder } = useInputValidator(canSubmit);
+
   useEffect(() => {
     if (value === 0 && isRequired) {
       //no submission received
     } else {
+      if (shouldShowReminder) hideReminder();
       onSubmissionChange({ ratings: value });
     }
   }, [value]);
@@ -42,22 +47,26 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
       <div style={{ position: "relative" }}>
         <QuestionTitle title={title} />
         <Mark active={isRequired}></Mark>
-        <input
-          style={{ position: "absolute", width: "1px", height: "1px", margin: "-1px", overflow: "hidden", clip: "rect(0px, 0px, 0px, 0px)" }}
-          type="text"
-          name="validator"
-          value={(canSubmit && "yes") || "no"}
-          onInvalid={(e) => {
-            //fires before onSubmit if HTMLInputElement.checkValidity() returns false
-            console.log("UserComponent onInvalid", value);
-            e.preventDefault();
-          }}
-          pattern="yes"
-        />
+        <Validator></Validator>
+        {shouldShowReminder ? "No Empty!" : ""}
       </div>
       <div style={{ marginTop: "8px" }}>
         <Rating options={_options} icon={icon} onChange={handleRatingChange}></Rating>
       </div>
     </div>
   );
+}
+{
+  /* <input
+  style={{ position: "absolute", width: "1px", height: "1px", margin: "-1px", overflow: "hidden", clip: "rect(0px, 0px, 0px, 0px)" }}
+  type="text"
+  name="validator"
+  value={(canSubmit && "yes") || "no"}
+  onInvalid={(e) => {
+    //fires before onSubmit if HTMLInputElement.checkValidity() returns false
+    e.preventDefault();
+  }}
+  pattern="yes"
+  onChange={() => {}}
+/>; */
 }

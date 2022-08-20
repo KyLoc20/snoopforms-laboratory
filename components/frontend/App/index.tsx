@@ -4,6 +4,7 @@ import { generateId } from "@/lib/utils";
 import { TailSpin } from "react-loader-spinner";
 import { BlockData } from "@/lib/types";
 import { createFormElement } from "../factory";
+import { Button } from "@/lib/snoopforms/react/questions/toolkit/ui";
 export default function FormApp({ id, formId, blocks, localOnly }: { id: string; formId: string; blocks: BlockData[]; localOnly: boolean }) {
   const pages = useMemo(() => {
     const pages = [];
@@ -78,7 +79,12 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
             .map((Element, index) => (
               <Element key={index}></Element>
             ))}
-          <button type="submit">Submit Form</button>
+          <div style={{ marginTop: "24px" }}>
+            {" "}
+            <Button variant="contained" submittable>
+              Submit
+            </Button>
+          </div>
         </form>
       </div>
     );
