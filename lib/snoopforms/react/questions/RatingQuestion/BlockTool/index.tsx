@@ -1,5 +1,5 @@
-import { API, BlockTool, BlockToolData, ToolConfig } from "@editorjs/editorjs";
-import RatingQuestionComponent, { RatingComponentCustomData } from "./Component";
+import { API, BlockTool, BlockToolData, ToolConfig } from "../../toolkit/types/editorjs";
+import BuilderComponent, { RatingComponentCustomData } from "../BuilderComponent";
 import ReactDOM from "react-dom";
 interface RatingQuestionData extends BlockToolData {
   label: string;
@@ -48,10 +48,7 @@ export default class RatingQuestion implements BlockTool {
       this.data._component = data;
       console.log("RatingQuestion handleDataChange", data, this.data);
     };
-    ReactDOM.render(
-      <RatingQuestionComponent onDataChange={handleDataChange} initialData={this.data._component} configurable></RatingQuestionComponent>,
-      this.rootNode
-    );
+    ReactDOM.render(<BuilderComponent onDataChange={handleDataChange} initialData={this.data._component} />, this.rootNode);
     return this.rootNode;
   }
 }

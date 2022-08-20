@@ -7,18 +7,16 @@ import DragDrop from "editorjs-drag-drop";
 // @ts-ignore
 import Undo from "editorjs-undo";
 import { Fragment, MutableRefObject, useCallback, useEffect } from "react";
+import { RatingBlockTool } from "../snoopforms/react/questions/RatingQuestion";
+import { useNoCodeForm, persistNoCodeForm } from "../../lib/noCodeForm";
 // import { toast } from "react-toastify";
-// import { persistNoCodeForm, useNoCodeForm } from "../../lib/noCodeForm";
 // import Loading from "../Loading";
 // import EmailQuestion from "./tools/EmailQuestion";
 // import PageTransition from "./tools/PageTransition";
 // import MultipleChoiceQuestion from "./tools/MultipleChoiceQuestion";
-import TextQuestion from "./tools/TextQuestion";
-import RatingQuestion from "./tools/RatingQuestion";
 // import WebsiteQuestion from "./tools/WebsiteQuestion";
 // import PhoneQuestion from "./tools/PhoneQuestion";
 // import NumberQuestion from "./tools/NumberQuestion";
-import { useNoCodeForm, persistNoCodeForm } from "@/lib/noCodeForm";
 interface EditorProps {
   id: string;
   autofocus: boolean;
@@ -28,7 +26,6 @@ interface EditorProps {
 }
 export default function SnoopFormsEditor({ id, autofocus = false, editorRef, formId, initAction }: EditorProps) {
   const { noCodeForm, isLoadingNoCodeForm, mutateNoCodeForm } = useNoCodeForm("123");
-
   useEffect(() => {
     if (!isLoadingNoCodeForm && !editorRef.current) {
       initEditor();
@@ -89,10 +86,9 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
       placeholder: "Let`s create an awesome form!",
       autofocus: autofocus,
       defaultBlock: "paragraph",
-      // defaultBlock: "ratingQuestion",
       tools: {
         // textQuestion: TextQuestion,
-        ratingQuestion: RatingQuestion,
+        ratingQuestion: RatingBlockTool,
         header: {
           class: Header as unknown as ToolConstructable,
           config: {

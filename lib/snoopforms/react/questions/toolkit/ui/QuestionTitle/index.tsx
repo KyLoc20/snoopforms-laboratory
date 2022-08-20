@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import { FORM_GRAY_LIGHT } from "../design";
+import { FORM_GRAY_LIGHT } from "../../base/design";
 
 export default function QuestionTitle({ children, title }: PropsWithChildren<{ title: string }>) {
   const isTitleMissing = !title;

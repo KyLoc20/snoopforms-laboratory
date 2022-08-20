@@ -2,7 +2,7 @@ import { GlobeAltIcon, MailIcon, PhoneIcon } from "@heroicons/react/solid";
 import { SnoopElement } from "@snoopforms/react";
 import { BlockData } from "@/lib/types";
 import { PropsWithChildren } from "react";
-import RatingQuestionComponent from "@/lib/editorjs/tools/RatingQuestion/Component";
+import RatingQuestion from "@/lib/snoopforms/react/questions/RatingQuestion";
 export { createFormElement };
 const createFormElement = (type: string, block: BlockData) => {
   let render: React.FC;
@@ -20,7 +20,7 @@ const createFormElement = (type: string, block: BlockData) => {
     case "ratingQuestion":
       render = function _() {
         return (
-          <RatingQuestionComponent
+          <RatingQuestion
             onDataChange={() => {}}
             initialData={{
               title: block.data._component?.title,
