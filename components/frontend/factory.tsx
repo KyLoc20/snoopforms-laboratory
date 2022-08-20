@@ -21,13 +21,16 @@ const createFormElement = (type: string, block: BlockData) => {
       render = function _() {
         return (
           <RatingQuestion
-            onDataChange={() => {}}
-            initialData={{
+            config={{
               title: block.data._component?.title,
               num: block.data._component?.num,
               icon: block.data._component?.icon,
               isRequired: block.data._component?.isRequired,
             }}
+            initialData={{
+              ratings: 0,
+            }}
+            onSubmissionChange={() => {}}
           />
         );
       };

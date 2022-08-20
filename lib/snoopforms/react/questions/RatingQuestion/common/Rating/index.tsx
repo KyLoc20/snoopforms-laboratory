@@ -1,10 +1,11 @@
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 interface RatingProps {
   options: { name: string }[];
+  onChange?: (value: number) => void;
   icon?: "stars" | "hearts";
   defaultValue?: number;
 }
-export default function Rating({ defaultValue, options, icon }: RatingProps) {
+export default function Rating({ defaultValue, options, icon, onChange }: RatingProps) {
   const [value, setValue] = useState(defaultValue ?? -1); // -1 means no entry selected
   const [valueHovering, setValueHovering] = useState(-1); // -1 means no entry being hovered
   const handleSelect = (index: number) => {
@@ -17,9 +18,11 @@ export default function Rating({ defaultValue, options, icon }: RatingProps) {
       setValue(index);
     }
   };
+  useEffect(() => {
+    onChange?.(value);
+  }, [value]);
   return (
     <>
-      {/* ["awful", "bad", "not bad", "good", "awesome"] */}
       <div className="rating" style={{ display: "inline-flex" }}>
         <div className="entry-list" style={{ display: "flex" }}>
           {options.map((option, index) => (

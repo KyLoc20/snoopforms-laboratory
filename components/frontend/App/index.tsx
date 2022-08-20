@@ -42,26 +42,44 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
       "RENDER FormApp",
       pages[0].blocks.map((n, i) => n.data)
     );
+    // return (
+    //   <div className="w-full px-5 py-5">
+    //     <SnoopForm
+    //       key={id} // used to reset form
+    //       domain={window.location.host}
+    //       protocol={window.location.protocol === "http:" ? "http" : "https"}
+    //       formId={formId}
+    //       localOnly={localOnly}
+    //       className="w-full max-w-3xl mx-auto space-y-6"
+    //     >
+    //       {pages.map((page, pageIdx) => (
+    //         <SnoopPage key={page.id} name={page.id} thankyou={pageIdx === pages.length - 1}>
+    //           {page.blocks
+    //             .map((block) => createFormElement(block.type, block))
+    //             .map((Element, index) => (
+    //               <Element key={index}></Element>
+    //             ))}
+    //         </SnoopPage>
+    //       ))}
+    //     </SnoopForm>
+    //   </div>
+    // );
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+      const el = e.currentTarget.elements.namedItem("validator") as RadioNodeList;
+      // console.log("onSubmit", el[0] as HTMLInputElement);
+      // console.log("onSubmit", (el[0] as HTMLInputElement).checkValidity());
+      e.preventDefault();
+    };
     return (
       <div className="w-full px-5 py-5">
-        <SnoopForm
-          key={id} // used to reset form
-          domain={window.location.host}
-          protocol={window.location.protocol === "http:" ? "http" : "https"}
-          formId={formId}
-          localOnly={localOnly}
-          className="w-full max-w-3xl mx-auto space-y-6"
-        >
-          {pages.map((page, pageIdx) => (
-            <SnoopPage key={page.id} name={page.id} thankyou={pageIdx === pages.length - 1}>
-              {page.blocks
-                .map((block) => createFormElement(block.type, block))
-                .map((Element, index) => (
-                  <Element key={index}></Element>
-                ))}
-            </SnoopPage>
-          ))}
-        </SnoopForm>
+        <form onSubmit={onSubmit}>
+          {pages[0].blocks
+            .map((block) => createFormElement(block.type, block))
+            .map((Element, index) => (
+              <Element key={index}></Element>
+            ))}
+          <input type="submit" value="Submit" />
+        </form>
       </div>
     );
   }

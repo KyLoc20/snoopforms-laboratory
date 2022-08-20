@@ -3,37 +3,60 @@ import Rating from "../common/Rating";
 import Mark from "../common/Mark";
 import { QuestionTitle } from "../../toolkit/ui";
 type AvailableIcon = "stars" | "hearts";
-export type RatingComponentCustomData = {
-  title: string;
-  num: number; //for builder
-  icon: AvailableIcon; //for builder
-  isRequired: boolean; //for builder
+type RatingQuestionConfigData = {
+  title: string; //Question title
+  num: number; //rating range [0, num]
+  icon: AvailableIcon;
+  isRequired: boolean;
 };
+type RatingQuestionSubmissionData = {
+  ratings: number;
+};
+//open to extension in the future such as conditional info
 interface RatingQuestionProps {
-  onDataChange: (data: RatingComponentCustomData) => void;
-  initialData: RatingComponentCustomData;
+  config: RatingQuestionConfigData;
+  initialData: RatingQuestionSubmissionData;
+  onSubmissionChange: (data: RatingQuestionSubmissionData) => void;
 }
-export default function UserComponent({ onDataChange, initialData }: RatingQuestionProps) {
-  const [title, setTitle] = useState(initialData.title);
-  const [num, setNum] = useState(initialData.num);
-  const [icon, setIcon] = useState<AvailableIcon>(initialData.icon);
-  const [isRequired, setIsRequired] = useState(initialData.isRequired);
+export default function UserComponent({ config, initialData, onSubmissionChange }: RatingQuestionProps) {
+  const { title, num, icon, isRequired } = config;
+  const [value, setValue] = useState<number>(initialData.ratings);
+  const _options = Array(num)
+    .fill(0)
+    .map((_, n) => ({ name: n.toString() }));
+  const canSubmit = isRequired ? value > 0 : true;
   useEffect(() => {
-    onDataChange({ title, num, icon, isRequired });
-  }, [title, num, icon, isRequired]);
+    if (value === 0 && isRequired) {
+      //no submission received
+    } else {
+      onSubmissionChange({ ratings: value });
+    }
+  }, [value]);
+
+  const handleRatingChange = (v: number) => {
+    // -1 means no rating while v === ratings - 1
+    setValue(v === -1 ? 0 : v + 1);
+  };
   return (
     <div className="question-container" style={{ paddingBottom: "20px" }}>
       <div style={{ position: "relative" }}>
         <QuestionTitle title={title} />
         <Mark active={isRequired}></Mark>
+        <input
+          style={{ position: "absolute", width: "1px", height: "1px", margin: "-1px", overflow: "hidden", clip: "rect(0px, 0px, 0px, 0px)" }}
+          type="text"
+          name="validator"
+          value={(canSubmit && "zzzz") || "z"}
+          onInvalid={(e) => {
+            //why it fires twice
+            console.log("UserComponent onInvalid", e, value);
+            e.preventDefault();
+          }}
+          pattern="[a-z]{4,8}"
+        />
       </div>
       <div style={{ marginTop: "8px" }}>
-        <Rating
-          options={Array(num)
-            .fill(0)
-            .map((_, n) => ({ name: n.toString() }))}
-          icon={icon}
-        ></Rating>
+        <Rating options={_options} icon={icon} onChange={handleRatingChange}></Rating>
       </div>
     </div>
   );
