@@ -65,8 +65,8 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
     //   </div>
     // );
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-      const el = e.currentTarget.elements.namedItem("validator") as RadioNodeList;
-      // console.log("onSubmit", el[0] as HTMLInputElement);
+      console.log("onSubmit");
+      // const el = e.currentTarget.elements.namedItem("validator") as RadioNodeList;
       // console.log("onSubmit", (el[0] as HTMLInputElement).checkValidity());
       e.preventDefault();
     };
@@ -78,7 +78,7 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
             .map((Element, index) => (
               <Element key={index}></Element>
             ))}
-          <input type="submit" value="Submit" />
+          <button type="submit">Submit Form</button>
         </form>
       </div>
     );

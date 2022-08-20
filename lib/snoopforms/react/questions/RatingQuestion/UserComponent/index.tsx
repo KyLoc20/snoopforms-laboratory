@@ -46,13 +46,13 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
           style={{ position: "absolute", width: "1px", height: "1px", margin: "-1px", overflow: "hidden", clip: "rect(0px, 0px, 0px, 0px)" }}
           type="text"
           name="validator"
-          value={(canSubmit && "zzzz") || "z"}
+          value={(canSubmit && "yes") || "no"}
           onInvalid={(e) => {
-            //why it fires twice
-            console.log("UserComponent onInvalid", e, value);
+            //fires before onSubmit if HTMLInputElement.checkValidity() returns false
+            console.log("UserComponent onInvalid", value);
             e.preventDefault();
           }}
-          pattern="[a-z]{4,8}"
+          pattern="yes"
         />
       </div>
       <div style={{ marginTop: "8px" }}>
