@@ -1,24 +1,33 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { generateId } from "@/lib/utils";
 // import { getSession } from "next-auth/react";
 // import { formHasOwnership } from "../../../../../lib/api";
 // import { prisma } from "../../../../../lib/prisma";
-import { NoCodeFormData } from "@/lib/types";
-const sharedMockData: NoCodeFormData = {
-  formId: "thisisatest-form",
-  blocks: [],
-  blocksDraft: [
-    { id: "1", type: "header", data: { text: "Form for Testing", level: 1 } },
-    { id: "2", type: "header", data: { text: "Welcome to Snoopforms Lab", level: 2 } },
-    { id: "3", type: "ratingQuestion", data: { _component: { num: 5, icon: "stars", isRequired: true } } },
-    {
-      id: "4",
-      type: "ratingQuestion",
-      data: { _component: { num: 10, icon: "hearts", isRequired: false, title: "How do you like this stuff?" } },
-    },
-    { id: "5", type: "paragraph", data: { text: "Thanks a lot for your time and insights 🙏" } },
-  ],
-};
+import { SubmissionData } from "@/lib/types";
 
+const SUB1: SubmissionData = {
+  submissionId: generateId(10),
+  questionId: "3",
+  questionType: "ratingQuestion",
+  details: {
+    ratings: 1,
+  },
+};
+const SUB2: SubmissionData = {
+  submissionId: generateId(10),
+  questionId: "4",
+  questionType: "ratingQuestion",
+  details: {
+    ratings: 10,
+  },
+};
+const sharedMockData: {
+  formId: string;
+  list: SubmissionData[];
+} = {
+  formId: "thisisatest-form",
+  list: [SUB1, SUB2],
+};
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   // Check Authentication
   //   const session = await getSession({ req: req });
@@ -40,15 +49,11 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   if (req.method === "GET") {
     //fetch from mock
     const data = sharedMockData;
-    // console.log("GET /api/forms/:id/nocodeform", data.blocksDraft[1].data);
-    //return res.status(200).json(data); // Got -> Status Code: 304 OK
     res.status(200).json(data);
   } else if (req.method === "POST") {
-    const payloadData = req.body as NoCodeFormData;
-    sharedMockData.formId = payloadData.formId;
-    sharedMockData.blocks = payloadData.blocks;
-    sharedMockData.blocksDraft = payloadData.blocksDraft;
-    // console.log("POST /api/forms/:id/nocodeform", sharedMockData.blocksDraft[1].data);
+    const payloadData = req.body as SubmissionData;
+    const { submissionId, questionId, questionType, details } = payloadData;
+    sharedMockData.list.push({ submissionId, questionId, questionType, details });
     return res.status(200).json({ isOk: true });
   }
   // Unknown HTTP Method

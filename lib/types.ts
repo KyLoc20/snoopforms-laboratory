@@ -8,3 +8,9 @@ export type NoCodeFormData = {
   blocksDraft: BlockData[];
   blocks: BlockData[];
 };
+export type SubmissionData = {
+  submissionId: string;
+  questionId: string; //BlockData->id
+  questionType: string;
+  details: any; //content
+};

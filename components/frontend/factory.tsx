@@ -2,23 +2,24 @@ import { GlobeAltIcon, MailIcon, PhoneIcon } from "@heroicons/react/solid";
 import { SnoopElement } from "@snoopforms/react";
 import { BlockData } from "@/lib/types";
 import { PropsWithChildren } from "react";
-import RatingQuestion from "@/lib/snoopforms/react/questions/RatingQuestion";
+import RatingQuestion, { RatingQuestionSubmissionData } from "@/lib/snoopforms/react/questions/RatingQuestion";
+
 export { createFormElement };
 const createFormElement = (type: string, block: BlockData) => {
-  let render: React.FC;
+  let render: React.FC<{ onSubmissionChange: (data: any) => void }>;
   switch (type) {
     case "paragraph":
-      render = function _() {
+      render = function _({ onSubmissionChange }) {
         return <p className="ce-paragraph">{block.data.text}</p>;
       };
       break;
     case "header":
-      render = function _() {
+      render = function _({ onSubmissionChange }) {
         return <SnoopElementHeading level={block.data.level as number}>{block.data.text}</SnoopElementHeading>;
       };
       break;
     case "ratingQuestion":
-      render = function _() {
+      render = function _({ onSubmissionChange }) {
         return (
           <RatingQuestion
             config={{
@@ -30,13 +31,13 @@ const createFormElement = (type: string, block: BlockData) => {
             initialData={{
               ratings: 0,
             }}
-            onSubmissionChange={() => {}}
+            onSubmissionChange={(data) => onSubmissionChange({ ...data, questionId: block.id, type: "ratingQuestion" })}
           />
         );
       };
       break;
     case "textQuestion":
-      render = function _() {
+      render = function _({ onSubmissionChange }) {
         return (
           <SnoopElement
             type="text"
@@ -52,7 +53,7 @@ const createFormElement = (type: string, block: BlockData) => {
       };
       break;
     case "emailQuestion":
-      render = function _() {
+      render = function _({ onSubmissionChange }) {
         return (
           <SnoopElement
             type="email"
@@ -70,7 +71,7 @@ const createFormElement = (type: string, block: BlockData) => {
       break;
     case "multipleChoiceQuestion":
       if (block.data.multipleChoice) {
-        render = function _() {
+        render = function _({ onSubmissionChange }) {
           return (
             <SnoopElement
               type="checkbox"
@@ -85,7 +86,7 @@ const createFormElement = (type: string, block: BlockData) => {
           );
         };
       } else {
-        render = function _() {
+        render = function _({ onSubmissionChange }) {
           return (
             <SnoopElement
               type="radio"
@@ -102,7 +103,7 @@ const createFormElement = (type: string, block: BlockData) => {
       }
       break;
     case "numberQuestion":
-      render = function _() {
+      render = function _({ onSubmissionChange }) {
         return (
           <SnoopElement
             type="number"
@@ -118,7 +119,7 @@ const createFormElement = (type: string, block: BlockData) => {
       };
       break;
     case "phoneQuestion":
-      render = function _() {
+      render = function _({ onSubmissionChange }) {
         return (
           <SnoopElement
             type="phone"
@@ -135,7 +136,7 @@ const createFormElement = (type: string, block: BlockData) => {
       };
       break;
     case "submitButton":
-      render = function _() {
+      render = function _({ onSubmissionChange }) {
         return (
           <SnoopElement
             name="submit"
@@ -150,7 +151,7 @@ const createFormElement = (type: string, block: BlockData) => {
       };
       break;
     case "websiteQuestion":
-      render = function _() {
+      render = function _({ onSubmissionChange }) {
         return (
           <SnoopElement
             type="website"
@@ -167,7 +168,7 @@ const createFormElement = (type: string, block: BlockData) => {
       };
       break;
     default:
-      render = function _() {
+      render = function _({ onSubmissionChange }) {
         return <></>;
       };
       break;

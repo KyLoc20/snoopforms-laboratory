@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useCallback } from "react";
 export default function useInputValidator(canSubmit: boolean) {
   const [shouldShowReminder, setShouldShowReminder] = useState(false);
   const hideReminder = () => setShouldShowReminder(false);
   const showReminder = () => setShouldShowReminder(true);
-  const Validator = () => {
+  const Validator = useCallback(() => {
     return (
       <input
         style={{ position: "absolute", width: "1px", height: "1px", margin: "-1px", overflow: "hidden", clip: "rect(0px, 0px, 0px, 0px)" }}
@@ -11,10 +11,13 @@ export default function useInputValidator(canSubmit: boolean) {
         name="validator"
         value={(canSubmit && "yes") || "no"}
         onInvalid={(e) => {
+          e.preventDefault(); //if preventDefault, no error info will display, otherwise use e.currentTarget.setCustomValidity("Hi");
           //fires before onSubmit if HTMLInputElement.checkValidity() returns false
-          //   e.currentTarget.setCustomValidity("Hi");
-          e.preventDefault();
+
+          //showReminder() will not block submit event
+          // setTimeout(showReminder, 0);
           showReminder();
+
           /**
            * Warning: You provided a `value` prop to a form field without an `onChange` handler.
            * This will render a read-only field.
@@ -27,6 +30,6 @@ export default function useInputValidator(canSubmit: boolean) {
         onChange={() => {}}
       />
     );
-  };
+  }, [canSubmit]);
   return { Validator, shouldShowReminder, hideReminder };
 }

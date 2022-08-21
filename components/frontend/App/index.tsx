@@ -1,10 +1,12 @@
 import { SnoopForm, SnoopPage } from "@snoopforms/react";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { generateId } from "@/lib/utils";
 import { TailSpin } from "react-loader-spinner";
 import { BlockData } from "@/lib/types";
 import { createFormElement } from "../factory";
 import { Button } from "@/lib/snoopforms/react/questions/toolkit/ui";
+import { useSubmissions, persistOneSubmission } from "@/lib/submission";
+import { useRouter } from "next/router";
 export default function FormApp({ id, formId, blocks, localOnly }: { id: string; formId: string; blocks: BlockData[]; localOnly: boolean }) {
   const pages = useMemo(() => {
     const pages = [];
@@ -37,6 +39,18 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
     return pages;
   }, [blocks, formId]);
 
+  const refAllSubmissions = useRef<any[] | null>(null);
+  const handleUpdateSubmission = (index: number, data: any) => {
+    const prev = refAllSubmissions.current;
+    if (prev !== null) {
+      prev[index] = data;
+    } else {
+      refAllSubmissions.current = [];
+      refAllSubmissions.current[index] = data;
+    }
+    console.log("handleUpdateSubmission", refAllSubmissions.current);
+  };
+  const router = useRouter();
   if (!pages) return <Loading />;
   else {
     console.log(
@@ -66,10 +80,29 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
     //   </div>
     // );
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-      console.log("onSubmit");
-      // const el = e.currentTarget.elements.namedItem("validator") as RadioNodeList;
-      // console.log("onSubmit", (el[0] as HTMLInputElement).checkValidity());
       e.preventDefault();
+      console.log("UserForm onSubmit", refAllSubmissions.current);
+      const allSubmissions = refAllSubmissions.current;
+      if (allSubmissions !== null) {
+        const uploads: Promise<void>[] = [];
+        allSubmissions.forEach((item, index) => {
+          if (item?.questionId && item?.type === "ratingQuestion") {
+            const { questionId, ratings } = item;
+            const p = persistOneSubmission("thisisatest-form", {
+              submissionId: generateId(10),
+              questionId: questionId as string,
+              questionType: "ratingQuestion",
+              details: { ratings },
+            });
+            uploads.push(p);
+          }
+        });
+        Promise.allSettled(uploads).then((results) => {
+          results.forEach((result) => console.log(result.status));
+          console.log("onSubmit all uploads finished");
+          router.push("/results/responses");
+        });
+      }
     };
     return (
       <div className="w-full px-5 py-5">
@@ -77,10 +110,15 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
           {pages[0].blocks
             .map((block) => createFormElement(block.type, block))
             .map((Element, index) => (
-              <Element key={index}></Element>
+              <Element
+                key={index}
+                onSubmissionChange={(data) => {
+                  // console.log("Element onSubmissionChange: ", data);
+                  handleUpdateSubmission(index, data);
+                }}
+              ></Element>
             ))}
           <div style={{ marginTop: "24px" }}>
-            {" "}
             <Button variant="contained" submittable>
               Submit
             </Button>

@@ -8,6 +8,10 @@ interface RatingQuestionData extends BlockToolData {
 }
 //extends RatingComponentConfigData
 interface RatingQuestionData {
+  questionId?: string;
+}
+//extends RatingComponentConfigData
+interface RatingQuestionData {
   _component: RatingComponentCustomData;
 }
 export default class RatingQuestion implements BlockTool {
@@ -22,6 +26,7 @@ export default class RatingQuestion implements BlockTool {
       label: data?.label ?? "",
       placeholder: data?.placeholder ?? "",
       required: data?.required ?? true,
+      questionId: data?.questionId,
       //as initialData
       _component: {
         title: data?._component?.title ?? "",

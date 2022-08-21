@@ -1,15 +1,10 @@
-import { PropsWithChildren, useState, useEffect } from "react";
+import { PropsWithChildren, useState } from "react";
 import { NavBar } from "@/components/layout/Navigation";
-import Builder from "@/components/builder";
-import FullWidth from "@/components/layout/FullWidth";
 import Container from "@/components/layout/Container";
-import { useNoCodeForm, persistNoCodeForm } from "@/lib/noCodeForm";
+import { useNoCodeForm } from "@/lib/noCodeForm";
 import FormApp from "@/components/frontend/App";
-import { BlockData } from "@/lib/types";
 export default function PreviewScreen() {
-  const { noCodeForm, isLoadingNoCodeForm, mutateNoCodeForm } = useNoCodeForm("123");
-  const [num, setNum] = useState();
-
+  const { noCodeForm, isLoadingNoCodeForm, mutateNoCodeForm } = useNoCodeForm("thisisatest-form");
   if (isLoadingNoCodeForm) {
     return (
       <Container bg="rgb(246, 248, 249, 1)">
@@ -23,7 +18,7 @@ export default function PreviewScreen() {
       <Container bg="rgb(246, 248, 249, 1)">
         <NavBar currentNav="preview"></NavBar>
         <Preview>
-          <FormApp id={"test-app"} blocks={noCodeForm.blocksDraft} localOnly={true} formId={"test-form"} />
+          <FormApp id={"test-app"} blocks={noCodeForm.blocksDraft} localOnly={true} formId={"thisisatest-form"} />
         </Preview>
       </Container>
     );

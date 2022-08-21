@@ -10,7 +10,7 @@ type RatingQuestionConfigData = {
   icon: AvailableIcon;
   isRequired: boolean;
 };
-type RatingQuestionSubmissionData = {
+export type RatingQuestionSubmissionData = {
   ratings: number;
 };
 //open to extension in the future such as conditional info
@@ -34,8 +34,9 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
       //no submission received
     } else {
       if (shouldShowReminder) hideReminder();
-      onSubmissionChange({ ratings: value });
     }
+    //should init
+    onSubmissionChange({ ratings: value });
   }, [value]);
 
   const handleRatingChange = (v: number) => {

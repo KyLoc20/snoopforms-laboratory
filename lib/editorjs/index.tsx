@@ -25,7 +25,7 @@ interface EditorProps {
   initAction?: (editor: EditorJS) => void;
 }
 export default function SnoopFormsEditor({ id, autofocus = false, editorRef, formId, initAction }: EditorProps) {
-  const { noCodeForm, isLoadingNoCodeForm, mutateNoCodeForm } = useNoCodeForm("123");
+  const { noCodeForm, isLoadingNoCodeForm, mutateNoCodeForm } = useNoCodeForm("thisisatest-form");
   useEffect(() => {
     if (!isLoadingNoCodeForm && !editorRef.current) {
       initEditor();
