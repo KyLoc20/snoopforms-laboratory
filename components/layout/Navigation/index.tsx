@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon } from "@heroicons/react/outline";
+import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon, ChartBarIcon, InboxIcon } from "@heroicons/react/outline";
 import { classNames } from "@/lib/utils";
 import { useRouter } from "next/router";
-type AvailableNav = "addPage" | "preview" | "publish" | "share";
+type AvailableNav = "addPage" | "preview" | "publish" | "share" | "responses" | "summary";
 export function NavBar({ currentNav }: { currentNav: AvailableNav }) {
   // const [currentNav, setCurrentNav] = useState<>("addPage");
   const router = useRouter();
@@ -50,6 +50,25 @@ export function NavBar({ currentNav }: { currentNav: AvailableNav }) {
           }}
           active={currentNav === "share"}
           disabled
+        ></Navigation>
+        <Navigation
+          id="responses"
+          label="Responses"
+          icon={InboxIcon}
+          onClick={() => {
+            router.push(`/results/responses`);
+          }}
+          active={currentNav === "responses"}
+        ></Navigation>
+        <Navigation
+          id="summary"
+          label="Summary"
+          icon={ChartBarIcon}
+          onClick={() => {
+            router.push(`/results/summary`);
+            //addPage()
+          }}
+          active={currentNav === "summary"}
         ></Navigation>
       </nav>
     </div>

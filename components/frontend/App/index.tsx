@@ -1,5 +1,5 @@
 import { SnoopForm, SnoopPage } from "@snoopforms/react";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { generateId } from "@/lib/utils";
 import { TailSpin } from "react-loader-spinner";
 import { BlockData } from "@/lib/types";
@@ -50,7 +50,11 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
     }
     console.log("handleUpdateSubmission", refAllSubmissions.current);
   };
+
   const router = useRouter();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   if (!pages) return <Loading />;
   else {
     console.log(
@@ -82,8 +86,10 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       console.log("UserForm onSubmit", refAllSubmissions.current);
+
       const allSubmissions = refAllSubmissions.current;
       if (allSubmissions !== null) {
+        setIsSubmitting(true);
         const uploads: Promise<void>[] = [];
         allSubmissions.forEach((item, index) => {
           if (item?.questionId && item?.type === "ratingQuestion") {
@@ -100,7 +106,10 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
         Promise.allSettled(uploads).then((results) => {
           results.forEach((result) => console.log(result.status));
           console.log("onSubmit all uploads finished");
-          router.push("/results/responses");
+          setTimeout(() => {
+            router.push("/results/responses");
+            setIsSubmitting(false);
+          }, 1500);
         });
       }
     };
@@ -124,6 +133,11 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
             </Button>
           </div>
         </form>
+        {isSubmitting && (
+          <Overlay>
+            <TailSpin color="#1f2937" height={30} width={30} />
+          </Overlay>
+        )}
       </div>
     );
   }
@@ -140,6 +154,14 @@ function Loading() {
           <p className="mt-5 text-sm text-ui-gray-dark">Loading...</p>
         </main>
       </div>
+    </div>
+  );
+}
+import { PropsWithChildren } from "react";
+function Overlay({ children }: PropsWithChildren<{}>) {
+  return (
+    <div className="fixed inset-0 z-10 flex items-center justify-center" style={{ background: "rgba(98,125,149,0.75)" }}>
+      {children}
     </div>
   );
 }
