@@ -1,6 +1,7 @@
 import { SnoopForm, SnoopPage } from "@snoopforms/react";
 import { useMemo, useRef, useState } from "react";
 import { generateId } from "@/lib/utils";
+import Loading from "@/components/layout/Loading";
 import { TailSpin } from "react-loader-spinner";
 import { BlockData } from "@/lib/types";
 import { createFormElement } from "../factory";
@@ -143,20 +144,6 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
   }
 }
 
-function Loading() {
-  return (
-    <div className="min-h-screen px-4 py-16 bg-white sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
-      <div className="mx-auto max-w-max">
-        <main>
-          <div className="flex justify-center">
-            <TailSpin color="#1f2937" height={30} width={30} />
-          </div>
-          <p className="mt-5 text-sm text-ui-gray-dark">Loading...</p>
-        </main>
-      </div>
-    </div>
-  );
-}
 import { PropsWithChildren } from "react";
 function Overlay({ children }: PropsWithChildren<{}>) {
   return (

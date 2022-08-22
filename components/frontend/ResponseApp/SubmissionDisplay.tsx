@@ -25,7 +25,7 @@ export default function SubmissionSessionDisplay({ formId, submissionSession }: 
 }
 function SubmissionPage({ submissions }: { submissions: SubmissionPage }) {
   return (
-    <div style={{ border: "dashed 2px rgb(210, 218, 226)", borderRadius: "6px" }}>
+    <div style={{ marginBottom: "8px", padding: "8px", border: "dashed 2px rgb(210, 218, 226)", borderRadius: "6px" }}>
       {submissions.map((submission, i) => (
         <SubmissionDisplay key={submission.id} submission={submission}></SubmissionDisplay>
       ))}
@@ -35,7 +35,7 @@ function SubmissionPage({ submissions }: { submissions: SubmissionPage }) {
 function SubmissionDisplay({ submission }: { submission: SubmissionData }) {
   const RenderDisplay = createResponseDisplay(submission.questionType, submission.details);
   return (
-    <li className="py-5">
+    <li className="py-5" style={{ borderBottom: "1px solid #d2dae2" }}>
       <p className="text-sm font-semibold text-gray-800">{submission.questionType}</p>
       <p className={classNames(submission.details ? "text-gray-600" : "text-gray-400", "pt-1 text-sm text-gray-600 line-clamp-2")}>
         <RenderDisplay></RenderDisplay>

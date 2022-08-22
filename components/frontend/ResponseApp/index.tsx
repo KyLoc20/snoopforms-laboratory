@@ -7,7 +7,7 @@ import { SubmissionSessionData } from "@/lib/types";
 import { convertDateTimeString, convertTimeString } from "@/lib/utils";
 import SubmissionSessionDisplay from "./SubmissionDisplay";
 // import DownloadResponses from "./DownloadResponses";
-
+import Loading from "@/components/layout/Loading";
 import { TrashIcon } from "@heroicons/react/outline";
 import { toast } from "react-toastify";
 
@@ -155,20 +155,4 @@ export default function ResponseApp({ formId }: { formId: string }) {
         </div>
       </section>
     );
-}
-import { TailSpin } from "react-loader-spinner";
-
-function Loading() {
-  return (
-    <div className="min-h-screen px-4 py-16 bg-white sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
-      <div className="mx-auto max-w-max">
-        <main>
-          <div className="flex justify-center">
-            <TailSpin color="#1f2937" height={30} width={30} />
-          </div>
-          <p className="mt-5 text-sm text-ui-gray-dark">Loading...</p>
-        </main>
-      </div>
-    </div>
-  );
 }
