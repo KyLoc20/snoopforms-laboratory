@@ -2,7 +2,7 @@ import { AtSymbolIcon, CheckCircleIcon, GlobeAltIcon, HashtagIcon, MenuAlt1Icon,
 import { IoMdRadioButtonOn } from "react-icons/io";
 import { classNames } from "@/lib/utils";
 import { PropsWithChildren } from "react";
-
+import { QuestionSummary } from "@/lib/types";
 export const elementTypes = [
   {
     type: "email",
@@ -50,19 +50,15 @@ export const getElementTypeIcon = (type: string) => {
     </span>
   ) : null;
 };
-export type Summary = {
-  questionId: string;
-  questionType: string;
-  result: any;
-};
-export default function BaseResults({ element, children }: PropsWithChildren<{ element: Summary }>) {
+
+export default function BaseResults({ element, children }: PropsWithChildren<{ element: QuestionSummary }>) {
   return (
     <div className="my-8 overflow-hidden bg-white rounded-lg shadow">
       <div className="px-4 py-5 sm:p-6">
         <div className="flex items-center">
           <div className="flex-shrink-0">{getElementTypeIcon(element.questionType)}</div>
           <div className="ml-4">
-            <h3 className="font-medium leading-6 text-gray-900 text-md">{element.questionId}</h3>
+            <h3 className="font-medium leading-6 text-gray-900 text-md">{element.questionConfig?.title ?? element.questionId}</h3>
           </div>
         </div>
       </div>

@@ -34,3 +34,9 @@ export type SubmissionSession = {
   userFingerprint: string;
   // events: ApiEvent[];
 };
+export type QuestionSummary = {
+  questionId: string;
+  questionType: string;
+  questionConfig: any; //from BuilderComponet
+  submissionResults: any; //from UserComponent
+};

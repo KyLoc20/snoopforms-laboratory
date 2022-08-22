@@ -1,7 +1,7 @@
 import BaseResults from "./BaseResults";
-import { Summary } from "./BaseResults";
-export default function TextResults({ element }: { element: Summary }) {
-  const answers = element.result as string[];
+import { QuestionSummary } from "@/lib/types";
+export default function TextResults({ element }: { element: QuestionSummary }) {
+  const answers = element.submissionResults as string[];
   return (
     <BaseResults element={element}>
       <div className="flow-root px-8 my-4 mt-6 overflow-y-scroll text-center h-44 max-h-64">

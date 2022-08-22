@@ -1,17 +1,16 @@
 import "chart.js/auto";
 import { Chart } from "react-chartjs-2";
 import BaseResults from "./BaseResults";
-import { Summary } from "./BaseResults";
-export default function ChoiceResults({ element }: { element: Summary }) {
-  console.log("ChoiceResults", element);
-  const _options = element.result as { key: string; value: number }[];
+import { QuestionSummary } from "@/lib/types";
+import { RatingQuestionSummaryData } from "@/lib/snoopforms/react/questions/RatingQuestion";
+export default function ChoiceResults({ element }: { element: QuestionSummary }) {
+  console.log("RENDER ChoiceResults", element.questionId, element);
+  const { title, options: _options } = element.submissionResults as RatingQuestionSummaryData;
   const data = {
-    //labels: element.data.options,
-    labels: _options.map((o) => o.key),
+    labels: Object.keys(_options),
     datasets: [
       {
-        //data: getDataset(element, elementAnswers),
-        data: _options.map((o) => o.value || 0),
+        data: Object.entries(_options).map(([k, o]) => o),
         backgroundColor: ["rgba(245, 59, 87, 0.7)"],
         borderColor: ["rgba(245, 59, 87, 1)"],
         borderWidth: 1,

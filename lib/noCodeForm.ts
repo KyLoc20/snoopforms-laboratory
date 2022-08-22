@@ -3,8 +3,9 @@ import { fetcher } from "./utils";
 import { NoCodeFormData } from "./types";
 export const useNoCodeForm = (formId: string) => {
   const { data, error, mutate } = useSWR(`/api/forms/${formId}/nocodeform`, fetcher);
+  // const noCodeForm = (data ? (data as NoCodeFormData) : {}) as NoCodeFormData;
   return {
-    noCodeForm: data as NoCodeFormData,
+    noCodeForm: data,
     isLoadingNoCodeForm: !error && !data,
     isErrorNoCodeForm: error,
     mutateNoCodeForm: mutate,
