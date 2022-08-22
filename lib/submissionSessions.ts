@@ -4,7 +4,8 @@ import { SubmissionSessionData } from "./types";
 type SubmissionSessionsResult = { formId: string; sessions: SubmissionSessionData[] };
 export const useSubmissionSessions = (formId: string) => {
   const { data, error, mutate } = useSWR(() => `/api/forms/${formId}/submissionSessions`, fetcher);
-  const submissionSessions = data ? (data as SubmissionSessionsResult).sessions : {};
+  //should use a default Data typed SubmissionSessionData[]?
+  const submissionSessions = (data ? (data as SubmissionSessionsResult).sessions : {}) as SubmissionSessionData[];
   return {
     submissionSessions,
     isLoadingSubmissionSessions: !error && !data,

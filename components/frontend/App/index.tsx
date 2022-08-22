@@ -95,7 +95,7 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
           if (item?.questionId && item?.type === "ratingQuestion") {
             const { questionId, ratings } = item;
             const p = persistOneSubmission("thisisatest-form", {
-              submissionId: generateId(10),
+              id: generateId(10),
               questionId: questionId as string,
               questionType: "ratingQuestion",
               details: { ratings },
