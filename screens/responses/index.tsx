@@ -1,15 +1,16 @@
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 import { NavBar } from "@/components/layout/Navigation";
 import Container from "@/components/layout/Container";
-import { useNoCodeForm } from "@/lib/noCodeForm";
 import { useSubmissions } from "@/lib/submission";
-import FormApp from "@/components/frontend/App";
+import { useSubmissionSessions } from "@/lib/submissionSessions";
+import ResponseApp from "@/components/frontend/ResponseApp";
 export default function Screen() {
-  const { result, isLoadingSubmissions } = useSubmissions("thisisatest-form");
+  const formId = "thisisatest-form";
+  const { submissionSessions, isLoadingSubmissionSessions, mutateSubmissionSessions } = useSubmissionSessions(formId);
   return (
     <Container bg="rgb(246, 248, 249, 1)">
       <NavBar currentNav="responses"></NavBar>
-      <Preview>{isLoadingSubmissions ? "Loading" : "OK"}</Preview>
+      {isLoadingSubmissionSessions ? <Preview>Loading</Preview> : <ResponseApp formId={formId}></ResponseApp>}
     </Container>
   );
 }

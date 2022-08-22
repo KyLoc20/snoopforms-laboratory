@@ -27,6 +27,38 @@ export const generateId = (length: number) => {
   }
   return result;
 };
+export const convertDateTimeString = (dateString: string) => {
+  const date = new Date(dateString);
+  return intlFormat(
+    date,
+    {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    },
+    {
+      locale: "en",
+    }
+  );
+};
+
+export const convertTimeString = (dateString: string) => {
+  const date = new Date(dateString);
+  return intlFormat(
+    date,
+    {
+      hour: "numeric",
+      minute: "2-digit",
+      second: "2-digit",
+    },
+    {
+      locale: "en",
+    }
+  );
+};
 
 // export const shuffle = (array) => {
 //   array = [...array];

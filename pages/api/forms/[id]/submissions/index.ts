@@ -6,7 +6,7 @@ import { generateId } from "@/lib/utils";
 import { SubmissionData } from "@/lib/types";
 
 const SUB1: SubmissionData = {
-  submissionId: generateId(10),
+  id: generateId(10),
   questionId: "3",
   questionType: "ratingQuestion",
   details: {
@@ -14,7 +14,7 @@ const SUB1: SubmissionData = {
   },
 };
 const SUB2: SubmissionData = {
-  submissionId: generateId(10),
+  id: generateId(10),
   questionId: "4",
   questionType: "ratingQuestion",
   details: {
@@ -52,8 +52,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     res.status(200).json(data);
   } else if (req.method === "POST") {
     const payloadData = req.body as SubmissionData;
-    const { submissionId, questionId, questionType, details } = payloadData;
-    sharedMockData.list.push({ submissionId, questionId, questionType, details });
+    const { id, questionId, questionType, details } = payloadData;
+    sharedMockData.list.push({ id, questionId, questionType, details });
     return res.status(200).json({ isOk: true });
   }
   // Unknown HTTP Method
