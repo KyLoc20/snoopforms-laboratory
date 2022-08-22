@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { classNames } from "@/lib/utils";
 import { SubmissionSessionData, SubmissionData } from "@/lib/types";
+import { createResponseDisplay } from "@/lib/snoopforms/react/questions";
 type List<T> = T[];
 type SubmissionPage = List<SubmissionData>;
 const paginateSession = (session: SubmissionSessionData): List<SubmissionPage> => {
@@ -32,11 +33,12 @@ function SubmissionPage({ submissions }: { submissions: SubmissionPage }) {
   );
 }
 function SubmissionDisplay({ submission }: { submission: SubmissionData }) {
+  const RenderDisplay = createResponseDisplay(submission.questionType, submission.details);
   return (
     <li className="py-5">
       <p className="text-sm font-semibold text-gray-800">{submission.questionType}</p>
       <p className={classNames(submission.details ? "text-gray-600" : "text-gray-400", "pt-1 text-sm text-gray-600 line-clamp-2")}>
-        {submission.details?.ratings || "[not provided]"}
+        <RenderDisplay></RenderDisplay>
       </p>
     </li>
   );

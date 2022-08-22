@@ -13,6 +13,7 @@ type RatingQuestionConfigData = {
 export type RatingQuestionSubmissionData = {
   ratings: number;
 };
+
 //open to extension in the future such as conditional info
 interface RatingQuestionProps {
   config: RatingQuestionConfigData;
