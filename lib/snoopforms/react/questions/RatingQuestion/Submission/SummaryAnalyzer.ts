@@ -1,4 +1,4 @@
-import { RatingQuestionConfigData } from "../BuilderComponent";
+import { RatingQuestionConfigData } from "../types";
 export default function SummaryAnalyzer(config: RatingQuestionConfigData, details: { ratings: number }[]) {
   const options: { [ratingsAsKey: string]: number } = {};
   for (let i = 0; i <= config.num; i++) {

@@ -2,13 +2,7 @@ import { useEffect, useState } from "react";
 import Rating from "../common/Rating";
 import Mark from "../common/Mark";
 import { Select, Switch, QuestionInput, Divider } from "../../toolkit/ui";
-type AvailableIcon = "stars" | "hearts";
-export type RatingQuestionConfigData = {
-  title: string;
-  num: number; //for builder
-  icon: AvailableIcon; //for builder
-  isRequired: boolean; //for builder
-};
+import { RatingQuestionConfigData, AvailableIcon } from "../types";
 interface RatingQuestionProps {
   onDataChange: (data: RatingQuestionConfigData) => void;
   initialData: RatingQuestionConfigData;

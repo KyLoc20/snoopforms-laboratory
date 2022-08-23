@@ -3,16 +3,7 @@ import Rating from "../common/Rating";
 import Mark from "../common/Mark";
 import { QuestionTitle } from "../../toolkit/ui";
 import useInputValidator from "../../toolkit/base/validate";
-type AvailableIcon = "stars" | "hearts";
-type RatingQuestionConfigData = {
-  title: string; //Question title
-  num: number; //rating range [0, num]
-  icon: AvailableIcon;
-  isRequired: boolean;
-};
-export type RatingQuestionSubmissionData = {
-  ratings: number;
-};
+import { RatingQuestionConfigData, RatingQuestionSubmissionData } from "../types";
 
 //open to extension in the future such as conditional info
 interface RatingQuestionProps {
@@ -57,18 +48,4 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
       </div>
     </div>
   );
-}
-{
-  /* <input
-  style={{ position: "absolute", width: "1px", height: "1px", margin: "-1px", overflow: "hidden", clip: "rect(0px, 0px, 0px, 0px)" }}
-  type="text"
-  name="validator"
-  value={(canSubmit && "yes") || "no"}
-  onInvalid={(e) => {
-    //fires before onSubmit if HTMLInputElement.checkValidity() returns false
-    e.preventDefault();
-  }}
-  pattern="yes"
-  onChange={() => {}}
-/>; */
 }

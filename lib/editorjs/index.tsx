@@ -7,8 +7,8 @@ import DragDrop from "editorjs-drag-drop";
 // @ts-ignore
 import Undo from "editorjs-undo";
 import { Fragment, MutableRefObject, useCallback, useEffect } from "react";
-import { RatingBlockTool } from "../snoopforms/react/questions/RatingQuestion";
-import { useNoCodeForm, persistNoCodeForm } from "../../lib/noCodeForm";
+import { RatingBlockTool } from "@/lib/snoopforms/react/questions/RatingQuestion";
+import { useNoCodeForm, persistNoCodeForm } from "@/lib/noCodeForm";
 // import { toast } from "react-toastify";
 // import Loading from "../Loading";
 // import EmailQuestion from "./tools/EmailQuestion";

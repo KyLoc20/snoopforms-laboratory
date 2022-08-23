@@ -1,5 +1,6 @@
 import { API, BlockTool, BlockToolData, ToolConfig } from "../../toolkit/types/editorjs";
-import BuilderComponent, { RatingQuestionConfigData } from "../BuilderComponent";
+import BuilderComponent from "../BuilderComponent";
+import { RatingQuestionConfigData } from "../types";
 import ReactDOM from "react-dom";
 interface RatingQuestionData extends BlockToolData {
   label: string;

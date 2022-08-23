@@ -1,15 +1,13 @@
-import { SnoopForm, SnoopPage } from "@snoopforms/react";
 import { useMemo, useRef, useState } from "react";
 import { generateId } from "@/lib/utils";
 import Loading from "@/components/layout/Loading";
 import { TailSpin } from "react-loader-spinner";
 import { BlockData, SubmissionData } from "@/lib/types";
-// import { createFormElement } from "../factory";
 import { createQuestionElement, PreSubmissionData } from "@/lib/snoopforms/react/questions";
 import { Button } from "@/lib/snoopforms/react/questions/toolkit/ui";
-import { useSubmissions, persistOneSubmission } from "@/lib/submission";
 import { persistOneSubmissionSession } from "@/lib/submissionSession";
 import { useRouter } from "next/router";
+import Overlay from "@/components/layout/Overlay";
 
 export default function FormApp({ id, formId, blocks, localOnly }: { id: string; formId: string; blocks: BlockData[]; localOnly: boolean }) {
   const pages = useMemo(() => {
@@ -66,28 +64,7 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
       "RENDER FormApp",
       pages[0].blocks.map((n, i) => n.data)
     );
-    // return (
-    //   <div className="w-full px-5 py-5">
-    //     <SnoopForm
-    //       key={id} // used to reset form
-    //       domain={window.location.host}
-    //       protocol={window.location.protocol === "http:" ? "http" : "https"}
-    //       formId={formId}
-    //       localOnly={localOnly}
-    //       className="w-full max-w-3xl mx-auto space-y-6"
-    //     >
-    //       {pages.map((page, pageIdx) => (
-    //         <SnoopPage key={page.id} name={page.id} thankyou={pageIdx === pages.length - 1}>
-    //           {page.blocks
-    //             .map((block) => createFormElement(block.type, block))
-    //             .map((Element, index) => (
-    //               <Element key={index}></Element>
-    //             ))}
-    //         </SnoopPage>
-    //       ))}
-    //     </SnoopForm>
-    //   </div>
-    // );
+
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (refAllBlockSubmissions.current !== null) {
@@ -137,13 +114,4 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
       </div>
     );
   }
-}
-
-import { PropsWithChildren } from "react";
-function Overlay({ children }: PropsWithChildren<{}>) {
-  return (
-    <div className="fixed inset-0 z-10 flex items-center justify-center" style={{ background: "rgba(98,125,149,0.75)" }}>
-      {children}
-    </div>
-  );
 }
