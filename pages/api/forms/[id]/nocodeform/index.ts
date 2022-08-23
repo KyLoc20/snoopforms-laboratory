@@ -9,11 +9,15 @@ const sharedMockData: NoCodeFormData = {
   blocksDraft: [
     { id: "1", type: "header", data: { text: "Form for Testing", level: 1 } },
     { id: "2", type: "header", data: { text: "Welcome to Snoopforms Lab", level: 2 } },
-    { id: "3", type: "ratingQuestion", data: { _component: { num: 5, icon: "stars", isRequired: true } } },
+    {
+      id: "3",
+      type: "ratingQuestion",
+      data: { _component: { num: 5, icon: "stars", isRequired: true, title: "RatingQuestion1 How do you like this stuff?" } },
+    },
     {
       id: "4",
       type: "ratingQuestion",
-      data: { _component: { num: 10, icon: "hearts", isRequired: false, title: "How do you like this stuff?" } },
+      data: { _component: { num: 10, icon: "hearts", isRequired: false, title: "RatingQuestion2 How do you like that stuff?" } },
     },
     { id: "5", type: "paragraph", data: { text: "Thanks a lot for your time and insights 🙏" } },
   ],

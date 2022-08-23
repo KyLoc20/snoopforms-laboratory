@@ -62,6 +62,40 @@ const SUB_B2: SubmissionData = {
     ratings: 7,
   },
 };
+
+const SUB_C1: SubmissionData = {
+  id: generateId(10),
+  questionId: "3",
+  questionType: "ratingQuestion",
+  details: {
+    ratings: 3,
+  },
+};
+const SUB_C2: SubmissionData = {
+  id: generateId(10),
+  questionId: "4",
+  questionType: "ratingQuestion",
+  details: {
+    ratings: 9,
+  },
+};
+
+const SUB_D1: SubmissionData = {
+  id: generateId(10),
+  questionId: "3",
+  questionType: "ratingQuestion",
+  details: {
+    ratings: 1,
+  },
+};
+const SUB_D2: SubmissionData = {
+  id: generateId(10),
+  questionId: "4",
+  questionType: "ratingQuestion",
+  details: {
+    ratings: 9,
+  },
+};
 const SESSION_A: SubmissionSessionData = {
   formId: FORM_ID,
   id: generateId(10),
@@ -76,7 +110,21 @@ const SESSION_B: SubmissionSessionData = {
   createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(),
   updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1).toISOString(),
 };
+const SESSION_C: SubmissionSessionData = {
+  formId: FORM_ID,
+  id: generateId(10),
+  submissions: [SUB_C1, SUB_C2],
+  createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5).toISOString(),
+  updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1).toISOString(),
+};
+const SESSION_D: SubmissionSessionData = {
+  formId: FORM_ID,
+  id: generateId(10),
+  submissions: [SUB_D1, SUB_D2],
+  createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 6).toISOString(),
+  updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(),
+};
 const sharedMockData = {
   formId: FORM_ID,
-  sessions: [SESSION_A, SESSION_B],
+  sessions: [SESSION_A, SESSION_B, SESSION_C, SESSION_D],
 };
