@@ -1,12 +1,11 @@
 import { useMemo } from "react";
 import { classNames } from "@/lib/utils";
 import { SubmissionSessionData, SubmissionData, NoCodeFormData } from "@/lib/types";
-import { createResponseDisplay } from "@/lib/snoopforms/react/questions";
+import { createResponseDisplay, isQuestionType } from "@/lib/snoopforms/react/questions";
 import { useNoCodeForm } from "@/lib/noCodeForm";
 type List<T> = T[];
 type SubmissionPage = List<SubmissionData>;
 type TitleMap = { [questionId: string]: string };
-const isQuestionType = (value: string) => ["ratingQuestion"].includes(value);
 
 const paginateSession = (session: SubmissionSessionData): List<SubmissionPage> => {
   return [session.submissions];

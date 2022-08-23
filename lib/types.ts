@@ -36,6 +36,7 @@ export type SubmissionSession = {
 };
 export type QuestionSummary = {
   questionId: string;
+  questionTitle: string;
   questionType: string;
   questionConfig: any; //from BuilderComponet
   submissionResults: any; //from UserComponent

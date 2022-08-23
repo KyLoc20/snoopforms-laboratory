@@ -3,15 +3,15 @@ import Rating from "../common/Rating";
 import Mark from "../common/Mark";
 import { Select, Switch, QuestionInput, Divider } from "../../toolkit/ui";
 type AvailableIcon = "stars" | "hearts";
-export type RatingComponentCustomData = {
+export type RatingQuestionConfigData = {
   title: string;
   num: number; //for builder
   icon: AvailableIcon; //for builder
   isRequired: boolean; //for builder
 };
 interface RatingQuestionProps {
-  onDataChange: (data: RatingComponentCustomData) => void;
-  initialData: RatingComponentCustomData;
+  onDataChange: (data: RatingQuestionConfigData) => void;
+  initialData: RatingQuestionConfigData;
 }
 export default function BuilderComponent({ onDataChange, initialData }: RatingQuestionProps) {
   const [title, setTitle] = useState(initialData.title);
