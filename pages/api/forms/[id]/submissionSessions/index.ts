@@ -20,6 +20,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     payloadData.createdAt = new Date(Date.now()).toISOString();
     payloadData.updatedAt = new Date(Date.now()).toISOString();
     addOneSubmissionSession(formId, payloadData);
+    console.log("addOneSubmissionSession FINISHED", sharedMockData.sessions);
     return res.status(200).json({ isOk: true });
   }
   // Unknown HTTP Method

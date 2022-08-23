@@ -3,11 +3,14 @@ import { useMemo, useRef, useState } from "react";
 import { generateId } from "@/lib/utils";
 import Loading from "@/components/layout/Loading";
 import { TailSpin } from "react-loader-spinner";
-import { BlockData } from "@/lib/types";
-import { createFormElement } from "../factory";
+import { BlockData, SubmissionData } from "@/lib/types";
+// import { createFormElement } from "../factory";
+import { createQuestionElement, PreSubmissionData } from "@/lib/snoopforms/react/questions";
 import { Button } from "@/lib/snoopforms/react/questions/toolkit/ui";
 import { useSubmissions, persistOneSubmission } from "@/lib/submission";
+import { persistOneSubmissionSession } from "@/lib/submissionSession";
 import { useRouter } from "next/router";
+
 export default function FormApp({ id, formId, blocks, localOnly }: { id: string; formId: string; blocks: BlockData[]; localOnly: boolean }) {
   const pages = useMemo(() => {
     const pages = [];
@@ -40,16 +43,17 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
     return pages;
   }, [blocks, formId]);
 
-  const refAllSubmissions = useRef<any[] | null>(null);
-  const handleUpdateSubmission = (index: number, data: any) => {
-    const prev = refAllSubmissions.current;
+  //some of them are not from a Question Block
+  const refAllBlockSubmissions = useRef<PreSubmissionData[] | null>(null);
+  const handleUpdateSubmission = (index: number, data: PreSubmissionData) => {
+    const prev = refAllBlockSubmissions.current;
     if (prev !== null) {
       prev[index] = data;
     } else {
-      refAllSubmissions.current = [];
-      refAllSubmissions.current[index] = data;
+      refAllBlockSubmissions.current = [];
+      refAllBlockSubmissions.current[index] = data;
     }
-    console.log("handleUpdateSubmission", refAllSubmissions.current);
+    console.log("handleUpdateSubmission", refAllBlockSubmissions.current);
   };
 
   const router = useRouter();
@@ -86,27 +90,18 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
     // );
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      console.log("UserForm onSubmit", refAllSubmissions.current);
-
-      const allSubmissions = refAllSubmissions.current;
-      if (allSubmissions !== null) {
+      if (refAllBlockSubmissions.current !== null) {
+        const allPreSubmissions = refAllBlockSubmissions.current.filter(Boolean);
+        console.log("UserForm onSubmit allPreSubmissions: ", allPreSubmissions);
         setIsSubmitting(true);
-        const uploads: Promise<void>[] = [];
-        allSubmissions.forEach((item, index) => {
-          if (item?.questionId && item?.type === "ratingQuestion") {
-            const { questionId, ratings } = item;
-            const p = persistOneSubmission("thisisatest-form", {
-              id: generateId(10),
-              questionId: questionId as string,
-              questionType: "ratingQuestion",
-              details: { ratings },
-            });
-            uploads.push(p);
-          }
-        });
-        Promise.allSettled(uploads).then((results) => {
-          results.forEach((result) => console.log(result.status));
-          console.log("onSubmit all uploads finished");
+        persistOneSubmissionSession(formId, {
+          formId,
+          id: generateId(10),
+          submissions: allPreSubmissions.map((item, _) => ({ ...item, id: generateId(10) } as SubmissionData)),
+          createdAt: "",
+          updatedAt: "",
+        }).then((res) => {
+          console.log("onSubmit all uploads finished", res);
           setTimeout(() => {
             router.push("/results/responses");
             setIsSubmitting(false);
@@ -118,13 +113,13 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
       <div className="w-full px-5 py-5">
         <form onSubmit={onSubmit}>
           {pages[0].blocks
-            .map((block) => createFormElement(block.type, block))
+            .map((block) => createQuestionElement(block.type, block))
             .map((Element, index) => (
               <Element
                 key={index}
-                onSubmissionChange={(data) => {
+                onSubmissionChange={(preData) => {
                   // console.log("Element onSubmissionChange: ", data);
-                  handleUpdateSubmission(index, data);
+                  handleUpdateSubmission(index, preData);
                 }}
               ></Element>
             ))}

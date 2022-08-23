@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/solid";
 // import { getEventName } from "@/lib/events";
-import { useSubmissionSessions } from "@/lib/submissionSessions";
+
+import { useSubmissionSessions } from "@/lib/submissionSession";
 import { SubmissionSessionData } from "@/lib/types";
 import { convertDateTimeString, convertTimeString } from "@/lib/utils";
 import SubmissionSessionDisplay from "./SubmissionDisplay";
@@ -17,7 +18,6 @@ function classNames(...classes: string[]) {
 
 export default function ResponseApp({ formId }: { formId: string }) {
   const { submissionSessions, isLoadingSubmissionSessions, mutateSubmissionSessions } = useSubmissionSessions(formId);
-
   const [activeSubmissionSession, setActiveSubmissionSession] = useState<SubmissionSessionData | null>(null);
 
   // const handleDelete = async (submissionSession: SubmissionSession) => {

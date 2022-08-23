@@ -2,10 +2,24 @@ import { GlobeAltIcon, MailIcon, PhoneIcon } from "@heroicons/react/solid";
 import { SnoopElement } from "@snoopforms/react";
 import { BlockData } from "@/lib/types";
 import { PropsWithChildren } from "react";
+
 import RatingQuestion, { RatingQuestionSubmissionData } from "@/lib/snoopforms/react/questions/RatingQuestion";
 export { createQuestionElement };
+// export type SubmissionData = {
+//   id: string;
+//   questionId: string; //BlockData->id
+//   questionType: string;
+//   details: any; //content
+// };
+export type PreSubmissionData = {
+  //without id
+  questionId: string; //BlockData->id
+  questionType: string;
+  details: any; //content
+};
 const createQuestionElement = (type: string, block: BlockData) => {
-  let render: React.FC<{ onSubmissionChange: (data: any) => void }>;
+  //data: any should be SubmissionData
+  let render: React.FC<{ onSubmissionChange: (preData: PreSubmissionData) => void }>;
   switch (type) {
     case "paragraph":
       render = function _({ onSubmissionChange }) {
@@ -30,7 +44,7 @@ const createQuestionElement = (type: string, block: BlockData) => {
             initialData={{
               ratings: 0,
             }}
-            onSubmissionChange={(data) => onSubmissionChange({ ...data, questionId: block.id, type: "ratingQuestion" })}
+            onSubmissionChange={(data) => onSubmissionChange({ details: data, questionId: block.id, questionType: "ratingQuestion" })}
           />
         );
       };
@@ -41,6 +55,7 @@ const createQuestionElement = (type: string, block: BlockData) => {
       };
       break;
   }
+  return render;
 };
 // const ELEMENT_REGISTRIES: { [name: string]: React.FC<any> } = {
 //   ratingQuestion: RatingQuestion,

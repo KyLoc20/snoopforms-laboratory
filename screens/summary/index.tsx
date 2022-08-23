@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import { NavBar } from "@/components/layout/Navigation";
 import Container from "@/components/layout/Container";
-import { useSubmissionSessions } from "@/lib/submissionSessions";
+import { useSubmissionSessions } from "@/lib/submissionSession";
 import { useNoCodeForm } from "@/lib/noCodeForm";
 import SummaryApp from "@/components/frontend/SummaryApp";
 export default function Screen() {
@@ -12,7 +12,7 @@ export default function Screen() {
   return (
     <Container bg="rgb(246, 248, 249, 1)">
       <NavBar currentNav="summary"></NavBar>
-      {isReady ? <SummaryApp formId={formId}></SummaryApp> : <Preview>Loading</Preview>}
+      {isReady ? <SummaryApp formId={formId} /> : <Preview>Loading</Preview>}
     </Container>
   );
 }
