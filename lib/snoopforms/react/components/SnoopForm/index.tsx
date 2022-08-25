@@ -1,6 +1,11 @@
 import FingerprintJS, { Agent } from "@fingerprintjs/fingerprintjs";
-import React, { createContext, FC, ReactNode, useEffect, useState } from "react";
+import React, { createContext, FC, ReactNode, useEffect, useState, useRef } from "react";
 import { classNamesConcat } from "../../lib/utils";
+import { PreSubmissionData } from "../../questions";
+import FullScreenLoading from "@/components/layout/FullScreenLoading";
+/**
+ * handle the layout and content of Page
+ */
 export const SchemaContext = createContext({
   schema: { pages: [] },
   setSchema: (schema: any) => {
@@ -8,20 +13,28 @@ export const SchemaContext = createContext({
   },
 });
 
+/**
+ * handle Submissions Storing, actually PreSubmissions
+ */
 export const SubmissionContext = createContext({
-  submission: {},
-  setSubmission: (submission: any) => {
-    console.log(submission);
+  update: (pageIdx: number, payload: PreSubmissionData[]) => {
+    console.log(pageIdx, payload);
   },
 });
 
+/**
+ * handle which Page to display
+ */
 export const CurrentPageContext = createContext({
   currentPageIdx: 0,
-  setCurrentPageIdx: (currentPageIdx: number) => {
-    console.log(currentPageIdx);
-  },
+  // setCurrentPageIdx: (currentPageIdx: number) => {
+  //   console.log(currentPageIdx);
+  // },
 });
 
+/**
+ * handle Page submit action
+ */
 export const SubmitHandlerContext = createContext((pageName: string) => {
   console.log(pageName);
 });
@@ -51,87 +64,57 @@ export const SnoopForm: FC<Props> = ({
   children,
 }) => {
   const [schema, setSchema] = useState<any>({ pages: [] });
-  const [submission, setSubmission] = useState<any>({});
-  const [currentPageIdx, setCurrentPageIdx] = useState(0);
-  const [submissionSessionId, setSubmissionSessionId] = useState("");
-  const [fp, setFp] = useState<Agent>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    FingerprintJS.load({ monitoring: false }).then((f) => setFp(f));
-  }, []);
+  const nextPage = () => setCurrentPageIdx((prev) => prev + 1);
+  const [currentPageIdx, setCurrentPageIdx] = useState(0); //CurrentPageContext
 
-  const handleSubmit = async (pageName: string) => {
-    let _submissionSessionId = submissionSessionId;
-    if (!localOnly) {
-      // create answer session if it don't exist
-      try {
-        if (typeof fp === "undefined") {
-          console.error(`🦝 SnoopForms: Unable to send submission to snoopHub. Error: Can't initialize fingerprint`);
-          return;
-        }
-        if (!formId) {
-          console.warn(`🦝 SnoopForms: formId not set. Skipping sending submission to snoopHub.`);
-          return;
-        }
-        if (!_submissionSessionId) {
-          // get digital fingerprint of user for unique user feature
-          const fpResult = await fp.get();
-          // create new submissionSession in snoopHub
-
-          const submissionSessionRes: any = await fetch(`${protocol}://${domain}/api/forms/${formId}/submissionSessions`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              userFingerprint: fpResult.visitorId,
-            }),
-          });
-          const submissionSession = await submissionSessionRes.json();
-          _submissionSessionId = submissionSession.id;
-          setSubmissionSessionId(_submissionSessionId);
-        }
-        // send answer to snoop platform
-        await fetch(`${protocol}://${domain}/api/forms/${formId}/event`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            events: [
-              {
-                type: "pageSubmission",
-                data: {
-                  pageName,
-                  submissionSessionId: _submissionSessionId,
-                  submission: submission[pageName],
-                },
-              },
-              // update schema
-              // TODO: do conditionally only when requested by the snoopHub
-              { type: "updateSchema", data: schema },
-            ],
-          }),
-        });
-      } catch (e) {
-        console.error(`🦝 SnoopForms: Unable to send submission to snoopHub. Error: ${e}`);
-      }
-    }
-    const maxPageIdx = schema.pages.length - 1;
-    const hasThankYou = schema.pages[maxPageIdx].type === "thankyou";
-    if (currentPageIdx < maxPageIdx) {
-      setCurrentPageIdx(currentPageIdx + 1);
-    }
-    if ((!hasThankYou && currentPageIdx === maxPageIdx) || (hasThankYou && currentPageIdx === maxPageIdx - 1)) {
-      return onSubmit({ submission, schema });
+  /**
+   * Being called PreSubmissionData is because they are not yet given "submissionId" and "submissionSessionId"
+   * They are kept updating whenever changes happen in the SnoopElements
+   * They are stored here being ready to be Submitted anytime
+   */
+  const refAllPreSubmissions = useRef<Array<PreSubmissionData[]> | null>(null); //SubmissionContext
+  /**
+   * update whenever changes happen in the SnoopElements
+   * @param pageIdx
+   * @param payload
+   */
+  const updatePreSubmissions = (pageIdx: number, payload: PreSubmissionData[]) => {
+    const prev = refAllPreSubmissions.current;
+    if (prev !== null) {
+      prev[pageIdx] = payload;
+    } else {
+      //init passively
+      refAllPreSubmissions.current = [];
+      refAllPreSubmissions.current[pageIdx] = payload;
     }
   };
 
+  const handleSubmit = (pageName: string) => {
+    if (refAllPreSubmissions.current !== null) {
+      const allPreSubmissions = refAllPreSubmissions.current.filter(Boolean);
+      console.log(`From Page ${pageName} onSubmit allPreSubmissions: `, allPreSubmissions);
+      setIsSubmitting(true);
+      setTimeout(() => {
+        //when finished
+        setIsSubmitting(false);
+        nextPage();
+      }, 3000);
+    }
+  };
   return (
-    <SubmitHandlerContext.Provider value={handleSubmit}>
-      <SchemaContext.Provider value={{ schema, setSchema }}>
-        <SubmissionContext.Provider value={{ submission, setSubmission }}>
-          <CurrentPageContext.Provider value={{ currentPageIdx, setCurrentPageIdx }}>
-            <div className={classNamesConcat("max-w-lg", className)}>{children}</div>
-          </CurrentPageContext.Provider>
-        </SubmissionContext.Provider>
-      </SchemaContext.Provider>
-    </SubmitHandlerContext.Provider>
+    <SchemaContext.Provider value={{ schema, setSchema }}>
+      <SubmissionContext.Provider value={{ update: updatePreSubmissions }}>
+        <CurrentPageContext.Provider value={{ currentPageIdx }}>
+          <SubmitHandlerContext.Provider value={handleSubmit}>
+            <section className={classNamesConcat("snoopforms-container", "max-w-lg", className)}>
+              {children}
+              {isSubmitting && <FullScreenLoading />}
+            </section>
+          </SubmitHandlerContext.Provider>
+        </CurrentPageContext.Provider>
+      </SubmissionContext.Provider>
+    </SchemaContext.Provider>
   );
 };

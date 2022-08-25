@@ -12,13 +12,13 @@ import { ClassNames } from "../../types";
 // import { Website } from '../Elements/Website';
 // import { CurrentPageContext, SchemaContext } from '../SnoopForm/SnoopForm';
 // import { PageContext } from '../SnoopPage/SnoopPage';
-
+import { createQuestionElement, PreSubmissionData } from "../../questions";
 interface Option {
   label: string;
   value: string;
 }
 interface QuestionElementProps {
-  questionId?: string;
+  id?: string; //questionId, should be a must for a Question
   config?: any;
 }
 export interface SnoopElementProps extends QuestionElementProps {
@@ -35,7 +35,7 @@ export interface SnoopElementProps extends QuestionElementProps {
 
 export const SnoopElement: FC<SnoopElementProps> = (props) => {
   const { type, name, label = undefined, icon, placeholder, classNames = {}, required = false, options, rows } = props;
-
+  const { id, config } = props;
   const { schema, setSchema } = useContext(SchemaContext);
   const pageName = useContext(PageContext);
   const { currentPageIdx } = useContext(CurrentPageContext);
@@ -66,29 +66,14 @@ export const SnoopElement: FC<SnoopElementProps> = (props) => {
     });
   }, [name, setSchema, pageName]);
 
+  const questionId = id ?? "";
+  const Question = createQuestionElement(type, { id: questionId, type, data: config });
+  const handleUpdateSubmission = (preData: PreSubmissionData) => {};
   return (
     <div>
       {currentPageIdx === schema.pages.findIndex((p: any) => p.name === pageName) && (
         <div>
-          {type === "checkbox" ? (
-            <Checkbox name={name} label={label} classNames={classNames} required={required} options={options || []} />
-          ) : type === "email" ? (
-            <Email name={name} label={label} Icon={icon} placeholder={placeholder} classNames={classNames} required={required} />
-          ) : type === "number" ? (
-            <Number name={name} label={label} Icon={icon} placeholder={placeholder} classNames={classNames} required={required} />
-          ) : type === "phone" ? (
-            <Phone name={name} label={label} Icon={icon} placeholder={placeholder} classNames={classNames} required={required} />
-          ) : type === "radio" ? (
-            <Radio name={name} label={label} classNames={classNames} required={required} options={options || []} />
-          ) : type === "submit" ? (
-            <Submit label={label} classNames={classNames} />
-          ) : type === "text" ? (
-            <Text name={name} label={label} Icon={icon} placeholder={placeholder} classNames={classNames} required={required} />
-          ) : type === "textarea" ? (
-            <Textarea name={name} label={label} rows={rows} placeholder={placeholder} classNames={classNames} required={required} />
-          ) : type === "website" ? (
-            <Website name={name} label={label} Icon={icon} placeholder={placeholder} classNames={classNames} required={required} />
-          ) : null}
+          <Question onSubmissionChange={handleUpdateSubmission}></Question>
         </div>
       )}
     </div>

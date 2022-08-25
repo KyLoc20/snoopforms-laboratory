@@ -4,18 +4,12 @@ import { SnoopForm } from "../components/SnoopForm";
 export default function YourFirstForm() {
   return (
     <SnoopForm domain="app.snoopforms.com" protocol="http" formId="abcd">
-      <SnoopPage name="basicInfo">
-        <SnoopElement type="text" name="name" label="Your name" required />
-        <SnoopElement type="textarea" name="about" label="About you" required />
+      <SnoopPage name="Page 1">
+        <SnoopElement type="ratingQuestion" name="q1" />
         <SnoopElement name="submit" type="submit" label="Submit" />
       </SnoopPage>
-      <SnoopPage name="advancedInfo">
-        <SnoopElement
-          type="checkbox"
-          name="programming-lanuguages"
-          label="What programming languages do you love?"
-          options={["C++", "Javascript", "Scala", "Assembler"]}
-        />
+      <SnoopPage name="Page 2">
+        <SnoopElement type="ratingQuestion" name="q2" />
         <SnoopElement name="submit" type="submit" label="Submit" />
       </SnoopPage>
       <SnoopPage name="thankyou" thankyou>
