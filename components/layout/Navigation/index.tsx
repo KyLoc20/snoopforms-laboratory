@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon, ChartBarIcon, InboxIcon } from "@heroicons/react/outline";
+import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon, ChartBarIcon, InboxIcon, DocumentDuplicateIcon } from "@heroicons/react/outline";
 import { classNames } from "@/lib/utils";
 import { useRouter } from "next/router";
-type AvailableNav = "addPage" | "preview" | "publish" | "share" | "responses" | "summary";
-export function NavBar({ currentNav }: { currentNav: AvailableNav }) {
+type AvailableNav = "addPage" | "preview" | "publish" | "share" | "responses" | "summary" | "example";
+export function NavBar({ currentNav }: { currentNav?: AvailableNav }) {
   // const [currentNav, setCurrentNav] = useState<>("addPage");
   const router = useRouter();
   return (
@@ -28,6 +28,15 @@ export function NavBar({ currentNav }: { currentNav: AvailableNav }) {
             //addPage()
           }}
           active={currentNav === "preview"}
+        ></Navigation>
+        <Navigation
+          id="example"
+          label="Example"
+          icon={DocumentDuplicateIcon}
+          onClick={() => {
+            router.push(`/example`);
+          }}
+          active={currentNav === "example"}
         ></Navigation>
         <Navigation
           id="publish"
