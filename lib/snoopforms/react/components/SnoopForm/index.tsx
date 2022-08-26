@@ -1,7 +1,8 @@
 import FingerprintJS, { Agent } from "@fingerprintjs/fingerprintjs";
-import React, { createContext, FC, ReactNode, useEffect, useState, useRef } from "react";
+import React, { createContext, FC, ReactNode, useEffect, useState, useRef, PropsWithChildren } from "react";
 import { classNamesConcat } from "../../lib/utils";
 import { PreSubmissionData } from "../../questions";
+import { BlockData } from "@/lib/types";
 import FullScreenLoading from "@/components/layout/FullScreenLoading";
 /**
  * handle the layout and content of Page
@@ -44,27 +45,18 @@ interface onSubmitProps {
   schema: any;
 }
 
-interface Props {
+interface SnoopFormProps {
   domain?: string;
   formId?: string;
   protocol?: "http" | "https";
   localOnly?: boolean;
   className?: string;
   onSubmit?: (obj: onSubmitProps) => void;
-  children?: ReactNode;
 }
 
-export const SnoopForm: FC<Props> = ({
-  domain = "app.snoopforms.com",
-  formId,
-  protocol = "https",
-  localOnly = false,
-  className = "",
-  onSubmit = (): any => {},
-  children,
-}) => {
+export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
+  const { domain = "app.snoopforms.com", formId, protocol = "https", localOnly = false, className = "", onSubmit = (): any => {}, children } = props;
   const [schema, setSchema] = useState<any>({ pages: [] });
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const nextPage = () => setCurrentPageIdx((prev) => prev + 1);
   const [currentPageIdx, setCurrentPageIdx] = useState(0); //CurrentPageContext
@@ -91,6 +83,7 @@ export const SnoopForm: FC<Props> = ({
     }
   };
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = (pageName: string) => {
     if (refAllPreSubmissions.current !== null) {
       const allPreSubmissions = refAllPreSubmissions.current.filter(Boolean);
@@ -117,4 +110,4 @@ export const SnoopForm: FC<Props> = ({
       </SubmissionContext.Provider>
     </SchemaContext.Provider>
   );
-};
+}

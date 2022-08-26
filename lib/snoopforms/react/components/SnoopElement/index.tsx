@@ -10,8 +10,8 @@ import { ClassNames } from "../../types";
 // import { Text } from '../Elements/Text';
 // import { Textarea } from '../Elements/Textarea';
 // import { Website } from '../Elements/Website';
-// import { CurrentPageContext, SchemaContext } from '../SnoopForm/SnoopForm';
-// import { PageContext } from '../SnoopPage/SnoopPage';
+import { CurrentPageContext, SchemaContext } from "../SnoopForm";
+import { PageContext } from "../SnoopPage";
 import { createQuestionElement, PreSubmissionData } from "../../questions";
 interface Option {
   label: string;

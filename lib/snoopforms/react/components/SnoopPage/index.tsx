@@ -1,70 +1,81 @@
-import React, { createContext, FC, ReactNode, useContext, useEffect, useState } from "react";
+import { generateId } from "@/lib/utils";
+import React, { createContext, FC, PropsWithChildren, useRef, useContext, useEffect, useState } from "react";
 import { classNamesConcat } from "../../lib/utils";
 import { CurrentPageContext, SchemaContext, SubmitHandlerContext } from "../SnoopForm";
 
-export const PageContext = createContext("");
+export const PageContext = createContext(""); //pageName
 
-interface Props {
+interface SnoopPageProps {
   name: string;
   className?: string;
-  children?: ReactNode;
   thankyou?: boolean;
 }
+/**
+ * init pages: inject pageName to schema
+ * @param props
+ * @returns
+ */
+export function SnoopPage(props: PropsWithChildren<SnoopPageProps>) {
+  const { name: _name, className, children, thankyou = false } = props;
 
-export const SnoopPage: FC<Props> = ({ name, className, children, thankyou = false }) => {
-  const { schema, setSchema } = useContext<any>(SchemaContext);
-  const handleSubmit = useContext(SubmitHandlerContext);
+  const [pageName, _] = useState(_name || generateId(10));
   const [initializing, setInitializing] = useState(true);
   const { currentPageIdx } = useContext(CurrentPageContext);
-
+  const { schema, setSchema } = useContext<any>(SchemaContext);
+  console.log("RENDER SnoopPage", initializing);
+  //register this Page into schema.pages
   useEffect(() => {
     setSchema((schema: any) => {
       const newSchema = { ...schema };
-      let pageIdx = newSchema.pages.findIndex((p: any) => p.name === name);
+      let pageIdx = newSchema.pages.findIndex((p: any) => p.name === pageName);
+      console.log("register", schema, pageName);
       if (pageIdx !== -1) {
-        console.warn(`🦝 SnoopForms: Page with the name "${name}" already exists`);
+        console.warn(`🦝 SnoopForms: Page with the name "${pageName}" already exists`);
+        return newSchema;
+      } else {
+        newSchema.pages.push({
+          name: pageName,
+          type: thankyou ? "thankyou" : "form",
+          elements: [],
+        });
         return newSchema;
       }
-      newSchema.pages.push({
-        name,
-        type: thankyou ? "thankyou" : "form",
-        elements: [],
-      });
-
-      return newSchema;
     });
-  }, [name]);
+  }, [pageName]);
 
+  const _handleSubmit = useContext(SubmitHandlerContext);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    _handleSubmit(pageName);
+  };
+
+  // setInitializing(false) after finished registering
   useEffect(() => {
     if (initializing) {
-      let pageIdx = schema.pages.findIndex((p: any) => p.name === name);
+      let pageIdx = schema.pages.findIndex((p: any) => p.name === pageName);
+      console.log("initializing", schema, pageName, pageIdx);
       if (pageIdx !== -1) {
         setInitializing(false);
       }
     }
   }, [schema]);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    handleSubmit(name);
-  };
-
   if (initializing) {
-    return <div />;
-  }
-
-  if (thankyou) {
-    return <PageContext.Provider value={name}>{currentPageIdx === schema.pages.findIndex((p: any) => p.name === name) && children}</PageContext.Provider>;
+    return <div className="initializing-snooppage" />;
+  } else if (thankyou) {
+    return (
+      <PageContext.Provider value={pageName}>{currentPageIdx === schema.pages.findIndex((p: any) => p.name === pageName) && children}</PageContext.Provider>
+    );
   } else {
     return (
-      <PageContext.Provider value={name}>
+      <PageContext.Provider value={pageName}>
         <form
-          className={classNamesConcat(currentPageIdx === schema.pages.findIndex((p: any) => p.name === name) ? "block" : "hidden", "space-y-6", className)}
-          onSubmit={onSubmit}
+          className={classNamesConcat(currentPageIdx === schema.pages.findIndex((p: any) => p.name === pageName) ? "block" : "hidden", "space-y-6", className)}
+          onSubmit={handleSubmit}
         >
           {children}
         </form>
       </PageContext.Provider>
     );
   }
-};
+}
