@@ -15,6 +15,22 @@ export const SchemaContext = createContext({
 });
 
 /**
+ * handle a list of pageName
+ */
+type RegistryState = {
+  pages: string[];
+  register: (pageName: string) => void;
+  hasPage: (pageName: string) => boolean;
+  findPage: (pageName: string) => number; //index of pages
+};
+export const RegistryContext = createContext<RegistryState>({
+  pages: [],
+  register: (pageName: string) => console.log(pageName),
+  hasPage: (pageName: string) => true,
+  findPage: (pageName: string) => -1,
+});
+
+/**
  * handle Submissions Storing, actually PreSubmissions
  */
 export const SubmissionContext = createContext({
@@ -62,6 +78,15 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
   const [currentPageIdx, setCurrentPageIdx] = useState(0); //CurrentPageContext
 
   /**
+   * page register
+   */
+  const [pages, setPages] = useState<string[]>([]);
+  const hasPage = (name: string) => pages.includes(name);
+  const addPage = (name: string) => {
+    if (!hasPage(name)) setPages((prev) => [...prev, name]);
+  };
+  const findPage = (name: string) => pages.indexOf(name);
+  /**
    * Being called PreSubmissionData is because they are not yet given "submissionId" and "submissionSessionId"
    * They are kept updating whenever changes happen in the SnoopElements
    * They are stored here being ready to be Submitted anytime
@@ -99,14 +124,16 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
   return (
     <SchemaContext.Provider value={{ schema, setSchema }}>
       <SubmissionContext.Provider value={{ update: updatePreSubmissions }}>
-        <CurrentPageContext.Provider value={{ currentPageIdx }}>
-          <SubmitHandlerContext.Provider value={handleSubmit}>
-            <section className={classNamesConcat("snoopforms-container", "max-w-lg", className)}>
-              {children}
-              {isSubmitting && <FullScreenLoading />}
-            </section>
-          </SubmitHandlerContext.Provider>
-        </CurrentPageContext.Provider>
+        <RegistryContext.Provider value={{ pages: pages, register: addPage, hasPage, findPage }}>
+          <CurrentPageContext.Provider value={{ currentPageIdx }}>
+            <SubmitHandlerContext.Provider value={handleSubmit}>
+              <section className={classNamesConcat("snoopforms-container", "max-w-lg", className)}>
+                {children}
+                {isSubmitting && <FullScreenLoading />}
+              </section>
+            </SubmitHandlerContext.Provider>
+          </CurrentPageContext.Provider>
+        </RegistryContext.Provider>
       </SubmissionContext.Provider>
     </SchemaContext.Provider>
   );
