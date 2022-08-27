@@ -1,8 +1,4 @@
-import { GlobeAltIcon, MailIcon, PhoneIcon } from "@heroicons/react/solid";
-import { SnoopElement } from "@snoopforms/react";
-import { BlockData } from "@/lib/types";
 import { PropsWithChildren } from "react";
-
 import RatingQuestion, { RatingQuestionSubmissionData } from "@/lib/snoopforms/react/questions/RatingQuestion";
 export { createQuestionElement };
 // export type SubmissionData = {
@@ -16,6 +12,11 @@ export type PreSubmissionData = {
   questionId: string; //BlockData->id
   questionType: string;
   details: any; //content
+};
+type BlockData = {
+  id: string; //if this Block represents a Question, this is the questionI
+  type: string;
+  data: any;
 };
 const createQuestionElement = (type: string, block: BlockData) => {
   //data: any should be SubmissionData
@@ -37,7 +38,7 @@ const createQuestionElement = (type: string, block: BlockData) => {
           <RatingQuestion
             config={{
               title: block.data._component?.title,
-              num: block.data._component?.num,
+              num: block.data._component?.num ?? 5,
               icon: block.data._component?.icon,
               isRequired: block.data._component?.isRequired,
             }}

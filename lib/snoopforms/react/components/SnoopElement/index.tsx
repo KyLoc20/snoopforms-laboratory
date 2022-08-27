@@ -10,9 +10,10 @@ import { ClassNames } from "../../types";
 // import { Text } from '../Elements/Text';
 // import { Textarea } from '../Elements/Textarea';
 // import { Website } from '../Elements/Website';
-import { CurrentPageContext, SchemaContext } from "../SnoopForm";
+import { SubmissionContext } from "../SnoopForm";
 import { PageContext } from "../SnoopPage";
 import { createQuestionElement, PreSubmissionData } from "../../questions";
+import { generateId } from "@/lib/utils";
 interface Option {
   label: string;
   value: string;
@@ -33,49 +34,27 @@ export interface SnoopElementProps extends QuestionElementProps {
   rows?: number; //unsure
 }
 
-export const SnoopElement: FC<SnoopElementProps> = (props) => {
+export function SnoopElement(props: SnoopElementProps) {
   const { type, name, label = undefined, icon, placeholder, classNames = {}, required = false, options, rows } = props;
   const { id, config } = props;
-  const { schema, setSchema } = useContext(SchemaContext);
   const pageName = useContext(PageContext);
-  const { currentPageIdx } = useContext(CurrentPageContext);
-
-  useEffect(() => {
-    setSchema((schema: any) => {
-      if (pageName === "") {
-        console.warn(`🦝 SnoopForms: An Element must always be a child of a page!`);
-        return;
-      }
-      const newSchema = { ...schema };
-      let pageIdx = newSchema.pages.findIndex((p: any) => p.name === pageName);
-      if (pageIdx === -1) {
-        console.warn(`🦝 SnoopForms: Error accessing page`);
-        return;
-      }
-      let elementIdx = newSchema.pages[pageIdx].elements.findIndex((e: any) => e.name === name);
-      if (elementIdx === -1) {
-        newSchema.pages[pageIdx].elements.push({ name });
-        elementIdx = newSchema.pages[pageIdx].elements.length - 1;
-      }
-      newSchema.pages[pageIdx].elements[elementIdx].type = type;
-      newSchema.pages[pageIdx].elements[elementIdx].label = label;
-      if (["checkbox", "radio"].includes(type)) {
-        newSchema.pages[pageIdx].elements[elementIdx].options = getOptionsSchema(options);
-      }
-      return newSchema;
-    });
-  }, [name, setSchema, pageName]);
-
-  const questionId = id ?? "";
-  const Question = createQuestionElement(type, { id: questionId, type, data: config });
-  const handleUpdateSubmission = (preData: PreSubmissionData) => {};
+  const { update } = useContext(SubmissionContext);
+  const questionId = id ?? generateId(10);
+  const Question = createQuestionElement(type, generateBlockData(questionId, type, config));
+  const handleUpdateOneSubmission = (preData: PreSubmissionData) => {
+    console.log("From SnoopElement handleUpdateSubmission: ", preData);
+    update(pageName, [preData]);
+  };
   return (
-    <div>
-      {currentPageIdx === schema.pages.findIndex((p: any) => p.name === pageName) && (
-        <div>
-          <Question onSubmissionChange={handleUpdateSubmission}></Question>
-        </div>
-      )}
+    <div className="snoopform-element">
+      <Question onSubmissionChange={handleUpdateOneSubmission}></Question>
     </div>
   );
-};
+}
+const generateBlockData = (id: string, type: string, config: any) => ({
+  id,
+  type,
+  data: {
+    _component: config,
+  },
+});

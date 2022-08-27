@@ -34,8 +34,8 @@ export const RegistryContext = createContext<RegistryState>({
  * handle Submissions Storing, actually PreSubmissions
  */
 export const SubmissionContext = createContext({
-  update: (pageIdx: number, payload: PreSubmissionData[]) => {
-    console.log(pageIdx, payload);
+  update: (pageName: string, payload: PreSubmissionData[]) => {
+    console.log(pageName, payload);
   },
 });
 
@@ -90,29 +90,33 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
    * Being called PreSubmissionData is because they are not yet given "submissionId" and "submissionSessionId"
    * They are kept updating whenever changes happen in the SnoopElements
    * They are stored here being ready to be Submitted anytime
+   * All PreSubmissions are stored UNORDERED in one List, the pagination is locally transparent to them
    */
-  const refAllPreSubmissions = useRef<Array<PreSubmissionData[]> | null>(null); //SubmissionContext
+  const refAllPreSubmissions = useRef<PreSubmissionData[] | null>(null); //SubmissionContext
   /**
    * update whenever changes happen in the SnoopElements
-   * @param pageIdx
+   * @param pageName
    * @param payload
    */
-  const updatePreSubmissions = (pageIdx: number, payload: PreSubmissionData[]) => {
+  const updatePreSubmissions = (pageName: string, payload: PreSubmissionData[]) => {
+    console.log("updatePreSubmissions STARTED", pageName, payload);
     const prev = refAllPreSubmissions.current;
     if (prev !== null) {
-      prev[pageIdx] = payload;
+      const updatingIds = payload.map((o) => o.questionId);
+      refAllPreSubmissions.current = [...prev.filter((o) => !updatingIds.includes(o.questionId)), ...payload];
     } else {
       //init passively
-      refAllPreSubmissions.current = [];
-      refAllPreSubmissions.current[pageIdx] = payload;
+      refAllPreSubmissions.current = [...payload];
     }
+    console.log("updatePreSubmissions FINISHED", refAllPreSubmissions.current);
   };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = (pageName: string) => {
     if (refAllPreSubmissions.current !== null) {
-      const allPreSubmissions = refAllPreSubmissions.current.filter(Boolean);
-      console.log(`From Page ${pageName} onSubmit allPreSubmissions: `, allPreSubmissions);
+      //todo PreSubmissions -> Submissions
+      //todo update the whole SubmissioSession
+      console.log(`From Page ${pageName} onSubmit submissionsOfPage: `, refAllPreSubmissions.current);
       setIsSubmitting(true);
       setTimeout(() => {
         //when finished
@@ -127,7 +131,7 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
         <RegistryContext.Provider value={{ pages: pages, register: addPage, hasPage, findPage }}>
           <CurrentPageContext.Provider value={{ currentPageIdx }}>
             <SubmitHandlerContext.Provider value={handleSubmit}>
-              <section className={classNamesConcat("snoopforms-container", "max-w-lg", className)}>
+              <section className={classNamesConcat("snoopform-container", "max-w-lg", className)}>
                 {children}
                 {isSubmitting && <FullScreenLoading />}
               </section>

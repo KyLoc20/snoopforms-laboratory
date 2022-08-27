@@ -1,13 +1,13 @@
-// import { SnoopElement } from "../components/SnoopElement";
+import { SnoopElement } from "../components/SnoopElement";
 import { SnoopPage } from "../components/SnoopPage";
 import { SnoopForm } from "../components/SnoopForm";
 export default function YourFirstForm() {
   return (
     <SnoopForm domain="app.snoopforms.com" protocol="http" formId="abcd">
       <SnoopPage name="Page 1">
-        <TestInput></TestInput>
-        <TestInput></TestInput>
-        <TestInput></TestInput>
+        <SnoopElement type="ratingQuestion" name="q1" />
+        <SnoopElement type="ratingQuestion" name="q2" />
+        <SnoopElement type="ratingQuestion" name="q3" />
         {/* <SnoopElement type="ratingQuestion" name="q1" />
         <SnoopElement name="submit" type="submit" label="Submit" /> */}
       </SnoopPage>

@@ -33,10 +33,10 @@ export function SnoopPage(props: PropsWithChildren<SnoopPageProps>) {
     if (initializing && hasPage(pageName)) setInitializing(false);
   }, [registeredPages]);
 
-  const uploadData = useContext(SubmitHandlerContext);
+  const submitThisPage = useContext(SubmitHandlerContext);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    uploadData(pageName);
+    submitThisPage(pageName);
   };
 
   if (initializing) {
@@ -46,7 +46,10 @@ export function SnoopPage(props: PropsWithChildren<SnoopPageProps>) {
   } else {
     return (
       <PageContext.Provider value={pageName}>
-        <form className={classNamesConcat(currentPageIdx === findPage(pageName) ? "block" : "hidden", "space-y-6", className)} onSubmit={handleSubmit}>
+        <form
+          className={classNamesConcat("snoopform", currentPageIdx === findPage(pageName) ? "block" : "hidden", "space-y-6", className)}
+          onSubmit={handleSubmit}
+        >
           {children}
         </form>
       </PageContext.Provider>
