@@ -1,5 +1,5 @@
 export type BlockData = {
-  id: string; //if this Block represents a Question, this is the questionI
+  id: string; //if this Block represents a Question, this is the questionId
   type: string;
   data: any;
 };

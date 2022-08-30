@@ -10,9 +10,6 @@ interface RatingQuestionData extends BlockToolData {
 //extends RatingComponentConfigData
 interface RatingQuestionData {
   questionId?: string;
-}
-//extends RatingComponentConfigData
-interface RatingQuestionData {
   _component: RatingQuestionConfigData;
 }
 export default class RatingQuestion implements BlockTool {
@@ -22,18 +19,15 @@ export default class RatingQuestion implements BlockTool {
   constructor({ data, api }: { api: API; config?: ToolConfig; data?: RatingQuestionData }) {
     this.rootNode = undefined;
     this.api = api;
-
     this.data = {
       label: data?.label ?? "",
       placeholder: data?.placeholder ?? "",
       required: data?.required ?? true,
       questionId: data?.questionId,
-      //as initialData
+      //DEFAULT_DATA as initialData
       _component: {
-        title: data?._component?.title ?? "",
-        num: data?._component?.num ?? 5,
-        icon: data?._component?.icon ?? "stars",
-        isRequired: data?._component?.isRequired ?? false,
+        ...DEFAULT_DATA,
+        ...data?._component,
       },
     };
   }
@@ -58,3 +52,9 @@ export default class RatingQuestion implements BlockTool {
     return this.rootNode;
   }
 }
+const DEFAULT_DATA: RatingQuestionConfigData = {
+  title: "",
+  num: 5,
+  icon: "stars",
+  isRequired: false,
+};

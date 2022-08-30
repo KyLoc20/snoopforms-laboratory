@@ -1,24 +1,18 @@
 import { PropsWithChildren } from "react";
 import RatingQuestion, { RatingQuestionSubmissionData } from "@/lib/snoopforms/react/questions/RatingQuestion";
 export { createQuestionElement };
-// export type SubmissionData = {
-//   id: string;
-//   questionId: string; //BlockData->id
-//   questionType: string;
-//   details: any; //content
-// };
 export type PreSubmissionData = {
   //without id
   questionId: string; //BlockData->id
   questionType: string;
   details: any; //content
 };
-type BlockData = {
-  id: string; //if this Block represents a Question, this is the questionI
+export type BlockDataForQuestion = {
+  id: string; //if this Block represents a Question, this is the questionId
   type: string;
   data: any;
 };
-const createQuestionElement = (type: string, block: BlockData) => {
+const createQuestionElement = (type: string, block: BlockDataForQuestion) => {
   //data: any should be SubmissionData
   let render: React.FC<{ onSubmissionChange: (preData: PreSubmissionData) => void }>;
   switch (type) {
