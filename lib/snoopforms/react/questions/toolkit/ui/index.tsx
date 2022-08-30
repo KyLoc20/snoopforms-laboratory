@@ -4,4 +4,5 @@ import QuestionInput from "./QuestionInput";
 import QuestionTitle from "./QuestionTitle";
 import Select from "./Select";
 import Switch from "./Switch";
-export { Button, Divider, QuestionInput, QuestionTitle, Select, Switch };
+import Mark from "./Mark";
+export { Button, Divider, QuestionInput, QuestionTitle, Select, Switch, Mark };

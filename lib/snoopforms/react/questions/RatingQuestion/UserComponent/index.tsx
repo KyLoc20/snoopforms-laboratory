@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Rating from "../common/Rating";
-import Mark from "../common/Mark";
-import { QuestionTitle } from "../../toolkit/ui";
+import { QuestionTitle, Mark } from "../../toolkit/ui";
 import useInputValidator from "../../toolkit/base/validate";
 import { RatingQuestionConfigData, RatingQuestionSubmissionData } from "../types";
 

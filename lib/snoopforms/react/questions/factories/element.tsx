@@ -1,5 +1,7 @@
 import { PropsWithChildren } from "react";
 import RatingQuestion, { RatingQuestionSubmissionData } from "@/lib/snoopforms/react/questions/RatingQuestion";
+import TextQuestion, { TextQuestionSubmissionData } from "@/lib/snoopforms/react/questions/TextQuestion";
+
 export { createQuestionElement };
 export type PreSubmissionData = {
   //without id
@@ -38,6 +40,22 @@ const createQuestionElement = (type: string, block: BlockDataForQuestion) => {
             }}
             initialData={{
               ratings: 0,
+            }}
+            onSubmissionChange={(data) => onSubmissionChange({ details: data, questionId: block.id, questionType: "ratingQuestion" })}
+          />
+        );
+      };
+      break;
+    case "textQuestion":
+      render = function _({ onSubmissionChange }) {
+        return (
+          <TextQuestion
+            config={{
+              title: block.data._component?.title,
+              isRequired: block.data._component?.isRequired,
+            }}
+            initialData={{
+              content: "",
             }}
             onSubmissionChange={(data) => onSubmissionChange({ details: data, questionId: block.id, questionType: "ratingQuestion" })}
           />

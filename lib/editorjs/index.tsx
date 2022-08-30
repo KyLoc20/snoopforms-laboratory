@@ -8,6 +8,7 @@ import DragDrop from "editorjs-drag-drop";
 import Undo from "editorjs-undo";
 import { Fragment, MutableRefObject, useCallback, useEffect } from "react";
 import { RatingBlockTool } from "@/lib/snoopforms/react/questions/RatingQuestion";
+import { TextBlockTool } from "@/lib/snoopforms/react/questions/TextQuestion";
 import { useNoCodeForm, persistNoCodeForm } from "@/lib/noCodeForm";
 // import { toast } from "react-toastify";
 // import Loading from "../Loading";
@@ -87,7 +88,7 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
       autofocus: autofocus,
       defaultBlock: "paragraph",
       tools: {
-        // textQuestion: TextQuestion,
+        textQuestion: TextBlockTool,
         ratingQuestion: RatingBlockTool,
         header: {
           class: Header as unknown as ToolConstructable,

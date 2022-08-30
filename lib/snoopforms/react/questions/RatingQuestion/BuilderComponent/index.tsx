@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Rating from "../common/Rating";
-import Mark from "../common/Mark";
+import Mark from "../../toolkit/ui/Mark";
 import { Select, Switch, QuestionInput, Divider } from "../../toolkit/ui";
 import { RatingQuestionConfigData, AvailableIcon } from "../types";
 interface RatingQuestionProps {
