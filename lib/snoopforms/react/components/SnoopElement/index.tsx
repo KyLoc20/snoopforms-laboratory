@@ -14,34 +14,20 @@ import { SubmissionContext } from "../SnoopForm";
 import { PageContext } from "../SnoopPage";
 import { createQuestionElement, PreSubmissionData } from "../../questions";
 import { generateId } from "@/lib/utils";
-interface Option {
-  label: string;
-  value: string;
-}
-interface QuestionElementProps {
+export interface SnoopElementProps {
+  type: string; //questionType
+  classNames?: ClassNames; //to customize the styles of its UI parts
   id?: string; //questionId, should be a must for a Question
   config?: any;
 }
-export interface SnoopElementProps extends QuestionElementProps {
-  type: string; //questionType
-  name: string; //unsure
-  label?: string; //unsure
-  icon?: React.ReactNode; //unsure
-  placeholder?: string; //unsure
-  classNames?: ClassNames; //to customize the styles of its UI parts
-  required?: boolean; //unsure
-  options?: Option[] | string[]; //unsure
-  rows?: number; //unsure
-  text?: string; //for Text Element like paragraph
-}
 
 export function SnoopElement(props: SnoopElementProps) {
-  const { type, text, name, label = undefined, icon, placeholder, classNames = {}, required = false, options, rows } = props;
+  const { type, classNames = {} } = props;
   const { id, config } = props;
   const pageName = useContext(PageContext);
   const { update } = useContext(SubmissionContext);
   const questionId = id ?? generateId(10);
-  const Question = createQuestionElement(type, generateBlockData(questionId, type, config, text));
+  const Question = createQuestionElement(type, generateBlockData(questionId, type, config));
   const handleUpdateOneSubmission = (preData: PreSubmissionData) => {
     console.log("From SnoopElement handleUpdateSubmission: ", preData);
     update(pageName, [preData]);
@@ -52,11 +38,10 @@ export function SnoopElement(props: SnoopElementProps) {
     </div>
   );
 }
-const generateBlockData = (id: string, type: string, config: any, text?: string) => ({
+const generateBlockData = (id: string, type: string, config: any) => ({
   id,
   type,
   data: {
-    text,
     _component: config,
   },
 });

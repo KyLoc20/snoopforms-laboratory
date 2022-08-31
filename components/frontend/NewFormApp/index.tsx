@@ -38,7 +38,12 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
           {pages.map((page, _) => (
             <SnoopPage name={page.id} key={page.id}>
               {page.blocks.map((block, i) => (
-                <SnoopElement key={i} type={block.type} name="" text={block.data?.text} id={block.id} config={block.data?._component} />
+                <SnoopElement
+                  key={block.id ?? i}
+                  type={block.type}
+                  id={block.id}
+                  config={["paragraph", "header"].includes(block.type) ? block.data : block.data?._component}
+                />
               ))}
             </SnoopPage>
           ))}

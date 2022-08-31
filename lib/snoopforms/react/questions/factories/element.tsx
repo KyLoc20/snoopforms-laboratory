@@ -21,12 +21,15 @@ const createQuestionElement = (type: string, block: BlockDataForQuestion) => {
   switch (type) {
     case "paragraph":
       render = function _({ onSubmissionChange }) {
-        return <p className="ce-paragraph">{block.data.text}</p>;
+        const text = block.data.text ?? block.data._component?.text;
+        return <p className="ce-paragraph">{text}</p>;
       };
       break;
     case "header":
       render = function _({ onSubmissionChange }) {
-        return <SnoopElementHeading level={block.data.level as number}>{block.data.text}</SnoopElementHeading>;
+        const level = (block.data.level ?? block.data._component?.level) as number;
+        const text = block.data.text ?? block.data._component?.text;
+        return <SnoopElementHeading level={level}>{text}</SnoopElementHeading>;
       };
       break;
     case "ratingQuestion":

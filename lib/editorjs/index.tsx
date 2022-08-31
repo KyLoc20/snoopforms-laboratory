@@ -82,6 +82,7 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
         console.log("-> SnoopFormsEditor got some updates:", content);
         //todo diff
         const newNoCodeForm = JSON.parse(JSON.stringify(noCodeForm));
+        //todo parse content.blocks(EditorJS's Block type) to BlockData(Snoopforms' Block type)
         newNoCodeForm.blocksDraft = content.blocks;
         await persistNoCodeForm(newNoCodeForm);
         mutateNoCodeForm(newNoCodeForm);
@@ -123,3 +124,4 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
     </Fragment>
   );
 }
+function parse() {}
