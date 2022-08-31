@@ -55,5 +55,6 @@ export default class TextQuestion implements BlockTool {
 }
 const DEFAULT_DATA: TextQuestionConfigData = {
   title: "",
+  placeholder: "",
   isRequired: false,
 };

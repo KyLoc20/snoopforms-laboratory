@@ -7,9 +7,11 @@ import DragDrop from "editorjs-drag-drop";
 // @ts-ignore
 import Undo from "editorjs-undo";
 import { Fragment, MutableRefObject, useCallback, useEffect } from "react";
-import { RatingBlockTool } from "@/lib/snoopforms/react/questions/RatingQuestion";
-import { TextBlockTool } from "@/lib/snoopforms/react/questions/TextQuestion";
+import { RatingQuestionBlockTool } from "@/lib/snoopforms/react/questions/RatingQuestion";
+import { TextQuestionBlockTool } from "@/lib/snoopforms/react/questions/TextQuestion";
+import { PageTransitionBlockTool } from "@/lib/snoopforms/react/questions/PageTransition";
 import { useNoCodeForm, persistNoCodeForm } from "@/lib/noCodeForm";
+
 // import { toast } from "react-toastify";
 // import Loading from "../Loading";
 // import EmailQuestion from "./tools/EmailQuestion";
@@ -88,8 +90,9 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
       autofocus: autofocus,
       defaultBlock: "paragraph",
       tools: {
-        textQuestion: TextBlockTool,
-        ratingQuestion: RatingBlockTool,
+        textQuestion: TextQuestionBlockTool,
+        ratingQuestion: RatingQuestionBlockTool,
+        pageTransition: PageTransitionBlockTool,
         header: {
           class: Header as unknown as ToolConstructable,
           config: {

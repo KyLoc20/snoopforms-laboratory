@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
-import RatingQuestion, { RatingQuestionSubmissionData } from "@/lib/snoopforms/react/questions/RatingQuestion";
-import TextQuestion, { TextQuestionSubmissionData } from "@/lib/snoopforms/react/questions/TextQuestion";
-
+import RatingQuestion, { RatingQuestionSubmissionData } from "../RatingQuestion";
+import TextQuestion, { TextQuestionSubmissionData } from "../TextQuestion";
+import PageTransition from "../PageTransition";
 export { createQuestionElement };
 export type PreSubmissionData = {
   //without id
@@ -52,12 +52,24 @@ const createQuestionElement = (type: string, block: BlockDataForQuestion) => {
           <TextQuestion
             config={{
               title: block.data._component?.title,
+              placeholder: block.data._component?.placeholder,
               isRequired: block.data._component?.isRequired,
             }}
             initialData={{
               content: "",
             }}
             onSubmissionChange={(data) => onSubmissionChange({ details: data, questionId: block.id, questionType: "ratingQuestion" })}
+          />
+        );
+      };
+      break;
+    case "pageTransition":
+      render = function _({ onSubmissionChange }) {
+        return (
+          <PageTransition
+            config={{
+              submitLabel: block.data._component?.submitLabel,
+            }}
           />
         );
       };

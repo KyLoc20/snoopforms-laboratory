@@ -19,12 +19,10 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
 
   const canSubmit = isRequired ? value > 0 : true;
   const { Validator, shouldShowReminder, hideReminder } = useInputValidator(canSubmit);
-
   useEffect(() => {
-    if (value === 0 && isRequired) {
-      //no submission received
-    } else {
-      if (shouldShowReminder) hideReminder();
+    if (shouldShowReminder && canSubmit) {
+      //shouldShowReminder === true means that it can not submit BEFORE, canSubmit === means that it can NOW
+      hideReminder();
     }
     //should init
     onSubmissionChange({ ratings: value });

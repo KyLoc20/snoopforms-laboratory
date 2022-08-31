@@ -1,12 +1,12 @@
 import { default as TextQuestionBuilder } from "./BuilderComponent";
 import { default as TextQuestion } from "./UserComponent";
-import { default as TextBlockTool } from "./BlockTool";
+import { default as TextQuestionBlockTool } from "./BlockTool";
 // import {
 //   ResponseDisplay as TextQuestionResponseDisplay,
 //   SummaryDisplay as TextQuestionSummaryDisplay,
 //   SummaryAnalyzer as TextQuestionSummaryAnalyzer,
 // } from "./Submission";
 import { TextQuestionConfigData, TextQuestionSubmissionData } from "./types";
-export { TextQuestionBuilder, TextBlockTool };
+export { TextQuestionBuilder, TextQuestionBlockTool };
 export type { TextQuestionSubmissionData, TextQuestionConfigData };
 export default TextQuestion;
