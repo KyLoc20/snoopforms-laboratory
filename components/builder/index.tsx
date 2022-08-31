@@ -47,6 +47,7 @@ function AddPageButton({ onClick }: { onClick: () => void }) {
         bottom: "24px",
         boxShadow: "rgba(245,59,87,0.3) 0px 4px 20px 0px",
         transition: "all .2s cubic-bezier(.4,.2,0,1)",
+        zIndex: 1000,
       }}
     >
       <svg width={20} height={20} viewBox="0 0 20 20" fill="currentColor">
