@@ -7,19 +7,49 @@ const sharedMockData: NoCodeFormData = {
   formId: "thisisatest-form",
   blocks: [],
   blocksDraft: [
-    { id: "1", type: "header", data: { text: "Form for Testing", level: 1 } },
-    { id: "2", type: "header", data: { text: "Welcome to Snoopforms Lab", level: 2 } },
+    { id: "1-1", type: "header", data: { text: "Form for Testing", level: 1 } },
+    { id: "1-2", type: "header", data: { text: "Welcome to Snoopforms Lab", level: 2 } },
     {
-      id: "3",
+      id: "1-3",
       type: "ratingQuestion",
-      data: { _component: { num: 5, icon: "stars", isRequired: true, title: "RatingQuestion1 How do you like this stuff?" } },
+      data: { _component: { num: 5, icon: "stars", isRequired: true, title: "RatingQuestion1-1 How do you like this stuff?" } },
     },
     {
-      id: "4",
+      id: "1-4",
       type: "ratingQuestion",
-      data: { _component: { num: 10, icon: "hearts", isRequired: false, title: "RatingQuestion2 How do you like that stuff?" } },
+      data: { _component: { num: 10, icon: "hearts", isRequired: false, title: "RatingQuestion1-2 How do you like that stuff?" } },
     },
-    { id: "5", type: "paragraph", data: { text: "Thanks a lot for your time and insights 🙏" } },
+    {
+      id: "1-5",
+      type: "pageTransition",
+      data: { _component: { submitLabel: "Submit" } },
+    },
+    {
+      id: "2-1",
+      type: "ratingQuestion",
+      data: { _component: { num: 3, icon: "stars", isRequired: true, title: "RatingQuestion2-1 How do you like that stuff?" } },
+    },
+    {
+      id: "2-2",
+      type: "ratingQuestion",
+      data: { _component: { num: 7, icon: "hearts", isRequired: false, title: "RatingQuestion2-2 How do you like that stuff?" } },
+    },
+    {
+      id: "2-3",
+      type: "textQuestion",
+      data: { _component: { placeholder: "Type Your Answer Here", title: "TextQuestion2-3 What's your name?", isRequired: true } },
+    },
+    {
+      id: "2-4",
+      type: "pageTransition",
+      data: { _component: { submitLabel: "Go Next" } },
+    },
+    {
+      id: "3-1",
+      type: "textQuestion",
+      data: { _component: { placeholder: "Type Your Answer Here", title: "TextQuestion3-1 May I know your age?", isRequired: true } },
+    },
+    { id: "3-2", type: "paragraph", data: { text: "Thanks a lot for your time and insights 🙏" } },
   ],
 };
 

@@ -5,9 +5,9 @@ export default function YourFirstForm() {
   return (
     <SnoopForm domain="app.snoopforms.com" protocol="http" formId="abcd">
       <SnoopPage name="Page 1">
-        <SnoopElement type="ratingQuestion" name="q1" />
-        <SnoopElement type="ratingQuestion" name="q2" />
-        <SnoopElement type="ratingQuestion" name="q3" />
+        <SnoopElement type="ratingQuestion" />
+        <SnoopElement type="ratingQuestion" />
+        <SnoopElement type="ratingQuestion" />
         {/* <SnoopElement type="ratingQuestion" name="q1" />
         <SnoopElement name="submit" type="submit" label="Submit" /> */}
       </SnoopPage>
