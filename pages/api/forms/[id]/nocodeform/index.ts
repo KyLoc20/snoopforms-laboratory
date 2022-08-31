@@ -52,7 +52,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     sharedMockData.formId = payloadData.formId;
     sharedMockData.blocks = payloadData.blocks;
     sharedMockData.blocksDraft = payloadData.blocksDraft;
-    // console.log("POST /api/forms/:id/nocodeform", sharedMockData.blocksDraft[1].data);
+    console.log("POST /api/forms/:id/nocodeform", sharedMockData.blocksDraft);
     return res.status(200).json({ isOk: true });
   }
   // Unknown HTTP Method

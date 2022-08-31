@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Select, Switch, QuestionInput, Divider, Button } from "../../toolkit/ui";
 import { PageTransitionConfigData } from "../types";
 import ButtonLikeTextField from "../common/ButtonLikeTextField";
 import DividingLine from "../common/DividingLine";
@@ -15,7 +14,7 @@ export default function BuilderComponent({ onDataChange, initialData }: PageTran
   return (
     <div className="page-transition-container" style={{ position: "relative", marginTop: "64px" }}>
       <div style={{ position: "absolute", top: "-48px", left: 0 }}>
-        <Button variant="contained">{submitLabel}</Button>
+        <ButtonLikeTextField defaultValue={"Submit"} onChange={(v) => setSubmitLabel(v)} />
       </div>
       <DividingLine></DividingLine>
     </div>

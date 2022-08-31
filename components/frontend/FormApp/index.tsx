@@ -19,8 +19,9 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
       id: formId, // give the first page the formId as id by default
       blocks: [],
     };
+    //todo
     for (const block of blocks) {
-      if (block.type !== "pageTransition") {
+      if (block.type !== "pageTransition" || true) {
         currentPage.blocks.push(block);
       } else {
         currentPage.blocks.push({
