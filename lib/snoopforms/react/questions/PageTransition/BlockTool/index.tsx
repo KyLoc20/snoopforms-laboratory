@@ -7,12 +7,11 @@ interface PageTransitionData extends BlockToolData {
   placeholder: string;
   required: boolean;
 }
-//extends RatingComponentConfigData
 interface PageTransitionData {
   questionId?: string; //not for PageTransition
   _component: PageTransitionConfigData;
 }
-export default class RatingQuestion implements BlockTool {
+export default class PageTransition implements BlockTool {
   rootNode: undefined | HTMLElement;
   api: API;
   data: PageTransitionData;

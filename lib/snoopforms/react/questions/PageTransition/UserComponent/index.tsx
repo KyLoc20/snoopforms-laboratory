@@ -15,7 +15,6 @@ export default function UserComponent({ config }: PageTransitionProps) {
         <Button variant="contained" submittable>
           {submitLabel}
         </Button>
-        <DividingLine></DividingLine>
       </div>
     </div>
   );

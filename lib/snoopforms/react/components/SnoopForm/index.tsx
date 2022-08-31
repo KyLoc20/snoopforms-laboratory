@@ -74,9 +74,13 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
   const { domain = "app.snoopforms.com", formId, protocol = "https", localOnly = false, className = "", onSubmit = (): any => {}, children } = props;
   const [schema, setSchema] = useState<any>({ pages: [] });
 
-  const nextPage = () => setCurrentPageIdx((prev) => prev + 1);
   const [currentPageIdx, setCurrentPageIdx] = useState(0); //CurrentPageContext
-
+  const nextPage = () => {
+    //check whether it is the last Page
+    if (currentPageIdx >= pages.length - 1) {
+      alert("Congratulations!");
+    } else setCurrentPageIdx((prev) => prev + 1);
+  };
   /**
    * page register
    */

@@ -32,15 +32,16 @@ export interface SnoopElementProps extends QuestionElementProps {
   required?: boolean; //unsure
   options?: Option[] | string[]; //unsure
   rows?: number; //unsure
+  text?: string; //for Text Element like paragraph
 }
 
 export function SnoopElement(props: SnoopElementProps) {
-  const { type, name, label = undefined, icon, placeholder, classNames = {}, required = false, options, rows } = props;
+  const { type, text, name, label = undefined, icon, placeholder, classNames = {}, required = false, options, rows } = props;
   const { id, config } = props;
   const pageName = useContext(PageContext);
   const { update } = useContext(SubmissionContext);
   const questionId = id ?? generateId(10);
-  const Question = createQuestionElement(type, generateBlockData(questionId, type, config));
+  const Question = createQuestionElement(type, generateBlockData(questionId, type, config, text));
   const handleUpdateOneSubmission = (preData: PreSubmissionData) => {
     console.log("From SnoopElement handleUpdateSubmission: ", preData);
     update(pageName, [preData]);
@@ -51,10 +52,11 @@ export function SnoopElement(props: SnoopElementProps) {
     </div>
   );
 }
-const generateBlockData = (id: string, type: string, config: any) => ({
+const generateBlockData = (id: string, type: string, config: any, text?: string) => ({
   id,
   type,
   data: {
+    text,
     _component: config,
   },
 });

@@ -93,14 +93,6 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
         textQuestion: TextQuestionBlockTool,
         ratingQuestion: RatingQuestionBlockTool,
         pageTransition: PageTransitionBlockTool,
-        header: {
-          class: Header as unknown as ToolConstructable,
-          config: {
-            placeholder: "Enter a header",
-            levels: [1, 2, 3],
-            defaultLevel: 1,
-          },
-        },
         // emailQuestion: EmailQuestion,
         // multipleChoiceQuestion: MultipleChoiceQuestion,
         // numberQuestion: NumberQuestion,
@@ -112,6 +104,14 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
           inlineToolbar: true,
           config: {
             placeholder: "Start with your content or hit tab-key to insert block",
+          },
+        },
+        header: {
+          class: Header as unknown as ToolConstructable,
+          config: {
+            placeholder: "Enter a header",
+            levels: [1, 2, 3],
+            defaultLevel: 1,
           },
         },
       },

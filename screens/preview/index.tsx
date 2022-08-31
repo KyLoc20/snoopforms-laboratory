@@ -2,7 +2,7 @@ import { PropsWithChildren, useState } from "react";
 import { NavBar } from "@/components/layout/Navigation";
 import Container from "@/components/layout/Container";
 import { useNoCodeForm } from "@/lib/noCodeForm";
-import FormApp from "@/components/frontend/FormApp";
+import FormApp from "@/components/frontend/NewFormApp";
 export default function PreviewScreen() {
   const { noCodeForm, isLoadingNoCodeForm } = useNoCodeForm("thisisatest-form");
   const isReady = !isLoadingNoCodeForm;

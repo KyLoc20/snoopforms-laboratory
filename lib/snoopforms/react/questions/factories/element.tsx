@@ -15,6 +15,7 @@ export type BlockDataForQuestion = {
   data: any;
 };
 const createQuestionElement = (type: string, block: BlockDataForQuestion) => {
+  console.log("createQuestionElement", type, block);
   //data: any should be SubmissionData
   let render: React.FC<{ onSubmissionChange: (preData: PreSubmissionData) => void }>;
   switch (type) {

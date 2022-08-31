@@ -47,7 +47,7 @@ export function SnoopPage(props: PropsWithChildren<SnoopPageProps>) {
     return (
       <PageContext.Provider value={pageName}>
         <form
-          className={classNamesConcat("snoopform", currentPageIdx === findPage(pageName) ? "block" : "hidden", "space-y-6", className)}
+          className={classNamesConcat("snoopform-page", currentPageIdx === findPage(pageName) ? "block" : "hidden", "space-y-6", className)}
           onSubmit={handleSubmit}
         >
           {children}

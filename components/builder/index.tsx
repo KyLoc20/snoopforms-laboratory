@@ -8,9 +8,9 @@ export default function Builder({}) {
   const refEditor = useRef<EditorJS | null>(null);
   const handleAddPage = () => {
     if (refEditor.current) {
-      // refEditor.current.blocks.insert("pageTransition", {
-      //   submitLabel: "Submit",
-      // });
+      refEditor.current.blocks.insert("pageTransition", {
+        submitLabel: "Submit",
+      });
       const block = refEditor.current.blocks.insert("paragraph");
       refEditor.current.caret.setToBlock(refEditor.current.blocks.getBlockIndex(block.id));
     }
