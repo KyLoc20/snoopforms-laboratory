@@ -12,7 +12,7 @@ interface TextQuestionProps {
   onSubmissionChange: (data: TextQuestionSubmissionData) => void;
 }
 export default function UserComponent({ config, initialData, onSubmissionChange }: TextQuestionProps) {
-  const { title, isRequired } = config;
+  const { title, placeholder, isRequired } = config;
   const [value, setValue] = useState<string>(initialData.content);
 
   const canSubmit = isRequired ? Boolean(value) : true;
@@ -40,7 +40,7 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
         {shouldShowReminder ? "No Empty!" : ""}
       </div>
       <div style={{ marginTop: "8px" }}>
-        <TextField onChange={handleContentChange} />
+        <TextField onChange={handleContentChange} placeholder={placeholder} />
       </div>
     </div>
   );

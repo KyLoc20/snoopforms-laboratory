@@ -12,7 +12,7 @@ const sharedMockData: NoCodeFormData = {
     {
       id: "1-3",
       type: "ratingQuestion",
-      data: { _component: { num: 5, icon: "stars", isRequired: true, title: "RatingQuestion1-1 How do you like this stuff?" } },
+      data: { _component: { num: 5, icon: "stars", isRequired: false, title: "RatingQuestion1-1 How do you like this stuff?" } },
     },
     {
       id: "1-4",
@@ -21,6 +21,11 @@ const sharedMockData: NoCodeFormData = {
     },
     {
       id: "1-5",
+      type: "textQuestion",
+      data: { _component: { placeholder: "Type Your Answer Here", title: "TextQuestion1-3 Where are you from?", isRequired: false } },
+    },
+    {
+      id: "1-6",
       type: "pageTransition",
       data: { _component: { submitLabel: "Submit" } },
     },
