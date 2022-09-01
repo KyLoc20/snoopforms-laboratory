@@ -53,7 +53,6 @@ export default class RatingQuestion implements BlockTool {
     this.rootNode.classList.add("block-root");
     const handleDataChange = (data: RatingQuestionConfigData) => {
       this.data._component = data;
-      console.log("RatingQuestion handleDataChange", data, this.data);
     };
     ReactDOM.render(<BuilderComponent onDataChange={handleDataChange} initialData={this.data._component} />, this.rootNode);
     return this.rootNode;

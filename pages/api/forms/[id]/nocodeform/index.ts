@@ -59,7 +59,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const formName = payloadData.formId;
     const formSchema = payloadData.blocksDraft;
     const result = await upsertOneForm(formId, formName, formSchema);
-    console.log("POST /api/forms/:id/nocodeform", formSchema);
     return res.status(200).json({ isOk: true, result });
   }
   // Unknown HTTP Method

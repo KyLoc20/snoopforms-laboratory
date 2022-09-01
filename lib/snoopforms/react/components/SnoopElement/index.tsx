@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect } from "react";
+import React, { FC, useContext, useEffect, useMemo } from "react";
 // import { getOptionsSchema } from '../../lib/elements';
 import { ClassNames } from "../../types";
 // import { Checkbox } from '../Elements/Checkbox';
@@ -27,7 +27,7 @@ export function SnoopElement(props: SnoopElementProps) {
   const pageName = useContext(PageContext);
   const { update } = useContext(SubmissionContext);
   const questionId = id ?? generateId(10);
-  const Question = createQuestionElement(type, generateBlockData(questionId, type, config));
+  const Question = useMemo(() => createQuestionElement(type, generateBlockData(questionId, type, config)), [questionId]);
   const handleUpdateOneSubmission = (preData: PreSubmissionData) => {
     update(pageName, [preData]);
   };

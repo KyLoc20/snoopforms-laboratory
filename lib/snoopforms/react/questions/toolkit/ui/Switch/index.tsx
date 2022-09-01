@@ -16,7 +16,6 @@ export default function Switch({ defaultValue, onChange, label }: { onChange: (v
     if (firstTimeRender.current) {
       firstTimeRender.current = false;
     } else {
-      console.log("Switch Update", isChecked);
       onChange(isChecked);
     }
   }, [isChecked]);

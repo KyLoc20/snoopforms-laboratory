@@ -121,7 +121,6 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
     }
     // console.log("updateSubmissions FINISHED", refAllSubmissions.current);
   };
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = (pageName: string) => {
     if (refAllSubmissions.current !== null) {

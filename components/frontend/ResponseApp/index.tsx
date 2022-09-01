@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/solid";
 // import { getEventName } from "@/lib/events";
-
 import { useSubmissionSessions } from "@/lib/submissionSession";
 import { SubmissionSessionData } from "@/lib/types";
 import { convertDateTimeString, convertTimeString } from "@/lib/utils";

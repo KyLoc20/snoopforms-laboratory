@@ -50,7 +50,7 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
       holder: id,
       data: { blocks: noCodeForm.blocksDraft },
       onReady: () => {
-        console.log("Editor.js is ready to work!", editor.blocks.getBlocksCount());
+        // console.log("Editor.js is ready to work!", editor.blocks.getBlocksCount());
         editorRef.current = editor;
         new DragDrop(editor);
         new Undo({ editor });
@@ -79,7 +79,7 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
       onChange: async (api, event) => {
         //this will trigger when DOM including className changes
         let content = await editor.saver.save();
-        console.log("-> SnoopFormsEditor got some updates:", content);
+        // console.log("-> SnoopFormsEditor got some updates:", content);
         //todo diff
         const newNoCodeForm = JSON.parse(JSON.stringify(noCodeForm));
         //todo parse content.blocks(EditorJS's Block type) to BlockData(Snoopforms' Block type)

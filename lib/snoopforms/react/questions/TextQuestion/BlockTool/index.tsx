@@ -47,7 +47,6 @@ export default class TextQuestion implements BlockTool {
     this.rootNode.classList.add("block-root");
     const handleDataChange = (data: TextQuestionConfigData) => {
       this.data._component = data;
-      console.log("TextQuestion handleDataChange", data, this.data);
     };
     ReactDOM.render(<BuilderComponent onDataChange={handleDataChange} initialData={this.data._component} />, this.rootNode);
     return this.rootNode;
