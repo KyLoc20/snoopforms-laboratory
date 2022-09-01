@@ -29,7 +29,6 @@ export function SnoopElement(props: SnoopElementProps) {
   const questionId = id ?? generateId(10);
   const Question = createQuestionElement(type, generateBlockData(questionId, type, config));
   const handleUpdateOneSubmission = (preData: PreSubmissionData) => {
-    console.log("From SnoopElement handleUpdateSubmission: ", preData);
     update(pageName, [preData]);
   };
   return (

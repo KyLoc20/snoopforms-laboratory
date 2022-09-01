@@ -22,7 +22,6 @@ export function SnoopPage(props: PropsWithChildren<SnoopPageProps>) {
   const [initializing, setInitializing] = useState(true);
   const { currentPageIdx } = useContext(CurrentPageContext);
   const { pages: registeredPages, register, hasPage, findPage } = useContext(RegistryContext);
-  console.log("RENDER SnoopPage", initializing);
 
   //register this Page
   useEffect(() => {

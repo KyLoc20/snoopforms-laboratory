@@ -2,8 +2,9 @@ import FingerprintJS, { Agent } from "@fingerprintjs/fingerprintjs";
 import React, { createContext, FC, ReactNode, useEffect, useState, useRef, PropsWithChildren } from "react";
 import { classNamesConcat } from "../../lib/utils";
 import { PreSubmissionData } from "../../questions";
-import { BlockData } from "@/lib/types";
+import { SubmissionData, SubmissionSessionData } from "../../types";
 import FullScreenLoading from "@/components/layout/FullScreenLoading";
+import { generateId } from "@/lib/utils";
 /**
  * handle the layout and content of Page
  */
@@ -71,13 +72,18 @@ interface SnoopFormProps {
 }
 
 export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
-  const { domain = "app.snoopforms.com", formId, protocol = "https", localOnly = false, className = "", onSubmit = (): any => {}, children } = props;
+  const { domain = "app.snoopforms.com", protocol = "https", localOnly = false, className = "", onSubmit = (): any => {}, children } = props;
+  const formId = props.formId ?? "";
   const [schema, setSchema] = useState<any>({ pages: [] });
+  const [hasDone, setHasDone] = useState(false);
+  const refSessionId = useRef(generateId(10));
 
   const [currentPageIdx, setCurrentPageIdx] = useState(0); //CurrentPageContext
   const nextPage = () => {
     //check whether it is the last Page
     if (currentPageIdx >= pages.length - 1) {
+      setHasDone(true);
+      refSessionId.current = generateId(10);
       alert("Congratulations!");
     } else setCurrentPageIdx((prev) => prev + 1);
   };
@@ -96,42 +102,43 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
    * They are stored here being ready to be Submitted anytime
    * All PreSubmissions are stored UNORDERED in one List, the pagination is locally transparent to them
    */
-  const refAllPreSubmissions = useRef<PreSubmissionData[] | null>(null); //SubmissionContext
+  const refAllSubmissions = useRef<SubmissionData[] | null>(null); //SubmissionContext
   /**
    * update whenever changes happen in the SnoopElements
    * @param pageName
    * @param payload
    */
-  const updatePreSubmissions = (pageName: string, payload: PreSubmissionData[]) => {
-    console.log("updatePreSubmissions STARTED", pageName, payload);
-    const prev = refAllPreSubmissions.current;
+  const updateSubmissions = (pageName: string, payload: PreSubmissionData[]) => {
+    // console.log("updatePreSubmissions STARTED", pageName, payload);
+    const prev = refAllSubmissions.current;
     if (prev !== null) {
       const updatingIds = payload.map((o) => o.questionId);
-      refAllPreSubmissions.current = [...prev.filter((o) => !updatingIds.includes(o.questionId)), ...payload];
+      const updatingSubmissions = payload.map((preSubmission) => ({ ...preSubmission, id: generateId(10) }));
+      refAllSubmissions.current = [...prev.filter((o) => !updatingIds.includes(o.questionId)), ...updatingSubmissions];
     } else {
       //init passively
-      refAllPreSubmissions.current = [...payload];
+      refAllSubmissions.current = payload.map((preSubmission) => ({ ...preSubmission, id: generateId(10) }));
     }
-    console.log("updatePreSubmissions FINISHED", refAllPreSubmissions.current);
+    // console.log("updateSubmissions FINISHED", refAllSubmissions.current);
   };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = (pageName: string) => {
-    if (refAllPreSubmissions.current !== null) {
-      //todo PreSubmissions -> Submissions
+    if (refAllSubmissions.current !== null) {
       //todo update the whole SubmissioSession
-      console.log(`From Page ${pageName} onSubmit submissionsOfPage: `, refAllPreSubmissions.current);
+      console.log(`Session ${refSessionId.current} of Page ${pageName} handleSubmit:`, refAllSubmissions.current);
       setIsSubmitting(true);
-      setTimeout(() => {
-        //when finished
-        setIsSubmitting(false);
-        nextPage();
-      }, 3000);
+      persistOneSubmissionSession(formId, { formId, id: refSessionId.current, createdAt: "", updatedAt: "", submissions: refAllSubmissions.current }).then(
+        (res) => {
+          setIsSubmitting(false);
+          nextPage();
+        }
+      );
     }
   };
   return (
     <SchemaContext.Provider value={{ schema, setSchema }}>
-      <SubmissionContext.Provider value={{ update: updatePreSubmissions }}>
+      <SubmissionContext.Provider value={{ update: updateSubmissions }}>
         <RegistryContext.Provider value={{ pages: pages, register: addPage, hasPage, findPage }}>
           <CurrentPageContext.Provider value={{ currentPageIdx }}>
             <SubmitHandlerContext.Provider value={handleSubmit}>
@@ -146,3 +153,11 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
     </SchemaContext.Provider>
   );
 }
+
+const persistOneSubmissionSession = (formId: string, payload: SubmissionSessionData) => {
+  return fetch(`/api/forms/${formId}/submissionSessions`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+};

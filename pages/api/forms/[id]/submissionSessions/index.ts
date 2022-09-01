@@ -1,9 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { generateId } from "@/lib/utils";
 import { SubmissionSessionData, SubmissionData } from "@/lib/types";
+import { prisma } from "@/lib/prisma";
 const getAllSubmissionSessionsOfOneForm = (formId: string) => sharedMockData;
-const addOneSubmissionSession = (formId: string, payload: SubmissionSessionData) => {
-  sharedMockData.sessions.push(payload);
+const upsertOneSubmissionSession = (formId: string, payload: SubmissionSessionData) => {
+  const { id, submissions } = payload;
+  return prisma.submissionSession.upsert({
+    where: { id: payload.id },
+    update: {
+      submissions,
+    },
+    create: {
+      id,
+      formId,
+      submissions,
+    },
+  });
 };
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const formId = req.query.id?.toString();
@@ -17,11 +29,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   } else if (req.method === "POST") {
     const payloadData = req.body as SubmissionSessionData;
     //todo set createdAt updateAt here
-    payloadData.createdAt = new Date(Date.now()).toISOString();
-    payloadData.updatedAt = new Date(Date.now()).toISOString();
-    addOneSubmissionSession(formId, payloadData);
-    console.log("addOneSubmissionSession FINISHED", sharedMockData.sessions);
-    return res.status(200).json({ isOk: true });
+    // payloadData.createdAt = new Date(Date.now()).toISOString();
+    // payloadData.updatedAt = new Date(Date.now()).toISOString();
+    const result = await upsertOneSubmissionSession(formId, payloadData);
+    return res.status(200).json({ isOk: true, result });
   }
   // Unknown HTTP Method
   else {

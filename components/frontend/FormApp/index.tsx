@@ -32,7 +32,7 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
     console.log("RENDER FormApp", pages);
     return (
       <div className="w-full px-5 py-5">
-        <SnoopForm domain="app.snoopforms.com" protocol="http" formId="abcd">
+        <SnoopForm domain="app.snoopforms.com" protocol="http" formId="thisisatest-form">
           {pages.map((page, _) => (
             <SnoopPage name={page.id} key={page.id}>
               {page.blocks.map((block, i) => (

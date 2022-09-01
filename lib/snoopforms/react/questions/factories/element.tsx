@@ -15,7 +15,6 @@ export type BlockDataForQuestion = {
   data: any;
 };
 const createQuestionElement = (type: string, block: BlockDataForQuestion) => {
-  console.log("createQuestionElement", type, block);
   //data: any should be SubmissionData
   let render: React.FC<{ onSubmissionChange: (preData: PreSubmissionData) => void }>;
   switch (type) {
@@ -45,7 +44,7 @@ const createQuestionElement = (type: string, block: BlockDataForQuestion) => {
             initialData={{
               ratings: 0,
             }}
-            onSubmissionChange={(data) => onSubmissionChange({ details: data, questionId: block.id, questionType: "ratingQuestion" })}
+            onSubmissionChange={(data) => onSubmissionChange({ details: data, questionId: block.id, questionType: type })}
           />
         );
       };
@@ -62,7 +61,7 @@ const createQuestionElement = (type: string, block: BlockDataForQuestion) => {
             initialData={{
               content: "",
             }}
-            onSubmissionChange={(data) => onSubmissionChange({ details: data, questionId: block.id, questionType: "ratingQuestion" })}
+            onSubmissionChange={(data) => onSubmissionChange({ details: data, questionId: block.id, questionType: type })}
           />
         );
       };

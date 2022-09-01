@@ -13,14 +13,10 @@ export const useSubmissionSessions = (formId: string) => {
     mutateSubmissionSessions: mutate,
   };
 };
-export const persistOneSubmissionSession = async (formId: string, payload: SubmissionSessionData) => {
-  try {
-    await fetch(`/api/forms/${formId}/submissionSessions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-  } catch (error) {
-    console.error(error);
-  }
+export const persistOneSubmissionSession = (formId: string, payload: SubmissionSessionData) => {
+  return fetch(`/api/forms/${formId}/submissionSessions`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
 };
