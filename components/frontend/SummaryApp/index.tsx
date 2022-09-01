@@ -18,6 +18,7 @@ export default function SummaryApp({ formId }: { formId: string }) {
     </section>
   );
 }
+// function Overview({}: { uniqueUsers: number; sessions: number; lastSession: string }) {
 function Overview({}) {
   return (
     <>
@@ -38,7 +39,6 @@ function Overview({}) {
   );
 }
 
-createSummaryDisplay;
 function SummaryList({ list }: { list: QuestionSummary[] }) {
   console.log("RENDER SummaryList", list);
   return (

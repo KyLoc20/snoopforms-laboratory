@@ -1,4 +1,5 @@
-import { RatingQuestionSummaryDisplay, RatingQuestionSummaryAnalyzer } from "@/lib/snoopforms/react/questions/RatingQuestion";
+import { RatingQuestionSummaryDisplay, RatingQuestionSummaryAnalyzer } from "../RatingQuestion";
+import { TextQuestionSummaryDisplay, TextQuestionSummaryAnalyzer } from "../TextQuestion";
 export { createSummaryDisplay, createSummaryAnalyzer };
 export type { SummaryDisplayProps };
 /**
@@ -16,12 +17,17 @@ function createSummaryDisplay(type: string) {
   switch (type) {
     case "ratingQuestion":
       render = function _(props) {
-        return <RatingQuestionSummaryDisplay {...props}></RatingQuestionSummaryDisplay>;
+        return <RatingQuestionSummaryDisplay {...props} />;
+      };
+      break;
+    case "textQuestion":
+      render = function _(props) {
+        return <TextQuestionSummaryDisplay {...props} />;
       };
       break;
     default:
       render = function _(props) {
-        return <RatingQuestionSummaryDisplay {...props}></RatingQuestionSummaryDisplay>;
+        return <RatingQuestionSummaryDisplay {...props} />;
       };
       break;
   }
@@ -35,6 +41,10 @@ function createSummaryAnalyzer(type: string): (config: any, details: any[]) => a
       // { num: 10, icon: "hearts", isRequired: false, title: "How do you like this stuff?" }
       // [{ rating: 1 }, { rating: 2 }]
       analyzer = RatingQuestionSummaryAnalyzer;
+      break;
+    case "textQuestion":
+      // ["string1", "string2"]
+      analyzer = TextQuestionSummaryAnalyzer;
       break;
     default:
       analyzer = RatingQuestionSummaryAnalyzer;

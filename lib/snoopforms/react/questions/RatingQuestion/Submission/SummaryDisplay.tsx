@@ -25,7 +25,7 @@ export default function SummaryDisplay(props: SummaryDisplayProps) {
 
   return (
     <BaseSummaryDisplay questionTitle={questionTitle || questionId} questionType={questionType}>
-      <div className="flow-root px-8 my-4 mt-6 text-center">
+      <div className="flow-root px-8 my-4 mt-6 text-center" style={{ margin: "24px 0 16px", padding: "0 32px" }}>
         <Chart type="bar" data={data} options={options} height={75} />
       </div>
     </BaseSummaryDisplay>

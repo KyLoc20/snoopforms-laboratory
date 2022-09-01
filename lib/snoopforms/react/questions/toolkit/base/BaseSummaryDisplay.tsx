@@ -53,7 +53,7 @@ export const getElementTypeIcon = (type: string) => {
 
 export default function BaseSummaryDisplay({ questionTitle, questionType, children }: PropsWithChildren<{ questionTitle: string; questionType: string }>) {
   return (
-    <div className="my-8 overflow-hidden bg-white rounded-lg shadow">
+    <div className="my-8 overflow-hidden bg-white rounded-lg shadow" style={{ margin: "32px 0" }}>
       <div className="px-4 py-5 sm:p-6">
         <div className="flex items-center">
           <div className="flex-shrink-0">{getElementTypeIcon(questionType)}</div>
