@@ -2,22 +2,72 @@ import type { NextApiRequest, NextApiResponse } from "next";
 // import { getSession } from "next-auth/react";
 // import { formHasOwnership } from "../../../../../lib/api";
 // import { prisma } from "../../../../../lib/prisma";
+import { NoCodeFormData } from "@/lib/types";
 import { prisma } from "@/lib/prisma";
-// export function findPosts() {
-//   return prisma.post.findMany({
-//     where: {},
-//   });
-// }
-export function createOneForm(id: string, name: string, schema: any[]) {
-  return prisma.form.create({
-    data: {
+export function findOneForm(id: string) {
+  return prisma.form.findUnique({
+    where: {
+      id,
+    },
+  });
+}
+export function upsertOneForm(id: string, name: string, schema: any[]) {
+  return prisma.form.upsert({
+    where: { id },
+    update: {
+      name,
+      schema,
+    },
+    create: {
       id,
       name,
       schema,
     },
   });
 }
-import { NoCodeFormData } from "@/lib/types";
+
+export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+  // Check Authentication
+  //   const session = await getSession({ req: req });
+  //   if (!session) {
+  //     return res.status(401).json({ message: "Not authenticated" });
+  //   }
+
+  const formId = req.query.id?.toString();
+  if (formId === undefined) {
+    return res.status(400).json({ err: "formId Not Found" });
+  }
+
+  // Check Ownership
+  //   const ownership = await formHasOwnership(session, formId);
+  //   if (!ownership) {
+  //     return res.status(401).json({ message: "You are not authorized to access this noCodeForm" });
+  //   }
+
+  if (req.method === "GET") {
+    const data = await findOneForm(formId);
+    if (data) {
+      const nocodeFormData: NoCodeFormData = { formId: data.id, blocks: [], blocksDraft: JSON.parse(JSON.stringify(data.schema)) };
+      res.status(200).json(nocodeFormData);
+    } else {
+      //empty
+      res.status(204).json({ formId, blocks: [], blocksDraft: [] });
+    }
+  } else if (req.method === "POST") {
+    const payloadData = req.body as NoCodeFormData;
+    const formId = payloadData.formId;
+    const formName = payloadData.formId;
+    const formSchema = payloadData.blocksDraft;
+    const result = await upsertOneForm(formId, formName, formSchema);
+    console.log("POST /api/forms/:id/nocodeform", formSchema);
+    return res.status(200).json({ isOk: true, result });
+  }
+  // Unknown HTTP Method
+  else {
+    return res.status(400).json({ err: `The HTTP ${req.method} method is not supported by this route.` });
+    // throw new Error(`The HTTP ${req.method} method is not supported by this route.`);
+  }
+}
 const sharedMockData: NoCodeFormData = {
   formId: "thisisatest-form",
   blocks: [],
@@ -72,46 +122,3 @@ const sharedMockData: NoCodeFormData = {
     { id: "3-2", type: "paragraph", data: { text: "Thanks a lot for your time and insights 🙏" } },
   ],
 };
-
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  // Check Authentication
-  //   const session = await getSession({ req: req });
-  //   if (!session) {
-  //     return res.status(401).json({ message: "Not authenticated" });
-  //   }
-
-  const formId = req.query.id?.toString();
-  if (formId === undefined) {
-    return res.status(400).json({ err: "formId Not Found" });
-  }
-
-  // Check Ownership
-  //   const ownership = await formHasOwnership(session, formId);
-  //   if (!ownership) {
-  //     return res.status(401).json({ message: "You are not authorized to access this noCodeForm" });
-  //   }
-
-  if (req.method === "GET") {
-    //fetch from mock
-    const data = sharedMockData;
-    // console.log("GET /api/forms/:id/nocodeform", data.blocksDraft[1].data);
-    //return res.status(200).json(data); // Got -> Status Code: 304 OK
-    res.status(200).json(data);
-  } else if (req.method === "POST") {
-    const payloadData = req.body as NoCodeFormData;
-    const formId = payloadData.formId;
-    const formName = payloadData.formId;
-    const formSchema = payloadData.blocksDraft;
-    const result = await createOneForm(formId, formName, formSchema);
-    // sharedMockData.formId = payloadData.formId;
-    // sharedMockData.blocks = payloadData.blocks;
-    // sharedMockData.blocksDraft = payloadData.blocksDraft;
-    console.log("POST /api/forms/:id/nocodeform", formSchema);
-    return res.status(200).json({ isOk: true, result });
-  }
-  // Unknown HTTP Method
-  else {
-    return res.status(400).json({ err: `The HTTP ${req.method} method is not supported by this route.` });
-    // throw new Error(`The HTTP ${req.method} method is not supported by this route.`);
-  }
-}
