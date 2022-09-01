@@ -13,7 +13,7 @@ export const useNoCodeForm = (formId: string) => {
 };
 export const persistNoCodeForm = async (noCodeForm: NoCodeFormData) => {
   try {
-    await fetch(`/api/forms/${noCodeForm.formId}/nocodeform`, {
+    return await fetch(`/api/forms/${noCodeForm.formId}/nocodeform`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(noCodeForm),

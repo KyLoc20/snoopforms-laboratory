@@ -14,7 +14,7 @@ export default function BuilderComponent({ onDataChange, initialData }: PageTran
   return (
     <div className="page-transition-container" style={{ position: "relative", marginTop: "64px" }}>
       <div style={{ position: "absolute", top: "-48px", left: 0 }}>
-        <ButtonLikeTextField defaultValue={"Submit"} onChange={(v) => setSubmitLabel(v)} />
+        <ButtonLikeTextField defaultValue={submitLabel} onChange={(v) => setSubmitLabel(v)} />
       </div>
       <DividingLine></DividingLine>
     </div>

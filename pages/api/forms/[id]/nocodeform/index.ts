@@ -2,6 +2,21 @@ import type { NextApiRequest, NextApiResponse } from "next";
 // import { getSession } from "next-auth/react";
 // import { formHasOwnership } from "../../../../../lib/api";
 // import { prisma } from "../../../../../lib/prisma";
+import { prisma } from "@/lib/prisma";
+// export function findPosts() {
+//   return prisma.post.findMany({
+//     where: {},
+//   });
+// }
+export function createOneForm(id: string, name: string, schema: any[]) {
+  return prisma.form.create({
+    data: {
+      id,
+      name,
+      schema,
+    },
+  });
+}
 import { NoCodeFormData } from "@/lib/types";
 const sharedMockData: NoCodeFormData = {
   formId: "thisisatest-form",
@@ -84,11 +99,15 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     res.status(200).json(data);
   } else if (req.method === "POST") {
     const payloadData = req.body as NoCodeFormData;
-    sharedMockData.formId = payloadData.formId;
-    sharedMockData.blocks = payloadData.blocks;
-    sharedMockData.blocksDraft = payloadData.blocksDraft;
-    console.log("POST /api/forms/:id/nocodeform", sharedMockData.blocksDraft);
-    return res.status(200).json({ isOk: true });
+    const formId = payloadData.formId;
+    const formName = payloadData.formId;
+    const formSchema = payloadData.blocksDraft;
+    const result = await createOneForm(formId, formName, formSchema);
+    // sharedMockData.formId = payloadData.formId;
+    // sharedMockData.blocks = payloadData.blocks;
+    // sharedMockData.blocksDraft = payloadData.blocksDraft;
+    console.log("POST /api/forms/:id/nocodeform", formSchema);
+    return res.status(200).json({ isOk: true, result });
   }
   // Unknown HTTP Method
   else {
