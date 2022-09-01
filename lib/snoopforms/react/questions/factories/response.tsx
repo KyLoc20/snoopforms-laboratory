@@ -1,4 +1,5 @@
-import { RatingQuestionResponseDisplay } from "@/lib/snoopforms/react/questions/RatingQuestion";
+import { RatingQuestionResponseDisplay } from "../RatingQuestion";
+import { TextQuestionResponseDisplay } from "../TextQuestion";
 export { createResponseDisplay };
 function createResponseDisplay(type: string, data: any) {
   let render: React.FC<{}>;
@@ -11,6 +12,11 @@ function createResponseDisplay(type: string, data: any) {
       case "ratingQuestion":
         render = function _() {
           return <RatingQuestionResponseDisplay data={data}></RatingQuestionResponseDisplay>;
+        };
+        break;
+      case "textQuestion":
+        render = function _() {
+          return <TextQuestionResponseDisplay data={data}></TextQuestionResponseDisplay>;
         };
         break;
       default:
