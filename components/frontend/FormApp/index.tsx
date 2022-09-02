@@ -2,13 +2,15 @@ import { useMemo } from "react";
 import { generateId } from "@/lib/utils";
 import Loading from "@/components/layout/Loading";
 import { BlockData } from "@/lib/types";
-import Overlay from "@/components/layout/Overlay";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 import { SnoopForm, SnoopPage, SnoopElement } from "@/lib/snoopforms/react";
 type Page = {
   id: string;
   blocks: BlockData[];
 };
 export default function FormApp({ id, formId, blocks, localOnly }: { id: string; formId: string; blocks: BlockData[]; localOnly: boolean }) {
+  const router = useRouter();
   const pages = useMemo(() => {
     const allPages: Page[] = [];
     let cPage: Page = { id: generateId(10), blocks: [] };
@@ -27,12 +29,19 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
     return allPages;
   }, [blocks, formId]);
 
+  const handleFormCompleted = () => {
+    toast("Congratulations! You Have Finished the Form 🎉", { autoClose: 2000 });
+    setTimeout(() => {
+      router.push("/results/responses");
+    }, 2050);
+  };
+
   if (!pages) return <Loading />;
   else {
     console.log("RENDER FormApp", pages);
     return (
       <div className="w-full px-5 py-5">
-        <SnoopForm domain="app.snoopforms.com" protocol="http" formId="thisisatest-form">
+        <SnoopForm domain="app.snoopforms.com" protocol="http" formId="thisisatest-form" onDone={handleFormCompleted}>
           {pages.map((page, _) => (
             <SnoopPage name={page.id} key={page.id}>
               {page.blocks.map((block, i) => (

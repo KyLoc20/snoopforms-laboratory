@@ -29,7 +29,7 @@ export function NavBar({ currentNav }: { currentNav?: AvailableNav }) {
           }}
           active={currentNav === "preview"}
         ></Navigation>
-        <Navigation
+        {/* <Navigation
           id="example"
           label="Example"
           icon={DocumentDuplicateIcon}
@@ -59,7 +59,7 @@ export function NavBar({ currentNav }: { currentNav?: AvailableNav }) {
           }}
           active={currentNav === "share"}
           disabled
-        ></Navigation>
+        ></Navigation> */}
         <Navigation
           id="responses"
           label="Responses"

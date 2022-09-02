@@ -5,6 +5,11 @@ import { prisma } from "@/lib/prisma";
 const getAllSubmissionSessionsOfOneForm = (formId: string) => {
   return prisma.submissionSession.findMany({
     where: { formId },
+    orderBy: [
+      {
+        updatedAt: "desc",
+      },
+    ],
   });
 };
 const upsertOneSubmissionSession = (formId: string, payload: SubmissionSessionData) => {

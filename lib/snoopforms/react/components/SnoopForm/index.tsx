@@ -69,10 +69,11 @@ interface SnoopFormProps {
   localOnly?: boolean;
   className?: string;
   onSubmit?: (obj: onSubmitProps) => void;
+  onDone?: () => void;
 }
 
 export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
-  const { domain = "app.snoopforms.com", protocol = "https", localOnly = false, className = "", onSubmit = (): any => {}, children } = props;
+  const { domain = "app.snoopforms.com", protocol = "https", localOnly = false, className = "", onSubmit = (): any => {}, onDone, children } = props;
   const formId = props.formId ?? "";
   const [schema, setSchema] = useState<any>({ pages: [] });
   const [hasDone, setHasDone] = useState(false);
@@ -82,9 +83,11 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
   const nextPage = () => {
     //check whether it is the last Page
     if (currentPageIdx >= pages.length - 1) {
-      setHasDone(true);
       refSessionId.current = generateId(10);
-      alert("Congratulations!");
+      setHasDone(true);
+      // setCurrentPageIdx(0);
+      // alert("Congratulations!");
+      onDone?.();
     } else setCurrentPageIdx((prev) => prev + 1);
   };
   /**
