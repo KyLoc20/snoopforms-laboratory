@@ -1,7 +1,7 @@
 import { PropsWithChildren, useState } from "react";
 import Container from "@/components/layout/Container";
 import { HomeIcon, PlusIcon } from "@heroicons/react/outline";
-
+import FormListApp from "@/components/frontend/ListApp";
 export default function Screen() {
   return (
     <Container bg="rgb(246, 248, 249, 1)">
@@ -9,21 +9,11 @@ export default function Screen() {
         <CreateFormButton></CreateFormButton>
         <Title></Title>
       </TopBar>
-      {/* <NavBar currentNav="example"></NavBar>
-      <Preview>
-        <YourFirstForm />
-      </Preview> */}
+      <FormListApp></FormListApp>
     </Container>
   );
 }
 
-function Preview({ children }: PropsWithChildren<{}>) {
-  return (
-    <div className="flex justify-center">
-      <section style={{ maxWidth: "768px", flex: 1, padding: "20px 0" }}>{children}</section>
-    </div>
-  );
-}
 function CreateFormButton() {
   const [isHovering, setIsHovering] = useState(false);
   return (
