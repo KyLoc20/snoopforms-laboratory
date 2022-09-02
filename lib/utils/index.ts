@@ -59,7 +59,12 @@ export const convertTimeString = (dateString: string) => {
     }
   );
 };
-
+export const timeSince = (dateString: string) => {
+  const date = new Date(dateString);
+  return formatDistance(date, new Date(), {
+    addSuffix: true,
+  });
+};
 // export const shuffle = (array) => {
 //   array = [...array];
 //   let currentIndex = array.length,
