@@ -19,19 +19,18 @@ export default function ResponseApp({ formId }: { formId: string }) {
   const { submissionSessions, isLoadingSubmissionSessions, mutateSubmissionSessions } = useSubmissionSessions(formId);
   const [activeSubmissionSession, setActiveSubmissionSession] = useState<SubmissionSessionData | null>(null);
 
-  // const handleDelete = async (submissionSession: SubmissionSession) => {
-  //   try {
-  //     await fetch(`/api/forms/${formId}/submissionSessions/${submissionSession.id}`, {
-  //       method: "DELETE",
-  //     });
-
-  //     await mutateSubmissionSessions();
-  //     setActiveSubmissionSession(null);
-  //     toast("Successfully deleted");
-  //   } catch (error) {
-  //     toast(<div>error</div>);
-  //   }
-  // };
+  const handleDelete = async (sessionId: string) => {
+    try {
+      await fetch(`/api/forms/${formId}/submissionSessions/${sessionId}`, {
+        method: "DELETE",
+      });
+      await mutateSubmissionSessions();
+      setActiveSubmissionSession(null);
+      toast("Successfully Deleted");
+    } catch (error) {
+      toast(<div>error</div>);
+    }
+  };
 
   useEffect(() => {
     if (!isLoadingSubmissionSessions && submissionSessions.length > 0) {
@@ -101,7 +100,7 @@ export default function ResponseApp({ formId }: { formId: string }) {
                         className="flex items-center justify-center w-full gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-300 border border-transparent shadow-sm hover:bg-red-500 focus:outline-none"
                         onClick={() => {
                           if (confirm("Are you sure you want to delete this submission? It will be gone forever!")) {
-                            // handleDelete(activeSubmissionSession);
+                            handleDelete(activeSubmissionSession.id);
                           }
                         }}
                       >
