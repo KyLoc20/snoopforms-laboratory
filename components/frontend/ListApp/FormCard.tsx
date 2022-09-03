@@ -25,6 +25,7 @@ export default function FormCard({ name, type, responses }: FormCardProps) {
     </CardWrapper>
   );
 }
+
 function FormType({ type }: { type: AvailableFormType }) {
   return (
     <div

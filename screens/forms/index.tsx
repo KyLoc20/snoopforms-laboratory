@@ -44,7 +44,7 @@ function Title() {
     <div style={{ display: "flex", marginLeft: "32px", color: "#6b7177" }}>
       <HomeIcon style={{ width: "20px", height: "20px", cursor: "default" }} />
       <DividerIcon></DividerIcon>
-      <div style={{ fontSize: "14px", lineHeight: "20px", fontWeight: 500, cursor: "default" }}>My Forms</div>
+      <div style={{ fontSize: "14px", lineHeight: "20px", fontWeight: 500, cursor: "default" }}>Public Forms</div>
     </div>
   );
 }
