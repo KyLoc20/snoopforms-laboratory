@@ -1,5 +1,6 @@
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { useState, PropsWithChildren, useCallback, useMemo } from "react";
+import { CheckCircleIcon, XIcon as CloseIcon } from "@heroicons/react/solid";
 import ReactDOM from "react-dom";
 export default function useModalPortal(targetId: string) {
   const [active, setActive] = useState(false);
@@ -27,7 +28,7 @@ export default function useModalPortal(targetId: string) {
     <>
       {active && (
         <Portal>
-          <ModalWrapper>{children}</ModalWrapper>
+          <ModalWrapper onClose={hideModal}>{children}</ModalWrapper>
         </Portal>
       )}
     </>
@@ -35,10 +36,63 @@ export default function useModalPortal(targetId: string) {
   return { showModal, hideModal, Portal: PortalRender };
 }
 
-function ModalWrapper({ children }: PropsWithChildren<{}>) {
+function ModalWrapper({ children, onClose }: PropsWithChildren<{ onClose: () => void }>) {
   return (
-    <div className="modal-wrapper" style={{}}>
-      {children}
+    <div
+      className="modal-wrapper"
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+      onMouseDown={(e) => {
+        e.stopPropagation();
+      }}
+      style={{ position: "fixed", left: 0, right: 0, top: 0, bottom: 0 }}
+    >
+      <div
+        className="modal-mask-layer"
+        style={{ width: "100%", height: "100%", background: "rgba(0,0,0,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}
+        onClick={(e) => {
+          onClose();
+        }}
+      >
+        <div
+          className="modal-box"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          style={{
+            position: "relative",
+            width: "512px",
+            padding: "24px",
+            borderRadius: "24px",
+            background: "white",
+            boxShadow: "0 20px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1)",
+          }}
+        >
+          <CloseButton onClick={onClose}></CloseButton>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
+function CloseButton({ onClick }: { onClick: () => void }) {
+  const [isHovering, setIsHovering] = useState(false);
+  return (
+    <div
+      style={{
+        cursor: "pointer",
+        position: "absolute",
+        right: "16px",
+        top: "16px",
+        color: isHovering ? "#627d95" : "#8299ae",
+        transition: "all .2s cubic-bezier(.4,.2,0,1)",
+      }}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      onClick={onClick}
+    >
+      <CloseIcon style={{ width: "24px", height: "24px" }}></CloseIcon>
     </div>
   );
 }

@@ -12,11 +12,14 @@ export default function FormListApp({}) {
     // });
     showModal();
   };
+
   const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
   return (
     <>
       <CardGrid>
-        <Portal>123</Portal>
+        <Portal>
+          <div>123</div>
+        </Portal>
         <AddFormButton onClick={handleAddForm}></AddFormButton>
         {Array(20)
           .fill(0)
