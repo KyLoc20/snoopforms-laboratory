@@ -10,6 +10,7 @@ export default function Screen() {
         <Title></Title>
       </TopBar>
       <FormListApp></FormListApp>
+      <div id="new-form-modal"></div>
     </Container>
   );
 }

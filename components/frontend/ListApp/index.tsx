@@ -1,22 +1,35 @@
 import { PropsWithChildren, useState } from "react";
 import FormCard from "./FormCard";
 import { PlusIcon } from "@heroicons/react/outline";
+import { NoCodeFormData } from "@/lib/types";
+import { persistNoCodeForm } from "@/lib/noCodeForm";
+import useModalPortal from "@/lib/modal";
+// import NewFormModal from "./NewFormModal";
 export default function FormListApp({}) {
-  const handleAddForm = () => {};
+  const handleAddForm = () => {
+    // persistNoCodeForm(MOCK_FORM).then((res) => {
+    //   console.log("handleAddForm", res);
+    // });
+    showModal();
+  };
+  const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
   return (
-    <CardGrid>
-      <AddFormButton onClick={handleAddForm}></AddFormButton>
-      {Array(20)
-        .fill(0)
-        .map((n, i) => (
-          <FormCard
-            key={i}
-            name="What if I alter a form which owns submissions?"
-            type={i % 2 === 0 ? "nocode" : "code"}
-            responses={i % 2 === 0 ? 8 : 1}
-          ></FormCard>
-        ))}
-    </CardGrid>
+    <>
+      <CardGrid>
+        <Portal>123</Portal>
+        <AddFormButton onClick={handleAddForm}></AddFormButton>
+        {Array(20)
+          .fill(0)
+          .map((n, i) => (
+            <FormCard
+              key={i}
+              name="What if I alter a form which owns submissions?"
+              type={i % 2 === 0 ? "nocode" : "code"}
+              responses={i % 2 === 0 ? 8 : 1}
+            ></FormCard>
+          ))}
+      </CardGrid>
+    </>
   );
 }
 
@@ -37,6 +50,7 @@ export function AddFormButton({ onClick }: PropsWithChildren<{ onClick: () => vo
     <div
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
+      onClick={onClick}
       className="add-form-button"
       style={{
         cursor: "pointer",
