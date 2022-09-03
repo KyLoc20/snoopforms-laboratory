@@ -74,6 +74,7 @@ function FormType({ selected, name, description, onSelect }: { selected: boolean
         border: `1px solid #d2dae2`,
         background: "#fafafb",
         boxShadow: selected ? "0 0 0 3px rgba(245,59,87,1)" : "",
+        userSelect: "none",
       }}
     >
       <div>

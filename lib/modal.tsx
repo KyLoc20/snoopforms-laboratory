@@ -50,7 +50,15 @@ function ModalWrapper({ children, onClose }: PropsWithChildren<{ onClose: () => 
     >
       <div
         className="modal-mask-layer"
-        style={{ width: "100%", height: "100%", background: "rgba(0,0,0,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}
+        style={{
+          width: "100%",
+          height: "100%",
+          backdropFilter: "blur(12px)",
+          background: "rgba(98,125,149,0.3)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
         onClick={(e) => {
           onClose();
         }}
