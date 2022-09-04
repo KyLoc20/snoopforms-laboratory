@@ -1,6 +1,6 @@
 import { PropsWithChildren, useState } from "react";
 import { NavBar } from "@/components/layout/Navigation";
-import Container from "@/components/layout/Container";
+import { Container, MaxWidth, Loading } from "@/components/layout";
 import { useNoCodeForm } from "@/lib/noCodeForm";
 import FormApp from "@/components/frontend/FormApp";
 export default function PreviewScreen() {
@@ -9,15 +9,7 @@ export default function PreviewScreen() {
   return (
     <Container bg="rgb(246, 248, 249, 1)">
       <NavBar currentNav="preview"></NavBar>
-      <Preview>{isReady ? <FormApp id={"test-app"} blocks={noCodeForm.blocksDraft} localOnly={true} formId={"thisisatest-form"} /> : "Loading"}</Preview>
+      <MaxWidth>{isReady ? <FormApp id={"test-app"} blocks={noCodeForm.blocksDraft} localOnly={true} formId={"thisisatest-form"} /> : <Loading />}</MaxWidth>
     </Container>
-  );
-}
-
-function Preview({ children }: PropsWithChildren<{}>) {
-  return (
-    <div className="flex justify-center">
-      <section style={{ maxWidth: "768px", flex: 1, padding: "20px 0" }}>{children}</section>
-    </div>
   );
 }

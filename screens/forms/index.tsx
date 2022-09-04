@@ -1,5 +1,5 @@
 import { PropsWithChildren, useState } from "react";
-import Container from "@/components/layout/Container";
+import { Container, MaxWidth, Loading } from "@/components/layout";
 import { HomeIcon, PlusIcon } from "@heroicons/react/outline";
 import FormListApp from "@/components/frontend/ListApp";
 import { useFormList } from "@/lib/forms";
@@ -12,7 +12,7 @@ export default function Screen() {
         <CreateFormButton></CreateFormButton>
         <Title></Title>
       </TopBar>
-      {isReady ? <FormListApp /> : "Loading"}
+      <MaxWidth>{isReady ? <FormListApp /> : <Loading />}</MaxWidth>
       <div id="new-form-modal"></div>
     </Container>
   );
