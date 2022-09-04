@@ -1,4 +1,4 @@
-import HomeScreen from "@/screens/builder";
+import FromListScreen from "@/screens/forms";
 export default function Page() {
-  return <HomeScreen></HomeScreen>;
+  return <FromListScreen></FromListScreen>;
 }

@@ -1,9 +1,11 @@
 import { NavBar } from "@/components/layout/Navigation";
-import Builder from "@/components/builder";
+import BuilderApp from "@/components/BuilderApp";
 import FullWidth from "@/components/layout/FullWidth";
 import Container from "@/components/layout/Container";
 import { useRouter } from "next/router";
 import { useNoCodeForm } from "@/lib/noCodeForm";
+import Loading from "@/components/layout/Loading";
+import MaxWidth from "@/components/layout/MaxWidth";
 export default function Screen() {
   const router = useRouter();
   const formId = router.query.id?.toString() ?? "";
@@ -13,7 +15,7 @@ export default function Screen() {
   return (
     <Container>
       <NavBar currentNav="addPage"></NavBar>
-      <FullWidth>{isReady ? <Builder formId={formId} /> : "Loading"}</FullWidth>
+      <MaxWidth>{isReady ? <BuilderApp formId={formId} /> : <Loading />}</MaxWidth>
     </Container>
   );
 }
