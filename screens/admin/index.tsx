@@ -32,6 +32,7 @@ function Preview({ children }: PropsWithChildren<{}>) {
 
 const MOCK_FORM: NoCodeFormData = {
   formId: "thisisatest-form",
+  name: "thisisatest-form",
   blocks: [],
   blocksDraft: [
     { id: "1-1", type: "header", data: { text: "Form for Testing", level: 1 } },

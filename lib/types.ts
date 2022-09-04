@@ -5,6 +5,7 @@ export type BlockData = {
 };
 export type NoCodeFormData = {
   formId: string;
+  name: string;
   blocksDraft: BlockData[];
   blocks: BlockData[];
 };

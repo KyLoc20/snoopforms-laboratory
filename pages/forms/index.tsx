@@ -1,4 +1,4 @@
-import FormsScreen from "@/screens/forms";
+import FormListScreen from "@/screens/forms";
 export default function Page() {
-  return <FormsScreen></FormsScreen>;
+  return <FormListScreen></FormListScreen>;
 }

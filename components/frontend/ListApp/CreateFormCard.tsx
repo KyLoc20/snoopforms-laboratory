@@ -1,8 +1,10 @@
-import { PropsWithChildren, useState, useEffect } from "react";
+import { PropsWithChildren, useState, useEffect, useRef } from "react";
 import TextField from "@/lib/snoopforms/react/questions/toolkit/ui/TextField";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 
-export default function CreateFormCard({ onSubmit }: { onSubmit: () => void }) {
+export default function CreateFormCard({ onSubmit }: { onSubmit: (name: string, type: AvailableType) => void }) {
+  const refName = useRef<string>("");
+  const refType = useRef<AvailableType>("nocode");
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <Title></Title>
@@ -10,11 +12,25 @@ export default function CreateFormCard({ onSubmit }: { onSubmit: () => void }) {
         style={{ padding: "8px" }}
         onSubmit={(e) => {
           e.preventDefault();
-          onSubmit();
+          const formName = refName.current;
+          const formType = refType.current;
+          onSubmit(formName, formType);
         }}
       >
-        <NameInput onChange={() => {}}></NameInput>
-        <TypeSelection onChange={() => {}}></TypeSelection>
+        <NameInput
+          onChange={(v) => {
+            if (refName.current) {
+              refName.current = v;
+            }
+          }}
+        ></NameInput>
+        <TypeSelection
+          onChange={(v) => {
+            if (refType.current) {
+              refName.current = v;
+            }
+          }}
+        ></TypeSelection>
         <CreateButton></CreateButton>
       </form>
     </div>
@@ -28,12 +44,12 @@ function NameInput({ onChange }: { onChange: (v: string) => void }) {
     <div style={{}}>
       <div style={{ lineHeight: "20px", fontSize: "14px", fontWeight: 300, color: "#6b7177" }}>Name your form</div>
       <div style={{ margin: "8px 0 24px" }}>
-        <TextField onChange={onChange} placeholder="e.g. Customer Research Survey"></TextField>
+        <TextField onChange={onChange} placeholder="e.g. Customer Research Survey" throttleTimeout={500}></TextField>
       </div>
     </div>
   );
 }
-type AvailableType = "code" | "nocode";
+export type AvailableType = "code" | "nocode";
 function TypeSelection({ onChange }: { onChange: (v: AvailableType) => void }) {
   const [which, setWhich] = useState<AvailableType>("nocode");
   useEffect(() => {

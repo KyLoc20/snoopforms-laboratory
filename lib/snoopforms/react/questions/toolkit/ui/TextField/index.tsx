@@ -5,10 +5,11 @@ export default function TextField({
   onChange,
   placeholder,
   defaultValue,
-}: PropsWithChildren<{ defaultValue?: string; placeholder?: string; onChange: (value: string) => void }>) {
+  throttleTimeout,
+}: PropsWithChildren<{ defaultValue?: string; placeholder?: string; onChange: (value: string) => void; throttleTimeout?: number }>) {
   const handleChange = throttle((e: ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
-  }, 2000);
+  }, throttleTimeout ?? 2000);
   const [isFocused, setIsFocused] = useState(false);
   return (
     <label className="question-input" style={{ maxWidth: "384px", color: "rgba(56, 70, 84, 1)", display: "flex", alignItems: "center" }}>

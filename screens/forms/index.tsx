@@ -2,14 +2,17 @@ import { PropsWithChildren, useState } from "react";
 import Container from "@/components/layout/Container";
 import { HomeIcon, PlusIcon } from "@heroicons/react/outline";
 import FormListApp from "@/components/frontend/ListApp";
+import { useFormList } from "@/lib/forms";
 export default function Screen() {
+  const { isLoadingFormList } = useFormList();
+  const isReady = !isLoadingFormList;
   return (
     <Container bg="rgb(246, 248, 249, 1)">
       <TopBar>
         <CreateFormButton></CreateFormButton>
         <Title></Title>
       </TopBar>
-      <FormListApp></FormListApp>
+      {isReady ? <FormListApp /> : "Loading"}
       <div id="new-form-modal"></div>
     </Container>
   );

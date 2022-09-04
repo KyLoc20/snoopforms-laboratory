@@ -3,14 +3,23 @@ import FormCard from "./FormCard";
 import { NoCodeFormData } from "@/lib/types";
 import { persistNoCodeForm } from "@/lib/noCodeForm";
 import useModalPortal from "@/lib/modal";
-import CreateFormCard from "./CreateFormCard";
+import CreateFormCard, { AvailableType } from "./CreateFormCard";
 import AddFormButton from "./AddFormButton";
+import { generateId } from "@/lib/utils";
+import { useFormList } from "@/lib/forms";
+import { useRouter } from "next/router";
 export default function FormListApp({}) {
-  const handleCreateOneNewForm = () => {
-    // persistNoCodeForm(MOCK_FORM).then((res) => {
-    //   console.log("handleAddForm", res);
-    // });
-    alert("handleCreateOneNewForm");
+  const router = useRouter();
+  const { formList, mutateFormList } = useFormList();
+  const handleNavigateToForm = (formId: string) => {
+    console.log("handleNavigateToForm", formId);
+    router.push(`/forms/${formId}`);
+  };
+  const handleCreateOneNewForm = (name: string, type: AvailableType) => {
+    if (type === "nocode") {
+      const formId = generateId(10);
+      persistNoCodeForm({ formId, name, blocksDraft: [], blocks: [] });
+    }
   };
   const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
   return (
@@ -20,16 +29,11 @@ export default function FormListApp({}) {
           <CreateFormCard onSubmit={handleCreateOneNewForm} />
         </Portal>
         <AddFormButton onClick={showModal}></AddFormButton>
-        {Array(20)
-          .fill(0)
-          .map((n, i) => (
-            <FormCard
-              key={i}
-              name="What if I alter a form which owns submissions?"
-              type={i % 2 === 0 ? "nocode" : "code"}
-              responses={i % 2 === 0 ? 8 : 1}
-            ></FormCard>
-          ))}
+        {formList.map((form, i) => (
+          <div key={form.formId} onClick={() => handleNavigateToForm(form.formId)}>
+            <FormCard name={form.name} type={"nocode"} responses={0}></FormCard>
+          </div>
+        ))}
       </CardGrid>
     </>
   );

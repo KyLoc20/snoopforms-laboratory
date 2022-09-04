@@ -24,11 +24,11 @@ interface EditorProps {
   id: string;
   autofocus: boolean;
   editorRef: MutableRefObject<EditorJS | null>; //{ current: EditorJS | null }; //RefObject<EditorJS>;
-  formId?: string;
+  formId: string;
   initAction?: (editor: EditorJS) => void;
 }
 export default function SnoopFormsEditor({ id, autofocus = false, editorRef, formId, initAction }: EditorProps) {
-  const { noCodeForm, isLoadingNoCodeForm, mutateNoCodeForm } = useNoCodeForm("thisisatest-form");
+  const { noCodeForm, isLoadingNoCodeForm, mutateNoCodeForm } = useNoCodeForm(formId);
   useEffect(() => {
     if (!isLoadingNoCodeForm && !editorRef.current) {
       initEditor();
