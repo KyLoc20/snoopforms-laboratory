@@ -51,7 +51,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       res.status(200).json(nocodeFormData);
     } else {
       //empty
-      res.status(204).json({ formId, blocks: [], blocksDraft: [] });
+      res.status(404).json({ message: `Form of ${formId} Not Found` });
     }
   } else if (req.method === "POST") {
     const payloadData = req.body as NoCodeFormData;

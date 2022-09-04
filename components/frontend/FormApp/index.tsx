@@ -10,6 +10,7 @@ type Page = {
   blocks: BlockData[];
 };
 export default function FormApp({ id, formId, blocks, localOnly }: { id: string; formId: string; blocks: BlockData[]; localOnly: boolean }) {
+  console.log("RENDER FormApp", formId, blocks);
   const router = useRouter();
   const pages = useMemo(() => {
     const allPages: Page[] = [];

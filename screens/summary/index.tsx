@@ -7,8 +7,8 @@ import SummaryApp from "@/components/frontend/SummaryApp";
 export default function Screen() {
   const formId = "thisisatest-form";
   const { isLoadingSubmissionSessions } = useSubmissionSessions(formId);
-  const { isLoadingNoCodeForm } = useNoCodeForm("thisisatest-form");
-  const isReady = !isLoadingSubmissionSessions && !isLoadingNoCodeForm;
+  const { isLoading } = useNoCodeForm("thisisatest-form");
+  const isReady = !isLoadingSubmissionSessions && !isLoading;
   return (
     <Container bg="rgb(246, 248, 249, 1)">
       <NavBar currentNav="summary"></NavBar>

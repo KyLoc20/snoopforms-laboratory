@@ -1,15 +1,27 @@
 import { PropsWithChildren, useState } from "react";
 import { NavBar } from "@/components/layout/Navigation";
-import { Container, MaxWidth, Loading } from "@/components/layout";
+import { Container, MaxWidth, Loading, FormNotFound } from "@/components/layout";
 import { useNoCodeForm } from "@/lib/noCodeForm";
 import FormApp from "@/components/frontend/FormApp";
-export default function PreviewScreen() {
-  const { noCodeForm, isLoadingNoCodeForm } = useNoCodeForm("thisisatest-form");
-  const isReady = !isLoadingNoCodeForm;
+import { useFormIdSafely } from "@/lib/router";
+export default function Screen() {
+  const { formId, isValid } = useFormIdSafely();
+  const { noCodeForm, isLoading, hasError } = useNoCodeForm(formId);
+  const isReady = isValid && !isLoading;
   return (
     <Container bg="rgb(246, 248, 249, 1)">
-      <NavBar currentNav="preview"></NavBar>
-      <MaxWidth>{isReady ? <FormApp id={"test-app"} blocks={noCodeForm.blocksDraft} localOnly={true} formId={"thisisatest-form"} /> : <Loading />}</MaxWidth>
+      <NavBar currentNav="preview" formId={formId}></NavBar>
+      <MaxWidth>
+        {isReady ? (
+          hasError ? (
+            <FormNotFound formId={formId as string} />
+          ) : (
+            <FormApp formId={formId as string} id={"test-app"} blocks={noCodeForm.blocksDraft} localOnly={true} />
+          )
+        ) : (
+          <Loading />
+        )}
+      </MaxWidth>
     </Container>
   );
 }

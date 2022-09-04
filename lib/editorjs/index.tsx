@@ -28,9 +28,9 @@ interface EditorProps {
   initAction?: (editor: EditorJS) => void;
 }
 export default function SnoopFormsEditor({ id, autofocus = false, editorRef, formId, initAction }: EditorProps) {
-  const { noCodeForm, isLoadingNoCodeForm, mutateNoCodeForm } = useNoCodeForm(formId);
+  const { noCodeForm, isLoading, mutateNoCodeForm } = useNoCodeForm(formId);
   useEffect(() => {
-    if (!isLoadingNoCodeForm && !editorRef.current) {
+    if (!isLoading && !editorRef.current) {
       initEditor();
     }
     return () => {
@@ -43,7 +43,7 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
         editorRef.current = null;
       }
     }
-  }, [isLoadingNoCodeForm]);
+  }, [isLoading]);
   const initEditor = () => {
     const editor = new EditorJS({
       minHeight: 0,

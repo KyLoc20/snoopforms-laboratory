@@ -3,6 +3,10 @@ import { formatDistance } from "date-fns";
 export const classNames = (...classes: string[]) => {
   return classes.filter(Boolean).join(" ");
 };
+export type RequestError = {
+  errCode: number;
+  errMessage: string;
+};
 export const fetcher = async (url: string) => {
   const res = await fetch(url);
 
@@ -11,7 +15,8 @@ export const fetcher = async (url: string) => {
   if (!res.ok) {
     const error: any = new Error("An error occurred while fetching the data.");
     // Attach extra info to the error object.
-    error.info = await res.json();
+    const _info = await res.json();
+    error.message = _info?.message;
     error.status = res.status;
     throw error;
   }

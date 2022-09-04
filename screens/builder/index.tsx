@@ -1,19 +1,16 @@
 import { NavBar } from "@/components/layout/Navigation";
 import BuilderApp from "@/components/BuilderApp";
-import { useRouter } from "next/router";
 import { useNoCodeForm } from "@/lib/noCodeForm";
-import { Container, MaxWidth, Loading } from "@/components/layout";
-
+import { Container, MaxWidth, Loading, FormNotFound } from "@/components/layout";
+import { useFormIdSafely } from "@/lib/router";
 export default function Screen() {
-  const router = useRouter();
-  const formId = router.query.id?.toString() ?? "";
-  //what if formId === ""
-  const { isLoadingNoCodeForm } = useNoCodeForm(formId);
-  const isReady = !isLoadingNoCodeForm;
+  const { formId, isValid } = useFormIdSafely();
+  const { isLoading, hasError } = useNoCodeForm(formId);
+  const isReady = isValid && !isLoading;
   return (
     <Container>
-      <NavBar currentNav="builder"></NavBar>
-      <MaxWidth>{isReady ? <BuilderApp formId={formId} /> : <Loading />}</MaxWidth>
+      <NavBar currentNav="builder" formId={formId}></NavBar>
+      <MaxWidth>{isReady ? hasError ? <FormNotFound formId={formId as string} /> : <BuilderApp formId={formId as string} /> : <Loading />}</MaxWidth>
     </Container>
   );
 }

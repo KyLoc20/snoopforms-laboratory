@@ -3,7 +3,7 @@ import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon, ChartBarIcon, I
 import { classNames } from "@/lib/utils";
 import { useRouter } from "next/router";
 type AvailableNav = "builder" | "preview" | "publish" | "share" | "responses" | "summary" | "example";
-export function NavBar({ currentNav }: { currentNav?: AvailableNav }) {
+export function NavBar({ currentNav, formId }: { currentNav?: AvailableNav; formId?: string }) {
   const router = useRouter();
   return (
     <div className="flex items-center justify-center flex-shrink-0 border-b border-ui-gray-light bg-ui-gray-lighter">
@@ -13,7 +13,7 @@ export function NavBar({ currentNav }: { currentNav?: AvailableNav }) {
           label="Builder"
           icon={DocumentAddIcon}
           onClick={() => {
-            router.push(`/`);
+            router.push(`/forms/${formId}/builder`);
           }}
           active={currentNav === "builder"}
         ></Navigation>
@@ -22,7 +22,7 @@ export function NavBar({ currentNav }: { currentNav?: AvailableNav }) {
           label="Preview"
           icon={EyeIcon}
           onClick={() => {
-            router.push(`/preview`);
+            router.push(`/forms/${formId}/preview`);
           }}
           active={currentNav === "preview"}
         ></Navigation>
@@ -61,7 +61,7 @@ export function NavBar({ currentNav }: { currentNav?: AvailableNav }) {
           label="Responses"
           icon={InboxIcon}
           onClick={() => {
-            router.push(`/results/responses`);
+            router.push(`/forms/${formId}/results/responses`);
           }}
           active={currentNav === "responses"}
         ></Navigation>
@@ -70,7 +70,7 @@ export function NavBar({ currentNav }: { currentNav?: AvailableNav }) {
           label="Summary"
           icon={ChartBarIcon}
           onClick={() => {
-            router.push(`/results/summary`);
+            router.push(`/forms/${formId}/results/summary`);
             //addPage()
           }}
           active={currentNav === "summary"}
