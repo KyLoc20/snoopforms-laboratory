@@ -31,14 +31,10 @@ export const useNoCodeForm = (formId?: string) => {
     };
   }
 };
-export const persistNoCodeForm = async (noCodeForm: NoCodeFormData) => {
-  try {
-    return await fetch(`/api/forms/${noCodeForm.formId}/nocodeform`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(noCodeForm),
-    });
-  } catch (error) {
-    console.error(error);
-  }
+export const persistNoCodeForm = (noCodeForm: NoCodeFormData) => {
+  return fetch(`/api/forms/${noCodeForm.formId}/nocodeform`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(noCodeForm),
+  });
 };
