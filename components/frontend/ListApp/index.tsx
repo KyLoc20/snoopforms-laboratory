@@ -8,7 +8,7 @@ import AddFormButton from "./AddFormButton";
 import { generateId } from "@/lib/utils";
 import { useFormList } from "@/lib/forms";
 import { FullScreenLoading } from "@/components/layout";
-
+import { useNavigation } from "@/lib/router";
 export default function FormListApp({}) {
   const { formList, mutateFormList } = useFormList();
 
@@ -17,6 +17,7 @@ export default function FormListApp({}) {
   const shouldBeLoading = isCreating || isDeleting;
 
   const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
+  const { navigate: toNewForm } = useNavigation();
   const handleCreateOneNewForm = (name: string, type: AvailableType) => {
     if (type === "nocode") {
       setIsCreating(true);
@@ -26,6 +27,7 @@ export default function FormListApp({}) {
         const newFormList = JSON.parse(JSON.stringify(formList)) as NoCodeFormData[];
         newFormList.unshift(newForm);
         mutateFormList(newFormList);
+        toNewForm(`/forms/${formId}/builder`);
         setIsCreating(false);
         hideModal();
       });
