@@ -1,28 +1,40 @@
-import { useState, CSSProperties, PropsWithChildren } from "react";
+import { useState, CSSProperties, PropsWithChildren, MouseEventHandler } from "react";
 import { TerminalIcon as CodeIcon, ViewGridAddIcon as NoCodeIcon, DotsHorizontalIcon as MoreIcon, TrashIcon } from "@heroicons/react/outline";
+import Link from "next/link";
 type AvailableFormType = "nocode" | "code";
 interface FormCardProps {
+  id: string;
   name: string;
   type: AvailableFormType;
   responses: number;
+  onDelete: (formId: string) => void;
 }
-export default function FormCard({ name, type, responses }: FormCardProps) {
-  const handleDelete = () => {};
+export default function FormCard({ id, name, type, responses, onDelete }: FormCardProps) {
   return (
-    <CardWrapper>
-      <div style={{ padding: "24px" }}>
-        <FormName name={name}></FormName>
-      </div>
-      <div>
-        <div style={{ display: "flex", padding: "0 16px", marginBottom: "8px" }}>
-          <FormType type={type}></FormType>
-        </div>
-        <ControlPanel>
-          {responses} {responses > 1 ? "responses" : "response"}
-          <DeleteButton onClick={handleDelete}></DeleteButton>
-        </ControlPanel>
-      </div>
-    </CardWrapper>
+    <Link href={`/forms/${id}`}>
+      <a>
+        <CardWrapper>
+          <div style={{ padding: "24px" }}>
+            <FormName name={name}></FormName>
+          </div>
+          <div>
+            <div style={{ display: "flex", padding: "0 16px", marginBottom: "8px" }}>
+              <FormType type={type}></FormType>
+            </div>
+            <ControlPanel>
+              {responses} {responses > 1 ? "responses" : "response"}
+              <DeleteButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  onDelete(id);
+                }}
+              ></DeleteButton>
+            </ControlPanel>
+          </div>
+        </CardWrapper>
+      </a>
+    </Link>
   );
 }
 
@@ -109,7 +121,7 @@ function CardWrapper({ children }: PropsWithChildren<{}>) {
     </div>
   );
 }
-function DeleteButton({ onClick }: { onClick: () => void }) {
+function DeleteButton({ onClick }: { onClick: MouseEventHandler }) {
   const [isHovering, setIsHovering] = useState(false);
   return (
     <div

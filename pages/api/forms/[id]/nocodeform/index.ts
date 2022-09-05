@@ -4,6 +4,13 @@ import type { NextApiRequest, NextApiResponse } from "next";
 // import { prisma } from "../../../../../lib/prisma";
 import { NoCodeFormData } from "@/lib/types";
 import { prisma } from "@/lib/prisma";
+export function deleteOneForm(id: string) {
+  return prisma.form.delete({
+    where: {
+      id,
+    },
+  });
+}
 export function findOneForm(id: string) {
   return prisma.form.findUnique({
     where: {
@@ -59,6 +66,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const formName = payloadData.name;
     const formSchema = payloadData.blocksDraft;
     const result = await upsertOneForm(formId, formName, formSchema);
+    return res.status(200).json({ isOk: true, result });
+  } else if (req.method === "DELETE") {
+    const result = await deleteOneForm(formId);
     return res.status(200).json({ isOk: true, result });
   }
   // Unknown HTTP Method

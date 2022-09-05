@@ -1,23 +1,22 @@
 import { PropsWithChildren, useState } from "react";
 import FormCard from "./FormCard";
 import { NoCodeFormData } from "@/lib/types";
-import { persistNoCodeForm } from "@/lib/noCodeForm";
+import { persistNoCodeForm, deleteNoCodeForm } from "@/lib/noCodeForm";
 import useModalPortal from "@/lib/modal";
 import CreateFormCard, { AvailableType } from "./CreateFormCard";
 import AddFormButton from "./AddFormButton";
 import { generateId } from "@/lib/utils";
 import { useFormList } from "@/lib/forms";
-import { useRouter } from "next/router";
 import { FullScreenLoading } from "@/components/layout";
 
 export default function FormListApp({}) {
-  const router = useRouter();
   const { formList, mutateFormList } = useFormList();
+
   const [isCreating, setIsCreating] = useState(false);
-  const handleNavigateToForm = (formId: string) => {
-    console.log("handleNavigateToForm", formId);
-    router.push(`/forms/${formId}`);
-  };
+  const [isDeleting, setIsDeleting] = useState(false);
+  const shouldBeLoading = isCreating || isDeleting;
+
+  const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
   const handleCreateOneNewForm = (name: string, type: AvailableType) => {
     if (type === "nocode") {
       setIsCreating(true);
@@ -25,14 +24,23 @@ export default function FormListApp({}) {
       const newForm = generateInitialForm(formId, name);
       persistNoCodeForm(newForm).then((res) => {
         const newFormList = JSON.parse(JSON.stringify(formList)) as NoCodeFormData[];
-        newFormList.push(newForm);
+        newFormList.unshift(newForm);
         mutateFormList(newFormList);
         setIsCreating(false);
         hideModal();
       });
     }
   };
-  const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
+
+  const handleDeleteOneForm = (formId: string) => {
+    setIsDeleting(true);
+    deleteNoCodeForm(formId).then((res) => {
+      const newFormList = formList.filter((form) => form.formId !== formId);
+      mutateFormList(newFormList);
+      setIsDeleting(false);
+    });
+  };
+
   return (
     <>
       <CardGrid>
@@ -41,12 +49,10 @@ export default function FormListApp({}) {
         </Portal>
         <AddFormButton onClick={showModal}></AddFormButton>
         {formList.map((form, i) => (
-          <div key={form.formId} onClick={() => handleNavigateToForm(form.formId)}>
-            <FormCard name={form.name} type={"nocode"} responses={0}></FormCard>
-          </div>
+          <FormCard key={form.formId} id={form.formId} name={form.name} type={"nocode"} responses={0} onDelete={handleDeleteOneForm}></FormCard>
         ))}
       </CardGrid>
-      {isCreating && <FullScreenLoading />}
+      {shouldBeLoading && <FullScreenLoading />}
     </>
   );
 }

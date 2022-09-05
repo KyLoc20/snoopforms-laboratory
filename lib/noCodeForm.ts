@@ -38,3 +38,10 @@ export const persistNoCodeForm = (noCodeForm: NoCodeFormData) => {
     body: JSON.stringify(noCodeForm),
   });
 };
+export const deleteNoCodeForm = (formId: string) => {
+  return fetch(`/api/forms/${formId}/nocodeform`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: undefined,
+  });
+};
