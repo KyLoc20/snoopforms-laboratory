@@ -16,7 +16,7 @@ export default function SummaryApp({ formId }: { formId: string }) {
       <Overview
         uniqueUsers={submissionSessions.length}
         sessions={submissionSessions.length}
-        lastSession={timeSince(submissionSessions[0]?.updatedAt ?? "--")}
+        lastSession={timeSince(submissionSessions[0]?.updatedAt)}
       ></Overview>
       <SummaryList list={summaryList}></SummaryList>
     </section>

@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { generateId } from "@/lib/utils";
 import { SubmissionSessionData, SubmissionData } from "@/lib/types";
+import { findOneForm } from "../nocodeform";
 import { prisma } from "@/lib/prisma";
 const getAllSubmissionSessionsOfOneForm = (formId: string) => {
   return prisma.submissionSession.findMany({
@@ -29,7 +30,12 @@ const upsertOneSubmissionSession = (formId: string, payload: SubmissionSessionDa
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const formId = req.query.id?.toString();
   if (formId === undefined) {
-    return res.status(400).json({ err: "formId Not Found" });
+    return res.status(400).json({ message: `Invalid FormId: ${formId}` });
+  }
+  const targetForm = await findOneForm(formId);
+  if (!targetForm) {
+    //empty
+    res.status(404).json({ message: `Form of ${formId} Not Found` });
   }
   if (req.method === "GET") {
     const _res = await getAllSubmissionSessionsOfOneForm(formId);

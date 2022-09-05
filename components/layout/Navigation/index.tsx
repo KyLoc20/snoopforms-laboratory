@@ -3,7 +3,7 @@ import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon, ChartBarIcon, I
 import { classNames } from "@/lib/utils";
 import { useRouter } from "next/router";
 type AvailableNav = "builder" | "preview" | "publish" | "share" | "responses" | "summary" | "example";
-export function NavBar({ currentNav, formId }: { currentNav?: AvailableNav; formId?: string }) {
+export function NavBar({ currentNav, formId = "__unknown" }: { currentNav?: AvailableNav; formId?: string }) {
   const router = useRouter();
   return (
     <div className="flex items-center justify-center flex-shrink-0 border-b border-ui-gray-light bg-ui-gray-lighter">

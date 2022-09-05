@@ -85,11 +85,14 @@ export const convertTimeString = (dateString: string) => {
     }
   );
 };
-export const timeSince = (dateString: string) => {
-  const date = new Date(dateString);
-  return formatDistance(date, new Date(), {
-    addSuffix: true,
-  });
+export const timeSince = (dateString?: string) => {
+  if (!dateString) return "--";
+  else {
+    const date = new Date(dateString);
+    return formatDistance(date, new Date(), {
+      addSuffix: true,
+    });
+  }
 };
 // export const shuffle = (array) => {
 //   array = [...array];

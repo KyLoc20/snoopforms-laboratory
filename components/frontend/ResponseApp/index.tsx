@@ -16,7 +16,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function ResponseApp({ formId }: { formId: string }) {
-  const { submissionSessions, isLoadingSubmissionSessions, mutateSubmissionSessions } = useSubmissionSessions(formId);
+  const { submissionSessions, isLoading, mutate: mutateSubmissionSessions } = useSubmissionSessions(formId);
   const [activeSubmissionSession, setActiveSubmissionSession] = useState<SubmissionSessionData | null>(null);
 
   const handleDelete = async (sessionId: string) => {
@@ -33,13 +33,13 @@ export default function ResponseApp({ formId }: { formId: string }) {
   };
 
   useEffect(() => {
-    if (!isLoadingSubmissionSessions && submissionSessions.length > 0) {
+    if (!isLoading && submissionSessions.length > 0) {
       setActiveSubmissionSession(submissionSessions[0]);
     }
-  }, [isLoadingSubmissionSessions, submissionSessions]);
+  }, [isLoading, submissionSessions]);
   const hasActiveSubmissionSession = activeSubmissionSession !== null;
 
-  if (isLoadingSubmissionSessions) {
+  if (isLoading) {
     return <Loading />;
   } else
     return (

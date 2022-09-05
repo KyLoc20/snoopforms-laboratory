@@ -10,7 +10,7 @@ export default function Screen() {
   const isReady = isValid && !isLoading;
   return (
     <Container bg="rgb(246, 248, 249, 1)">
-      <NavBar currentNav="responses"></NavBar>
+      <NavBar currentNav="responses" formId={formId}></NavBar>
       <MaxWidth full>{isReady ? hasError ? <FormNotFound formId={formId as string} /> : <ResponseApp formId={formId as string} /> : <Loading />}</MaxWidth>
     </Container>
   );
