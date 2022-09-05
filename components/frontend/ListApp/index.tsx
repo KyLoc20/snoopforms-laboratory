@@ -3,7 +3,7 @@ import FormCard from "./FormCard";
 import { NoCodeFormData } from "@/lib/types";
 import { persistNoCodeForm, deleteNoCodeForm } from "@/lib/noCodeForm";
 import useModalPortal from "@/lib/modal";
-import CreateFormCard, { AvailableType } from "./CreateFormCard";
+import CreateFormCard, { AvailableType, generateInitialForm } from "@/components/CreateFormCard";
 import AddFormButton from "./AddFormButton";
 import { generateId } from "@/lib/utils";
 import { useFormList } from "@/lib/forms";
@@ -44,14 +44,14 @@ export default function FormListApp({}) {
   return (
     <>
       <CardGrid>
-        <Portal>
-          <CreateFormCard onSubmit={handleCreateOneNewForm} />
-        </Portal>
         <AddFormButton onClick={showModal}></AddFormButton>
         {formList.map((form, i) => (
           <FormCard key={form.formId} id={form.formId} name={form.name} type={"nocode"} responses={0} onDelete={handleDeleteOneForm}></FormCard>
         ))}
       </CardGrid>
+      <Portal>
+        <CreateFormCard onSubmit={handleCreateOneNewForm} />
+      </Portal>
       {shouldBeLoading && <FullScreenLoading />}
     </>
   );
@@ -68,27 +68,3 @@ function CardGrid({ children }: PropsWithChildren<{}>) {
     </section>
   );
 }
-const generateInitialForm = (formId: string, name: string): NoCodeFormData => ({
-  formId,
-  name,
-  blocks: [],
-  blocksDraft: [
-    { id: generateId(10), type: "header", data: { text: "Welcome to Snoopforms Lab", level: 2 } },
-    {
-      id: generateId(10),
-      type: "ratingQuestion",
-      data: { _component: { num: 5, icon: "stars", isRequired: false, title: "How do you like this stuff?" } },
-    },
-    {
-      id: generateId(10),
-      type: "pageTransition",
-      data: { _component: { submitLabel: "Submit" } },
-    },
-    {
-      id: generateId(10),
-      type: "textQuestion",
-      data: { _component: { placeholder: "Type Your Answer Here", title: "May I know your name?", isRequired: false } },
-    },
-    { id: generateId(10), type: "paragraph", data: { text: "Thanks a lot for your time and insights 🙏" } },
-  ],
-});
