@@ -1,30 +1,18 @@
-import useSWR from "swr";
-import { fetcher, RequestError } from "./utils";
+import { useSWRSafely } from "./utils";
 import { NoCodeFormData } from "./types";
+const EMPTY_NOCODEFORM: NoCodeFormData = {
+  formId: "_empty_nocode_form",
+  name: "_empty_nocode_form",
+  blocks: [],
+  blocksDraft: [],
+};
 export const useNoCodeForm = (formId?: string) => {
-  const {
-    data,
-    error: _err,
-    mutate,
-  } = useSWR(`/api/forms/${formId}/nocodeform`, fetcher, {
-    onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
-      // Never retry on 404.
-      if (error.status === 404) return;
-      // Retry after 5 seconds.
-      setTimeout(() => revalidate({ retryCount }), 5000);
-    },
-  });
-  const hasData = data !== undefined;
-  const hasError = _err !== undefined;
-  //That either of them equals true means the request has finished
-  const isLoading = !hasData && !hasError;
-  const error = hasError ? ({ errCode: _err?.status ?? 400, errMessage: _err?.message ?? "Something Wrong Happened" } as RequestError) : undefined;
-
+  const { data, hasData, hasError, isLoading, error, mutate } = useSWRSafely(`/api/forms/${formId}/nocodeform`);
   // console.log(`---> Form of ${formId} useNoCodeForm hasData ${hasData} hasError ${hasError} error ${error}`);
   if (!formId) {
     //always unavailable
     return {
-      noCodeForm: {} as NoCodeFormData,
+      noCodeForm: EMPTY_NOCODEFORM,
       hasData: false,
       hasError: false,
       isLoading: true,
@@ -32,7 +20,7 @@ export const useNoCodeForm = (formId?: string) => {
       mutateNoCodeForm: mutate,
     };
   } else {
-    const noCodeForm = (data ? (data as NoCodeFormData) : {}) as NoCodeFormData;
+    const noCodeForm = data ? (data as NoCodeFormData) : EMPTY_NOCODEFORM;
     return {
       noCodeForm,
       hasData,

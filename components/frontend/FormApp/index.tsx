@@ -5,11 +5,8 @@ import { BlockData } from "@/lib/types";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { SnoopForm, SnoopPage, SnoopElement } from "@/lib/snoopforms/react";
-type Page = {
-  id: string;
-  blocks: BlockData[];
-};
-export default function FormApp({ id, formId, blocks, localOnly }: { id: string; formId: string; blocks: BlockData[]; localOnly: boolean }) {
+
+export default function FormApp({ formId, blocks }: { formId: string; blocks: BlockData[] }) {
   console.log("RENDER FormApp", formId, blocks);
   const router = useRouter();
   const pages = useMemo(() => {
@@ -60,3 +57,7 @@ export default function FormApp({ id, formId, blocks, localOnly }: { id: string;
     );
   }
 }
+type Page = {
+  id: string;
+  blocks: BlockData[];
+};

@@ -4,6 +4,7 @@ import { Container, MaxWidth, Loading, FormNotFound } from "@/components/layout"
 import { useNoCodeForm } from "@/lib/noCodeForm";
 import FormApp from "@/components/frontend/FormApp";
 import { useFormIdSafely } from "@/lib/router";
+
 export default function Screen() {
   const { formId, isValid } = useFormIdSafely();
   const { noCodeForm, isLoading, hasError } = useNoCodeForm(formId);
@@ -16,7 +17,7 @@ export default function Screen() {
           hasError ? (
             <FormNotFound formId={formId as string} />
           ) : (
-            <FormApp formId={formId as string} id={"test-app"} blocks={noCodeForm.blocksDraft} localOnly={true} />
+            <FormApp formId={formId as string} blocks={noCodeForm.blocksDraft ?? []} />
           )
         ) : (
           <Loading />

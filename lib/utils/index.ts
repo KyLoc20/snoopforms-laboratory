@@ -1,4 +1,5 @@
 import intlFormat from "date-fns/intlFormat";
+import useSWR from "swr";
 import { formatDistance } from "date-fns";
 export const classNames = (...classes: string[]) => {
   return classes.filter(Boolean).join(" ");
@@ -6,6 +7,26 @@ export const classNames = (...classes: string[]) => {
 export type RequestError = {
   errCode: number;
   errMessage: string;
+};
+export const useSWRSafely = (key: string) => {
+  const {
+    data,
+    error: _err,
+    mutate,
+  } = useSWR(key, fetcher, {
+    onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+      // Never retry on 404.
+      if (error.status === 404) return;
+      // Retry after 5 seconds.
+      setTimeout(() => revalidate({ retryCount }), 5000);
+    },
+  });
+  const hasData = data !== undefined;
+  const hasError = _err !== undefined;
+  //That either of them equals true means the request has finished
+  const isLoading = !hasData && !hasError;
+  const error = hasError ? ({ errCode: _err?.status ?? 400, errMessage: _err?.message ?? "Something Wrong Happened" } as RequestError) : undefined;
+  return { data, hasData, hasError, isLoading, error, mutate };
 };
 export const fetcher = async (url: string) => {
   const res = await fetch(url);
