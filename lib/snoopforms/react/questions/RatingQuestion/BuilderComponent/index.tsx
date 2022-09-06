@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Rating from "../common/Rating";
 import Mark from "../../toolkit/ui/Mark";
-import { Select, Switch, QuestionInput, Divider } from "../../toolkit/ui";
+import { Select, Switch, QuestionInput, Divider, ConfigurablePanel } from "../../toolkit/ui";
 import { RatingQuestionConfigData, AvailableIcon } from "../types";
 interface RatingQuestionProps {
   onDataChange: (data: RatingQuestionConfigData) => void;
@@ -29,16 +29,7 @@ export default function BuilderComponent({ onDataChange, initialData }: RatingQu
           icon={icon}
         ></Rating>
       </div>
-      <div
-        className="configurable-panel"
-        style={{
-          borderTop: "dashed 2px rgb(210, 218, 226)",
-          marginTop: "8px",
-          paddingTop: "8px",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
+      <ConfigurablePanel>
         <Select
           options={Array(10)
             .fill(0)
@@ -60,7 +51,7 @@ export default function BuilderComponent({ onDataChange, initialData }: RatingQu
         ></Select>
         <Divider h={38}></Divider>
         <Switch label={"Required"} onChange={() => setIsRequired((prev) => !prev)} defaultValue={isRequired}></Switch>
-      </div>
+      </ConfigurablePanel>
     </div>
   );
 }

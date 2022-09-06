@@ -140,6 +140,23 @@ const generateInitialForm = (formId: string, name: string): NoCodeFormData => ({
     { id: generateId(10), type: "header", data: { text: "Welcome to Snoopforms Lab", level: 2 } },
     {
       id: generateId(10),
+      type: "multipleChoiceQuestion",
+      data: {
+        _component: {
+          onlyOne: true,
+          isRequired: false,
+          options: [
+            { label: "She/her", value: "She/her" },
+            { label: "He/him", value: "He/him" },
+            { label: "They/them", value: "They/them" },
+            { label: "I prefer not to say", value: "I prefer not to say" },
+          ],
+          title: "What are your pronouns?",
+        },
+      },
+    },
+    {
+      id: generateId(10),
       type: "ratingQuestion",
       data: { _component: { num: 5, icon: "stars", isRequired: false, title: "How do you like this stuff?" } },
     },

@@ -10,14 +10,12 @@ import { Fragment, MutableRefObject, useCallback, useEffect } from "react";
 import { RatingQuestionBlockTool } from "@/lib/snoopforms/react/questions/RatingQuestion";
 import { TextQuestionBlockTool } from "@/lib/snoopforms/react/questions/TextQuestion";
 import { EmailQuestionBlockTool } from "@/lib/snoopforms/react/questions/EmailQuestion";
+import { MultipleChoiceQuestionBlockTool } from "@/lib/snoopforms/react/questions/MultipleChoiceQuestion";
 import { PageTransitionBlockTool } from "@/lib/snoopforms/react/questions/PageTransition";
 import { useNoCodeForm, persistNoCodeForm } from "@/lib/noCodeForm";
-
 // import { toast } from "react-toastify";
 // import Loading from "../Loading";
-// import EmailQuestion from "./tools/EmailQuestion";
 // import PageTransition from "./tools/PageTransition";
-// import MultipleChoiceQuestion from "./tools/MultipleChoiceQuestion";
 // import WebsiteQuestion from "./tools/WebsiteQuestion";
 // import PhoneQuestion from "./tools/PhoneQuestion";
 // import NumberQuestion from "./tools/NumberQuestion";
@@ -95,9 +93,8 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
         textQuestion: TextQuestionBlockTool,
         emailQuestion: EmailQuestionBlockTool,
         ratingQuestion: RatingQuestionBlockTool,
+        multipleChoiceQuestion: MultipleChoiceQuestionBlockTool,
         pageTransition: PageTransitionBlockTool,
-        // emailQuestion: EmailQuestion,
-        // multipleChoiceQuestion: MultipleChoiceQuestion,
         // numberQuestion: NumberQuestion,
         // phoneQuestion: PhoneQuestion,
         // websiteQuestion: WebsiteQuestion,

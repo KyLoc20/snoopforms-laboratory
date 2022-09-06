@@ -1,6 +1,7 @@
 import { RatingQuestionResponseDisplay } from "../RatingQuestion";
 import { TextQuestionResponseDisplay } from "../TextQuestion";
 import { EmailQuestionResponseDisplay } from "../EmailQuestion";
+import { MultipleChoiceQuestionResponseDisplay } from "../MultipleChoiceQuestion";
 export { createResponseDisplay };
 function createResponseDisplay(type: string, data: any) {
   let render: React.FC<{}>;
@@ -23,6 +24,11 @@ function createResponseDisplay(type: string, data: any) {
       case "emailQuestion":
         render = function _() {
           return <EmailQuestionResponseDisplay data={data} />;
+        };
+        break;
+      case "multipleChoiceQuestion":
+        render = function _() {
+          return <MultipleChoiceQuestionResponseDisplay data={data} />;
         };
         break;
       default:

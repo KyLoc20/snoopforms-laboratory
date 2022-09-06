@@ -2,6 +2,7 @@ import { PropsWithChildren } from "react";
 import RatingQuestion, { RatingQuestionSubmissionData } from "../RatingQuestion";
 import TextQuestion, { TextQuestionSubmissionData } from "../TextQuestion";
 import EmailQuestion, { EmailQuestionSubmissionData } from "../EmailQuestion";
+import MultipleChoiceQuestion, { MultipleChoiceQuestionSubmissionData } from "../MultipleChoiceQuestion";
 import PageTransition from "../PageTransition";
 export { createQuestionElement };
 export type PreSubmissionData = {
@@ -78,6 +79,24 @@ const createQuestionElement = (type: string, block: BlockDataForQuestion) => {
             }}
             initialData={{
               content: "",
+            }}
+            onSubmissionChange={(data) => onSubmissionChange({ details: data, questionId: block.id, questionType: type })}
+          />
+        );
+      };
+      break;
+    case "multipleChoiceQuestion":
+      render = function _({ onSubmissionChange }) {
+        return (
+          <MultipleChoiceQuestion
+            config={{
+              title: block.data._component?.title,
+              isRequired: block.data._component?.isRequired,
+              onlyOne: block.data._component?.onlyOne,
+              options: block.data._component?.options,
+            }}
+            initialData={{
+              choiceList: [],
             }}
             onSubmissionChange={(data) => onSubmissionChange({ details: data, questionId: block.id, questionType: type })}
           />

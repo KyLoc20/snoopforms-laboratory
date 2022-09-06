@@ -24,12 +24,12 @@ export default function FormListApp({}) {
       const formId = generateId(10);
       const newForm = generateInitialForm(formId, name);
       persistNoCodeForm(newForm).then((res) => {
+        toNewForm(`/forms/${formId}/builder`);
         const newFormList = JSON.parse(JSON.stringify(formList)) as NoCodeFormData[];
         newFormList.unshift(newForm);
         mutateFormList(newFormList);
-        toNewForm(`/forms/${formId}/builder`);
-        setIsCreating(false);
         hideModal();
+        setIsCreating(false);
       });
     }
   };
