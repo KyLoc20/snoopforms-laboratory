@@ -3,6 +3,9 @@ import { TextQuestionResponseDisplay } from "../TextQuestion";
 import { EmailQuestionResponseDisplay } from "../EmailQuestion";
 import { MultipleChoiceQuestionResponseDisplay } from "../MultipleChoiceQuestion";
 export { createResponseDisplay };
+/**
+ * @QUESTION_SETTING
+ */
 function createResponseDisplay(type: string, data: any) {
   let render: React.FC<{}>;
   if (!data) {

@@ -14,6 +14,9 @@ type SummaryDisplayProps = {
   questionConfig: any; //from BuilderComponet
   submissionResults: any; //from UserComponent
 };
+/**
+ * @QUESTION_SETTING
+ */
 function createSummaryDisplay(type: string) {
   let render: React.FC<SummaryDisplayProps>;
   switch (type) {
@@ -45,7 +48,9 @@ function createSummaryDisplay(type: string) {
   }
   return render;
 }
-
+/**
+ * @QUESTION_SETTING
+ */
 function createSummaryAnalyzer(type: string): (config: any, details: any[]) => any {
   let analyzer: (config: any, details: any[]) => any;
   switch (type) {

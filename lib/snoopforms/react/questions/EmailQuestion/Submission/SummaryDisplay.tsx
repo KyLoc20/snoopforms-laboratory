@@ -4,7 +4,7 @@ import BaseSummaryDisplay from "../../toolkit/base/BaseSummaryDisplay";
 //for summary
 export default function SummaryDisplay(props: SummaryDisplayProps) {
   const { questionId, questionType, questionConfig, submissionResults, questionTitle } = props;
-  const answers: string[] = submissionResults;
+  const answers: string[] = submissionResults.filter(Boolean);
   return (
     <BaseSummaryDisplay questionTitle={questionTitle || questionId} questionType={questionType}>
       <div className="flow-root px-8 my-4 mt-6 text-center" style={{ margin: "24px 0 16px", padding: "0 32px" }}>

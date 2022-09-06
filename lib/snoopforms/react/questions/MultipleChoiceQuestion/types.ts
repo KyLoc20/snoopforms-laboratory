@@ -11,7 +11,7 @@ export type MultipleChoiceQuestionConfigData = {
 export type MultipleChoiceQuestionSubmissionData = {
   choiceList: ChoiceOption[];
 };
-type ChoiceOption = {
+export type ChoiceOption = {
   label: string;
   value: string;
 };

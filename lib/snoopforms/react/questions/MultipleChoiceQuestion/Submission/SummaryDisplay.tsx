@@ -1,28 +1,49 @@
 import { SummaryDisplayProps } from "../../factories/summary";
 import BaseSummaryDisplay from "../../toolkit/base/BaseSummaryDisplay";
-
+import { MultipleChoiceQuestionChartData } from "./SummaryAnalyzer";
+import "chart.js/auto";
+import { Chart } from "react-chartjs-2";
 //for summary
 export default function SummaryDisplay(props: SummaryDisplayProps) {
   const { questionId, questionType, questionConfig, submissionResults, questionTitle } = props;
-  const answers: string[] = submissionResults;
+  const chartData: MultipleChoiceQuestionChartData = submissionResults;
+
+  const options = initChartOptions() as any;
+  const data = {
+    labels: Object.keys(chartData),
+    datasets: [
+      {
+        data: Object.entries(chartData).map(([k, o]) => o),
+        backgroundColor: ["rgba(245, 59, 87, 0.7)"],
+        borderColor: ["rgba(245, 59, 87, 1)"],
+        borderWidth: 1,
+      },
+    ],
+  };
   return (
     <BaseSummaryDisplay questionTitle={questionTitle || questionId} questionType={questionType}>
       <div className="flow-root px-8 my-4 mt-6 text-center" style={{ margin: "24px 0 16px", padding: "0 32px" }}>
-        {answers.map((answer, i) => (
-          <div
-            key={i}
-            style={{
-              padding: "16px 0",
-              color: "#405164",
-              lineHeight: "20px",
-              fontSize: "14px",
-              borderBottom: i === answers.length - 1 ? "" : "1px solid #d2dae2",
-            }}
-          >
-            {answer}
-          </div>
-        ))}
+        <Chart type="bar" data={data} options={options} height={75} />
       </div>
     </BaseSummaryDisplay>
   );
 }
+const initChartOptions = () => ({
+  indexAxis: "y",
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  scales: {
+    yAxis: [
+      {
+        ticks: {
+          min: 1,
+          precision: 0,
+        },
+      },
+    ],
+  },
+});
