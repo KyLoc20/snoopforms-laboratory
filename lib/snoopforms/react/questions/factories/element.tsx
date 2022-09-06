@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
 import RatingQuestion, { RatingQuestionSubmissionData } from "../RatingQuestion";
 import TextQuestion, { TextQuestionSubmissionData } from "../TextQuestion";
+import EmailQuestion, { EmailQuestionSubmissionData } from "../EmailQuestion";
 import PageTransition from "../PageTransition";
 export { createQuestionElement };
 export type PreSubmissionData = {
@@ -53,6 +54,23 @@ const createQuestionElement = (type: string, block: BlockDataForQuestion) => {
       render = function _({ onSubmissionChange }) {
         return (
           <TextQuestion
+            config={{
+              title: block.data._component?.title,
+              placeholder: block.data._component?.placeholder,
+              isRequired: block.data._component?.isRequired,
+            }}
+            initialData={{
+              content: "",
+            }}
+            onSubmissionChange={(data) => onSubmissionChange({ details: data, questionId: block.id, questionType: type })}
+          />
+        );
+      };
+      break;
+    case "emailQuestion":
+      render = function _({ onSubmissionChange }) {
+        return (
+          <EmailQuestion
             config={{
               title: block.data._component?.title,
               placeholder: block.data._component?.placeholder,

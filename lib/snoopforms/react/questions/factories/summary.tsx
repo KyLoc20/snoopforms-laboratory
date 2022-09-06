@@ -1,5 +1,6 @@
 import { RatingQuestionSummaryDisplay, RatingQuestionSummaryAnalyzer } from "../RatingQuestion";
 import { TextQuestionSummaryDisplay, TextQuestionSummaryAnalyzer } from "../TextQuestion";
+import { EmailQuestionSummaryDisplay, EmailQuestionSummaryAnalyzer } from "../EmailQuestion";
 export { createSummaryDisplay, createSummaryAnalyzer };
 export type { SummaryDisplayProps };
 /**
@@ -25,6 +26,11 @@ function createSummaryDisplay(type: string) {
         return <TextQuestionSummaryDisplay {...props} />;
       };
       break;
+    case "emailQuestion":
+      render = function _(props) {
+        return <EmailQuestionSummaryDisplay {...props} />;
+      };
+      break;
     default:
       render = function _(props) {
         return <RatingQuestionSummaryDisplay {...props} />;
@@ -45,6 +51,10 @@ function createSummaryAnalyzer(type: string): (config: any, details: any[]) => a
     case "textQuestion":
       // ["string1", "string2"]
       analyzer = TextQuestionSummaryAnalyzer;
+      break;
+    case "emailQuestion":
+      // ["string1", "string2"]
+      analyzer = EmailQuestionSummaryAnalyzer;
       break;
     default:
       analyzer = RatingQuestionSummaryAnalyzer;

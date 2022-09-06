@@ -1,7 +1,7 @@
 import { Container, MaxWidth, Loading } from "@/components/layout";
 import FormListApp from "@/components/frontend/ListApp";
 import { useFormList } from "@/lib/forms";
-import TopBar from "@/components/TopBanner";
+import TopBar from "@/components/TopBar";
 export default function Screen() {
   const { isLoadingFormList } = useFormList();
   const isReady = !isLoadingFormList;

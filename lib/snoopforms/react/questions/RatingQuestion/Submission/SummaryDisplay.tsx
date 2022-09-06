@@ -7,7 +7,6 @@ import { Chart } from "react-chartjs-2";
 //for summary
 export default function SummaryDisplay(props: SummaryDisplayProps) {
   const { questionId, questionType, questionConfig, submissionResults, questionTitle } = props;
-  console.log("RENDER SummaryDisplay", questionType, questionTitle);
   const chartData: RatingQuestionChartData = submissionResults;
 
   const options = initChartOptions() as any;

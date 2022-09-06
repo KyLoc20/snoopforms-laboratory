@@ -4,7 +4,7 @@ import { useSubmissionSessions } from "@/lib/submissionSession";
 import { useFormIdSafely } from "@/lib/router";
 import SummaryApp from "@/components/frontend/SummaryApp";
 import { useNoCodeForm } from "@/lib/noCodeForm";
-import TopBar from "@/components/TopBanner";
+import TopBar from "@/components/TopBar";
 export default function Screen() {
   const { formId, isValid } = useFormIdSafely();
   const { isLoading, hasError } = useSubmissionSessions(formId);

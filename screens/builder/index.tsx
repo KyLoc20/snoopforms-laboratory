@@ -3,7 +3,7 @@ import BuilderApp from "@/components/BuilderApp";
 import { useNoCodeForm } from "@/lib/noCodeForm";
 import { Container, MaxWidth, Loading, FormNotFound } from "@/components/layout";
 import { useFormIdSafely } from "@/lib/router";
-import TopBar from "@/components/TopBanner";
+import TopBar from "@/components/TopBar";
 export default function Screen() {
   const { formId, isValid } = useFormIdSafely();
   const { isLoading, hasError, noCodeForm } = useNoCodeForm(formId);

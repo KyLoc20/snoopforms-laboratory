@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import Mark from "../../toolkit/ui/Mark";
 import TextField from "../../toolkit/ui/TextField";
 import { Switch, QuestionInput, Divider } from "../../toolkit/ui";
-import { TextQuestionConfigData } from "../types";
+import { EmailQuestionConfigData } from "../types";
+import EmailIcon from "../common/EmailIcon";
 interface TextQuestionProps {
-  onDataChange: (data: TextQuestionConfigData) => void;
-  initialData: TextQuestionConfigData;
+  onDataChange: (data: EmailQuestionConfigData) => void;
+  initialData: EmailQuestionConfigData;
 }
 export default function BuilderComponent({ onDataChange, initialData }: TextQuestionProps) {
   const [title, setTitle] = useState(initialData.title);
@@ -21,7 +22,7 @@ export default function BuilderComponent({ onDataChange, initialData }: TextQues
         <Mark active={isRequired}></Mark>
       </div>
       <div style={{ marginTop: "4px" }}>
-        <TextField onChange={(v) => setPlaceholder(v)} defaultValue={placeholder} placeholder={"Type Placeholder Here"} />
+        <TextField onChange={(v) => setPlaceholder(v)} renderIcon={EmailIcon} defaultValue={placeholder} placeholder={"Type Placeholder Here"} />
       </div>
       <div
         className="configurable-panel"

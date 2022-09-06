@@ -9,6 +9,7 @@ import Undo from "editorjs-undo";
 import { Fragment, MutableRefObject, useCallback, useEffect } from "react";
 import { RatingQuestionBlockTool } from "@/lib/snoopforms/react/questions/RatingQuestion";
 import { TextQuestionBlockTool } from "@/lib/snoopforms/react/questions/TextQuestion";
+import { EmailQuestionBlockTool } from "@/lib/snoopforms/react/questions/EmailQuestion";
 import { PageTransitionBlockTool } from "@/lib/snoopforms/react/questions/PageTransition";
 import { useNoCodeForm, persistNoCodeForm } from "@/lib/noCodeForm";
 
@@ -92,6 +93,7 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
       defaultBlock: "paragraph",
       tools: {
         textQuestion: TextQuestionBlockTool,
+        emailQuestion: EmailQuestionBlockTool,
         ratingQuestion: RatingQuestionBlockTool,
         pageTransition: PageTransitionBlockTool,
         // emailQuestion: EmailQuestion,
