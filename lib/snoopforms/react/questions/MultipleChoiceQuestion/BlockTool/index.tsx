@@ -48,6 +48,7 @@ export default class MultipleChoiceQuestion implements BlockTool {
     this.rootNode.classList.add("block-root");
     const handleDataChange = (data: MultipleChoiceQuestionConfigData) => {
       this.data._component = data;
+      console.log("UPDATE BLOCK", this.data._component);
     };
     ReactDOM.render(<BuilderComponent onDataChange={handleDataChange} initialData={this.data._component} />, this.rootNode);
     return this.rootNode;
