@@ -34,6 +34,7 @@ export function SnoopPage(props: PropsWithChildren<SnoopPageProps>) {
 
   const submitThisPage = useContext(SubmitHandlerContext);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log("handleSubmit", e);
     e.preventDefault();
     submitThisPage(pageName);
   };

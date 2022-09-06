@@ -26,8 +26,10 @@ export default function TextField({ onChange, type, placeholder, defaultValue, t
         </div>
       )}
       <input
+        // DO NOT check pattern here
+        // pattern={type === "email" ? "^[A-Za-z0-9]+@[A-Za-z0-9]+.com$" : undefined}
         type={type ?? "text"}
-        pattern={type === "email" ? "^[A-Za-z0-9]+@[A-Za-z0-9]+.com$" : undefined}
+        onInvalid={(e) => e.preventDefault()}
         placeholder={placeholder ?? ""}
         onChange={handleChange}
         onFocus={() => setIsFocused(true)}

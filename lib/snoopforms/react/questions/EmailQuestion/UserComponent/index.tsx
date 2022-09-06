@@ -15,15 +15,11 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
   const { title, placeholder, isRequired } = config;
   const [value, setValue] = useState<string>(initialData.content);
 
-  const canSubmit = isRequired ? Boolean(value) : true;
+  const canSubmit = (isRequired ? Boolean(value) : true) && isValidEmailAddress(value);
   const { Validator, shouldShowReminder, hideReminder } = useInputValidator(canSubmit);
-
   useEffect(() => {
-    if (value === "" && isRequired) {
-      //no submission received
-    } else {
-      if (shouldShowReminder) hideReminder();
-    }
+    //when input updates, hideReminder
+    if (shouldShowReminder) hideReminder();
     //should init
     onSubmissionChange({ content: value });
   }, [value]);
@@ -45,3 +41,9 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
     </div>
   );
 }
+//allow void
+const isValidEmailAddress = (value: string) => {
+  if (value === "") return true;
+  const regex = new RegExp("[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$");
+  return regex.test(value);
+};

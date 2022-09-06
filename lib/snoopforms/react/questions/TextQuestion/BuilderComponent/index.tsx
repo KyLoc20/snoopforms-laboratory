@@ -21,7 +21,7 @@ export default function BuilderComponent({ onDataChange, initialData }: TextQues
         <Mark active={isRequired}></Mark>
       </div>
       <div style={{ marginTop: "4px" }}>
-        <TextField onChange={(v) => setPlaceholder(v)} defaultValue={placeholder} placeholder={"Type Placeholder Here"} />
+        <TextField onChange={(v) => setPlaceholder(v)} defaultValue={""} placeholder={"Type Placeholder Here"} />
       </div>
       <div
         className="configurable-panel"
