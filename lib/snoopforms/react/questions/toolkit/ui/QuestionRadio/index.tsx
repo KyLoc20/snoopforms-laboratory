@@ -10,8 +10,8 @@ type QuestionRadioProps = {
   editable?: boolean;
   selected?: boolean;
   label: string;
-  onSelect?: (value: string) => void;
-  onLabelChange?: (value: string) => void;
+  onSelect?: (label: string) => void;
+  onLabelChange?: (label: string) => void;
 };
 export default function QuestionRadio({ label, selected, editable, disable, onSelect, onLabelChange }: QuestionRadioProps) {
   const handleLabelChange = throttle((e: ChangeEvent<HTMLInputElement>) => {

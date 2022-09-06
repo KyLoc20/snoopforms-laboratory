@@ -40,7 +40,7 @@ export default function BuilderComponent({ onDataChange, initialData }: Multiple
       <div style={{ marginTop: "4px", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
         {options.map((option, i) => (
           <div key={i} style={{ marginTop: "8px", display: "flex", alignItems: "center" }}>
-            <QuestionRadio key={i} disable editable label={option.label} onLabelChange={(newLabel) => handleUpdateOption(i, newLabel)} />
+            <QuestionRadio disable editable label={option.label} onLabelChange={(newLabel) => handleUpdateOption(i, newLabel)} />
             <DeleteButton onClick={() => handleDeleteOption(i)} />
           </div>
         ))}
