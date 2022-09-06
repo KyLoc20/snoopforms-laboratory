@@ -19,11 +19,8 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
   const { Validator, shouldShowReminder, hideReminder } = useInputValidator(canSubmit);
 
   useEffect(() => {
-    if (value === "" && isRequired) {
-      //no submission received
-    } else {
-      if (shouldShowReminder) hideReminder();
-    }
+    //when input updates, hideReminder
+    if (shouldShowReminder) hideReminder();
     //should init
     onSubmissionChange({ content: value });
   }, [value]);

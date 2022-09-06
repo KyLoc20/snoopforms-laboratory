@@ -29,6 +29,7 @@ export default function SubmissionSessionDisplay({ formId, submissionSession }: 
   //pagination
   const pages = paginateSession(submissionSession);
   const id2Title = getQuestionTitleMap(noCodeForm);
+  console.log("SubmissionSessionDisplay id2Title", id2Title);
   return (
     <div className="flow-root">
       <ul role="list" className="divide-y divide-ui-gray-light">
