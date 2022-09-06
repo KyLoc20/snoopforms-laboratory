@@ -16,7 +16,6 @@ export default function TextField({ onChange, type, placeholder, defaultValue, t
         color: "#8299ae",
         borderRadius: "16px",
         boxShadow: isFocused ? "0 0 0 1px #0190c8" : "",
-        // color: "rgba(56, 70, 84, 1)",
         display: "flex",
         alignItems: "center",
       }}
@@ -28,7 +27,7 @@ export default function TextField({ onChange, type, placeholder, defaultValue, t
       )}
       <input
         type={type ?? "text"}
-        pattern={type === "email" ? ".+@.+.com" : undefined}
+        pattern={type === "email" ? "^[A-Za-z0-9]+@[A-Za-z0-9]+.com$" : undefined}
         placeholder={placeholder ?? ""}
         onChange={handleChange}
         onFocus={() => setIsFocused(true)}
@@ -43,32 +42,6 @@ export default function TextField({ onChange, type, placeholder, defaultValue, t
       />
     </label>
   );
-  // return (
-  //   <label className="question-input" style={{ maxWidth: "384px", color: "rgba(56, 70, 84, 1)", display: "flex", alignItems: "center" }}>
-  //     {RenderIcon && <RenderIcon />}
-  //     <input
-  //       type={type ?? "text"}
-  //       pattern={type === "email" ? ".+@.+.com" : undefined}
-  //       placeholder={placeholder ?? ""}
-  //       onChange={handleChange}
-  //       onFocus={() => setIsFocused(true)}
-  //       onBlur={() => setIsFocused(false)}
-  //       defaultValue={defaultValue}
-  //       style={{
-  //         width: "100%",
-  //         lineHeight: "20px",
-  //         fontSize: "14px",
-  //         fontWeight: 400,
-  //         padding: "8px 12px",
-  //         background: "#fff",
-  //         border: `1px solid ${isFocused ? "#0190c8" : "#aebdcb"}`,
-  //         color: "#8299ae",
-  //         borderRadius: "16px",
-  //         boxShadow: isFocused ? "0 0 0 1px #0190c8" : "",
-  //       }}
-  //     />
-  //   </label>
-  // );
 }
 type AvailableType = "text" | "email" | "phone";
 type TextFieldProps = {
