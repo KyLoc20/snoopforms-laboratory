@@ -8,8 +8,21 @@ import { FormNotFound } from "./NotFound";
 import TopBar from "./TopBar";
 export { Container, MaxWidth, Loading, FormNotFound, FullScreenLoading };
 /**
- * From top to bottom: TopBar, Navagation, App
- * @returns
+ *
+ * @returns From top to bottom: TopBar, App
+ */
+export function TopBarAppLayout({ children, title }: PropsWithChildren<{ title: string }>) {
+  return (
+    <Container bg="rgb(246, 248, 249, 1)">
+      <TopBar title={title} />
+      <MaxWidth>{children}</MaxWidth>
+      <div id="new-form-modal"></div>
+    </Container>
+  );
+}
+/**
+ *
+ * @returns From top to bottom: TopBar, Navagation, App
  */
 export function TopBarNavagationAppLayout({
   children,
@@ -27,8 +40,8 @@ export function TopBarNavagationAppLayout({
   );
 }
 /**
- * From top to bottom: TopBar, Navagation, w-full App
- * @returns
+ *
+ * @returns From top to bottom: TopBar, Navagation, w-full App
  */
 export function TopBarNavagationFullAppLayout({
   children,
