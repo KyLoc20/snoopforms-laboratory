@@ -9,27 +9,16 @@ const EMPTY_NOCODEFORM: NoCodeFormData = {
 export const useNoCodeForm = (formId?: string) => {
   const { data, hasData, hasError, isLoading, error, mutate } = useSWRSafely(`/api/forms/${formId}/nocodeform`);
   // console.log(`---> Form of ${formId} useNoCodeForm hasData ${hasData} hasError ${hasError} error ${error}`);
-  if (!formId) {
-    //always unavailable
-    return {
-      noCodeForm: EMPTY_NOCODEFORM,
-      hasData: false,
-      hasError: false,
-      isLoading: true,
-      error,
-      mutateNoCodeForm: mutate,
-    };
-  } else {
-    const noCodeForm = data ? (data as NoCodeFormData) : EMPTY_NOCODEFORM;
-    return {
-      noCodeForm,
-      hasData,
-      hasError,
-      isLoading,
-      error,
-      mutateNoCodeForm: mutate,
-    };
-  }
+  // if formId === undefined, noCodeForm -> EMPTY_NOCODEFORM
+  const noCodeForm = formId === undefined ? EMPTY_NOCODEFORM : data ? (data as NoCodeFormData) : EMPTY_NOCODEFORM;
+  return {
+    noCodeForm,
+    hasData,
+    hasError,
+    isLoading,
+    error,
+    mutateNoCodeForm: mutate,
+  };
 };
 export const persistNoCodeForm = (noCodeForm: NoCodeFormData) => {
   return fetch(`/api/forms/${noCodeForm.formId}/nocodeform`, {

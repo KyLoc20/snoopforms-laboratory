@@ -3,27 +3,16 @@ import { SubmissionSessionData } from "./types";
 const EMPTY_SUBMISSIONSESSIONS: SubmissionSessionData[] = [];
 export const useSubmissionSessions = (formId?: string) => {
   const { data, hasData, hasError, isLoading, error, mutate } = useSWRSafely(`/api/forms/${formId}/submissionSessions`);
-  if (!formId) {
-    //always unavailable
-    return {
-      submissionSessions: EMPTY_SUBMISSIONSESSIONS,
-      hasData: false,
-      hasError: false,
-      isLoading: true,
-      error,
-      mutate,
-    };
-  } else {
-    const submissionSessions = data ? (data as SubmissionSessionData[]) : EMPTY_SUBMISSIONSESSIONS;
-    return {
-      submissionSessions,
-      hasData,
-      hasError,
-      isLoading,
-      error,
-      mutate,
-    };
-  }
+  // if formId === undefined, submissionSessions -> EMPTY_SUBMISSIONSESSIONS
+  const submissionSessions = formId === undefined ? EMPTY_SUBMISSIONSESSIONS : data ? (data as SubmissionSessionData[]) : EMPTY_SUBMISSIONSESSIONS;
+  return {
+    submissionSessions,
+    hasData,
+    hasError,
+    isLoading,
+    error,
+    mutateNoCodeForm: mutate,
+  };
 };
 export const persistOneSubmissionSession = (formId: string, payload: SubmissionSessionData) => {
   return fetch(`/api/forms/${formId}/submissionSessions`, {

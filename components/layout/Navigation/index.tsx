@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon, ChartBarIcon, InboxIcon, DocumentDuplicateIcon } from "@heroicons/react/outline";
 import { classNames } from "@/lib/utils";
 import { useRouter } from "next/router";
-type AvailableNav = "builder" | "preview" | "publish" | "share" | "responses" | "summary" | "example";
+export type AvailableNav = "builder" | "preview" | "publish" | "share" | "responses" | "summary" | "example";
 export function NavBar({ currentNav, formId = "__unknown" }: { currentNav?: AvailableNav; formId?: string }) {
   const router = useRouter();
   return (

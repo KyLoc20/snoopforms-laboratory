@@ -1,28 +1,32 @@
-import { NavBar } from "@/components/layout/Navigation";
 import BuilderApp from "@/components/BuilderApp";
 import { useNoCodeForm } from "@/lib/noCodeForm";
-import { Container, MaxWidth, Loading, FormNotFound } from "@/components/layout";
+import { TopBarNavagationAppLayout, Loading, FormNotFound } from "@/components/layout";
 import { useFormIdSafely } from "@/lib/router";
-import TopBar from "@/components/TopBar";
 export default function Screen() {
   const { formId, isValid } = useFormIdSafely();
-  const { isLoading, hasError, noCodeForm } = useNoCodeForm(formId);
-  const isReady = isValid && !isLoading;
-  const shouldShowName = isReady && !hasError;
-  return (
-    <Container>
-      <TopBar title={shouldShowName ? noCodeForm.name : ""} />
-      <NavBar currentNav="builder" formId={formId}></NavBar>
-      <MaxWidth>
-        <R formId={formId as string} isReady={isReady} hasError={hasError}></R>
-      </MaxWidth>
-      <div id="new-form-modal"></div>
-    </Container>
-  );
+  if (isValid) return <View formId={formId as string} />;
+  else return <LoadingView />;
 }
 function R({ formId, isReady, hasError }: { formId: string; isReady: boolean; hasError: boolean }) {
   if (isReady) {
     if (hasError) return <FormNotFound formId={formId} />;
     else return <BuilderApp formId={formId} />;
   } else return <Loading />;
+}
+function View({ formId }: { formId: string }) {
+  const { isLoading, hasError, noCodeForm, error } = useNoCodeForm(formId);
+  const isReady = !isLoading;
+  return (
+    <TopBarNavagationAppLayout title={isReady && !hasError ? noCodeForm.name : ""} currentNav={"builder"}>
+      <R formId={formId as string} isReady={isReady} hasError={hasError}></R>
+    </TopBarNavagationAppLayout>
+  );
+}
+
+function LoadingView() {
+  return (
+    <TopBarNavagationAppLayout title={""} currentNav={"builder"}>
+      <Loading />
+    </TopBarNavagationAppLayout>
+  );
 }
