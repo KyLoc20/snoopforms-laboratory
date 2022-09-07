@@ -20,7 +20,7 @@ export default function QuestionRadio({ label, selected, editable, disable, onSe
   return (
     <div
       className="question-radio"
-      style={{ height: "28px", display: "inline-flex", alignItems: "center" }}
+      style={{ height: "28px", display: "inline-flex", alignItems: "center", cursor: editable || disable ? "default" : "pointer" }}
       onClick={() => {
         if (!disable) onSelect?.(label);
       }}

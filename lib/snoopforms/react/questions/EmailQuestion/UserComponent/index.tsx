@@ -40,7 +40,7 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
 //void allowed
 const isValidEmailAddress = (value: string) => {
   if (value === "") return true;
-  const regex = new RegExp("[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$");
+  const regex = /\S+@\S+\.\S+/;
   return regex.test(value);
 };
 const validate = (value: string, isRequired: boolean) => {
