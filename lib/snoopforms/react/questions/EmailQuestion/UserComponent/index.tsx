@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Mark from "../../toolkit/ui/Mark";
 import TextField from "../../toolkit/ui/TextField";
-import { QuestionTitle } from "../../toolkit/ui";
+import { QuestionContainer } from "../../toolkit/ui";
 import useInputValidator, { AlarmPlaceholder } from "../../toolkit/base/validate";
 import { EmailQuestionConfigData, EmailQuestionSubmissionData } from "../types";
 import EmailIcon from "../common/EmailIcon";
@@ -28,17 +28,13 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
     setValue(v);
   };
   return (
-    <div className="question-container" style={{ paddingBottom: "20px", position: "relative" }}>
-      <div style={{ position: "relative" }}>
-        <QuestionTitle title={title} />
-        <Mark active={isRequired}></Mark>
-      </div>
+    <QuestionContainer title={title} isRequired={isRequired}>
       <div style={{ marginTop: "8px" }}>
         <TextField onChange={handleContentChange} renderIcon={EmailIcon} placeholder={placeholder} type="email" />
       </div>
       <Validator></Validator>
       <AlarmPlaceholder>{shouldAlarm && validationError}</AlarmPlaceholder>
-    </div>
+    </QuestionContainer>
   );
 }
 //void allowed

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import Mark from "../../toolkit/ui/Mark";
 import TextField from "../../toolkit/ui/TextField";
-import { QuestionTitle } from "../../toolkit/ui";
+import { QuestionContainer } from "../../toolkit/ui";
 import useInputValidator, { AlarmPlaceholder } from "../../toolkit/base/validate";
 import { TextQuestionConfigData, TextQuestionSubmissionData } from "../types";
 
@@ -28,17 +27,13 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
     setValue(v);
   };
   return (
-    <div className="question-container" style={{ paddingBottom: "20px", position: "relative" }}>
-      <div style={{ position: "relative" }}>
-        <QuestionTitle title={title} />
-        <Mark active={isRequired}></Mark>
-      </div>
+    <QuestionContainer title={title} isRequired={isRequired}>
       <div style={{ marginTop: "8px" }}>
         <TextField onChange={handleContentChange} placeholder={placeholder} />
       </div>
       <Validator></Validator>
       <AlarmPlaceholder>{shouldAlarm && validationError}</AlarmPlaceholder>
-    </div>
+    </QuestionContainer>
   );
 }
 const validate = (value: string, isRequired: boolean) => {

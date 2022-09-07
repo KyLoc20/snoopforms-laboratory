@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import Mark from "../../toolkit/ui/Mark";
-import { QuestionRadio, QuestionTitle } from "../../toolkit/ui";
+import { QuestionRadio, QuestionContainer } from "../../toolkit/ui";
 import useInputValidator, { AlarmPlaceholder } from "../../toolkit/base/validate";
 import { MultipleChoiceQuestionConfigData, MultipleChoiceQuestionSubmissionData } from "../types";
 
@@ -51,11 +50,7 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
   };
 
   return (
-    <div className="question-container" style={{ paddingBottom: "20px", position: "relative" }}>
-      <div style={{ position: "relative" }}>
-        <QuestionTitle title={title} />
-        <Mark active={isRequired}></Mark>
-      </div>
+    <QuestionContainer title={title} isRequired={isRequired}>
       <div style={{ marginTop: "4px", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
         {options.map((option, i) => (
           <div key={i} style={{ marginTop: "8px", display: "flex", alignItems: "center" }}>
@@ -70,7 +65,7 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
       </div>
       <Validator></Validator>
       <AlarmPlaceholder>{shouldAlarm && validationError}</AlarmPlaceholder>
-    </div>
+    </QuestionContainer>
   );
 }
 const validate = (value: number, isRequired: boolean) => {

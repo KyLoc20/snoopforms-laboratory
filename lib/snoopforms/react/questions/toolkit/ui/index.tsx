@@ -1,5 +1,6 @@
 import Button from "./Button";
 import Divider from "./Divider";
+import QuestionContainer from "./QuestionContainer";
 import QuestionInput from "./QuestionInput";
 import QuestionTitle from "./QuestionTitle";
 import QuestionRadio from "./QuestionRadio";
@@ -7,4 +8,4 @@ import Select from "./Select";
 import Switch from "./Switch";
 import Mark from "./Mark";
 import ConfigurablePanel from "./ConfigurablePanel";
-export { Button, Divider, QuestionInput, QuestionTitle, QuestionRadio, Select, Switch, Mark, ConfigurablePanel };
+export { Button, Divider, QuestionContainer, QuestionInput, QuestionTitle, QuestionRadio, Select, Switch, Mark, ConfigurablePanel };
