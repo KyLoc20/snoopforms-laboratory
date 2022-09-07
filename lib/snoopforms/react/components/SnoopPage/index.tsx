@@ -4,7 +4,7 @@ import { classNamesConcat } from "../../lib/utils";
 import { CurrentPageContext, SubmitHandlerContext, RegistryContext } from "../SnoopForm";
 
 export const PageContext = createContext(""); //pageName
-
+//todo incorrectly hide
 interface SnoopPageProps {
   name: string;
   className?: string;

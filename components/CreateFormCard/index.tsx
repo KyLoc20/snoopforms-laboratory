@@ -140,6 +140,11 @@ const generateInitialForm = (formId: string, name: string): NoCodeFormData => ({
     { id: generateId(10), type: "header", data: { text: "Welcome to Snoopforms Lab", level: 2 } },
     {
       id: generateId(10),
+      type: "textQuestion",
+      data: { _component: { placeholder: "Type Your Name Here", title: "May I know your name?", isRequired: false } },
+    },
+    {
+      id: generateId(10),
       type: "multipleChoiceQuestion",
       data: {
         _component: {
@@ -157,18 +162,18 @@ const generateInitialForm = (formId: string, name: string): NoCodeFormData => ({
     },
     {
       id: generateId(10),
-      type: "ratingQuestion",
-      data: { _component: { num: 5, icon: "stars", isRequired: false, title: "How do you like this stuff?" } },
-    },
-    {
-      id: generateId(10),
       type: "pageTransition",
       data: { _component: { submitLabel: "Submit" } },
     },
     {
       id: generateId(10),
-      type: "textQuestion",
-      data: { _component: { placeholder: "Type Your Answer Here", title: "May I know your name?", isRequired: false } },
+      type: "ratingQuestion",
+      data: { _component: { num: 5, icon: "hearts", isRequired: false, title: "How do you like this stuff?" } },
+    },
+    {
+      id: generateId(10),
+      type: "emailQuestion",
+      data: { _component: { placeholder: "Type Email Here", title: "May I have your email?", isRequired: false } },
     },
     { id: generateId(10), type: "paragraph", data: { text: "Thanks a lot for your time and insights 🙏" } },
   ],
