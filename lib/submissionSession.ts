@@ -11,7 +11,7 @@ export const useSubmissionSessions = (formId?: string) => {
     hasError,
     isLoading,
     error,
-    mutateNoCodeForm: mutate,
+    mutate,
   };
 };
 export const persistOneSubmissionSession = (formId: string, payload: SubmissionSessionData) => {
