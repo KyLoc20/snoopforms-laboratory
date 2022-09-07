@@ -2,6 +2,7 @@ import { API, BlockTool, BlockToolData, ToolConfig } from "../../toolkit/types/e
 import BuilderComponent from "../BuilderComponent";
 import { PageTransitionConfigData } from "../types";
 import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 interface PageTransitionData extends BlockToolData {
   label: string;
   placeholder: string;
@@ -49,7 +50,9 @@ export default class PageTransition implements BlockTool {
     const handleDataChange = (data: PageTransitionConfigData) => {
       this.data._component = data;
     };
-    ReactDOM.render(<BuilderComponent onDataChange={handleDataChange} initialData={this.data._component} />, this.rootNode);
+    const root = createRoot(this.rootNode); // createRoot(container!) if you use TypeScript
+    root.render(<BuilderComponent onDataChange={handleDataChange} initialData={this.data._component} />);
+    // ReactDOM.render(<BuilderComponent onDataChange={handleDataChange} initialData={this.data._component} />, this.rootNode);
     return this.rootNode;
   }
 }

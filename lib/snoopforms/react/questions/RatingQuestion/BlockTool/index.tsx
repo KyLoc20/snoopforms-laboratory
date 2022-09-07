@@ -2,6 +2,7 @@ import { API, BlockTool, BlockToolData, ToolConfig } from "../../toolkit/types/e
 import BuilderComponent from "../BuilderComponent";
 import { RatingQuestionConfigData } from "../types";
 import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 interface RatingQuestionData extends BlockToolData {
   label: string;
   placeholder: string;
@@ -54,7 +55,9 @@ export default class RatingQuestion implements BlockTool {
     const handleDataChange = (data: RatingQuestionConfigData) => {
       this.data._component = data;
     };
-    ReactDOM.render(<BuilderComponent onDataChange={handleDataChange} initialData={this.data._component} />, this.rootNode);
+    const root = createRoot(this.rootNode); // createRoot(container!) if you use TypeScript
+    root.render(<BuilderComponent onDataChange={handleDataChange} initialData={this.data._component} />);
+    // ReactDOM.render(<BuilderComponent onDataChange={handleDataChange} initialData={this.data._component} />, this.rootNode);
     return this.rootNode;
   }
 }
