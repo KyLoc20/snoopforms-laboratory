@@ -11,11 +11,16 @@ export { Container, MaxWidth, Loading, FormNotFound, FullScreenLoading };
  * From top to bottom: TopBar, Navagation, App
  * @returns
  */
-export function TopBarNavagationAppLayout({ children, title, currentNav }: PropsWithChildren<{ title: string; currentNav: AvailableNav }>) {
+export function TopBarNavagationAppLayout({
+  children,
+  title,
+  currentNav,
+  formId,
+}: PropsWithChildren<{ title: string; currentNav: AvailableNav; formId?: string }>) {
   return (
     <Container>
       <TopBar title={title} />
-      <NavBar currentNav={currentNav}></NavBar>
+      <NavBar currentNav={currentNav} formId={formId}></NavBar>
       <MaxWidth>{children}</MaxWidth>
       <div id="new-form-modal"></div>
     </Container>

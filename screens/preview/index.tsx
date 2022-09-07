@@ -1,30 +1,32 @@
-import { NavBar } from "@/components/layout/Navigation";
-import { Container, MaxWidth, Loading, FormNotFound } from "@/components/layout";
 import { useNoCodeForm } from "@/lib/noCodeForm";
+import { TopBarNavagationAppLayout, Loading, FormNotFound } from "@/components/layout";
 import FormApp from "@/components/frontend/FormApp";
 import { useFormIdSafely } from "@/lib/router";
-import TopBar from "@/components/TopBar";
+import { BlockData } from "@/lib/types";
 export default function Screen() {
   const { formId, isValid } = useFormIdSafely();
-  const { noCodeForm, isLoading, hasError } = useNoCodeForm(formId);
-  const isReady = isValid && !isLoading;
-  const shouldShowName = isReady && !hasError;
+  if (isValid) return <View formId={formId as string} />;
+  else return <LoadingView />;
+}
+function R({ formId, isReady, hasError, blocks }: { formId: string; isReady: boolean; hasError: boolean; blocks: BlockData[] }) {
+  if (isReady) {
+    if (hasError) return <FormNotFound formId={formId} />;
+    else return <FormApp formId={formId as string} blocks={blocks} />;
+  } else return <Loading />;
+}
+function View({ formId }: { formId: string }) {
+  const { isLoading, hasError, noCodeForm, error } = useNoCodeForm(formId);
+  const isReady = !isLoading;
   return (
-    <Container bg="rgb(246, 248, 249, 1)">
-      <TopBar title={shouldShowName ? noCodeForm.name : ""} />
-      <NavBar currentNav="preview" formId={formId}></NavBar>
-      <MaxWidth>
-        {isReady ? (
-          hasError ? (
-            <FormNotFound formId={formId as string} />
-          ) : (
-            <FormApp formId={formId as string} blocks={noCodeForm.blocksDraft ?? []} />
-          )
-        ) : (
-          <Loading />
-        )}
-      </MaxWidth>
-      <div id="new-form-modal"></div>
-    </Container>
+    <TopBarNavagationAppLayout title={isReady && !hasError ? noCodeForm.name : ""} currentNav={"preview"} formId={formId}>
+      <R formId={formId as string} isReady={isReady} hasError={hasError} blocks={noCodeForm.blocksDraft ?? []}></R>
+    </TopBarNavagationAppLayout>
+  );
+}
+function LoadingView() {
+  return (
+    <TopBarNavagationAppLayout title={""} currentNav={"preview"}>
+      <Loading />
+    </TopBarNavagationAppLayout>
   );
 }

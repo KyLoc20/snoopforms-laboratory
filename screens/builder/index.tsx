@@ -17,7 +17,7 @@ function View({ formId }: { formId: string }) {
   const { isLoading, hasError, noCodeForm, error } = useNoCodeForm(formId);
   const isReady = !isLoading;
   return (
-    <TopBarNavagationAppLayout title={isReady && !hasError ? noCodeForm.name : ""} currentNav={"builder"}>
+    <TopBarNavagationAppLayout title={isReady && !hasError ? noCodeForm.name : ""} currentNav={"builder"} formId={formId}>
       <R formId={formId as string} isReady={isReady} hasError={hasError}></R>
     </TopBarNavagationAppLayout>
   );
