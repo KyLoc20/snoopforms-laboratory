@@ -1,5 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align='center'>Snoopforms Lab</h1>
 
+<p align='center'>An Experimental version for <a href="https://snoopforms.com/">snoopForms</a></p>
+
+## Why I Built This
+
+- To privide a glance of [snoopForms](https://github.com/snoopForms/snoopforms) without any auth, and more developing features🧪 
+- To help you Build&Use forms easily like a breeze🌬️🍃
+- To help you Integrate data with other services(*todo*)🕹️
+
+## How I Built This
+
+- [Typescript](https://www.typescriptlang.org/)
+- [React](https://reactjs.org/)
+- [Next.js](https://nextjs.org/)
+- [Editor.js](https://editorjs.io/)
+- [SWR](https://swr.vercel.app/)
+- [Prisma](https://prisma.io/)
+- [Chart.js](https://www.chartjs.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Cypress](https://www.cypress.io/)
+
+### Features
+- NoCode Builder to build forms rapidly🚀
+- Useful QuestionTypes 
+    - [x] [MultipleChoice](https://github.com/KyLoc20/snoop-forms-laboratory/tree/master/lib/snoopforms/react/questions/MultipleChoiceQuestion)⚡
+    - [x] [Rating](https://github.com/KyLoc20/snoop-forms-laboratory/tree/master/lib/snoopforms/react/questions/RatingQuestion)⚡
+    - [x] [Email](https://github.com/KyLoc20/snoop-forms-laboratory/tree/master/lib/snoopforms/react/questions/EmailQuestion)
+    - [x] [Text](https://github.com/KyLoc20/snoop-forms-laboratory/tree/master/lib/snoopforms/react/questions/TextQuestion)
+    - [ ] NPS
+- Auth
+    - [x] No Login required!
+    - [ ] Connect to wallet (*todo*)🦊
+    - [ ] Login with Email (*todo*)📧
+- Pipe your data to work with integrations(*todo*)
+- Juicy analytics out of the box (*doing*)
+    - [x] Simple text&charts to describe results
+- Painless Developer Experience to make new QuestionTypes (*doing*)😀
+- Smooth User Experience on mobile (*todo*)
+- PWA (*todo*)
+- Readable docs (*doing*)📘
+ 
 ## Getting Started
 
 First, run the development server:
@@ -17,15 +57,6 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
 ## Deploy on Vercel
 
