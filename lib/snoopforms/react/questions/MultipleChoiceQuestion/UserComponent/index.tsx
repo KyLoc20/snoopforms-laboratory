@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Mark from "../../toolkit/ui/Mark";
 import { QuestionRadio, QuestionTitle } from "../../toolkit/ui";
-import useInputValidator from "../../toolkit/base/validate";
+import useInputValidator, { AlarmPlaceholder } from "../../toolkit/base/validate";
 import { MultipleChoiceQuestionConfigData, MultipleChoiceQuestionSubmissionData } from "../types";
 
 //open to extension in the future such as conditional info
@@ -15,11 +15,11 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
   const initialList = initialData?.choiceList ?? [];
   const [choiceList, setChoiceList] = useState(initialList.length > 0 ? (onlyOne ? [initialList[0]] : initialList) : []);
 
-  const canSubmit = isRequired ? choiceList.length > 0 : true;
-  const { Validator, shouldShowReminder, hideReminder } = useInputValidator(canSubmit);
+  const validationError = validate(choiceList.length, isRequired);
+  const { Validator, shouldAlarm, hideAlarm } = useInputValidator(validationError);
   useEffect(() => {
-    //when input updates, hideReminder
-    if (shouldShowReminder) hideReminder();
+    //when input updates, hideAlarm
+    if (shouldAlarm) hideAlarm();
     //should init
     onSubmissionChange({ choiceList });
   }, [choiceList]);
@@ -51,12 +51,10 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
   };
 
   return (
-    <div className="question-container" style={{ paddingBottom: "20px" }}>
+    <div className="question-container" style={{ paddingBottom: "20px", position: "relative" }}>
       <div style={{ position: "relative" }}>
         <QuestionTitle title={title} />
         <Mark active={isRequired}></Mark>
-        <Validator></Validator>
-        {shouldShowReminder ? "No Empty!" : ""}
       </div>
       <div style={{ marginTop: "4px", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
         {options.map((option, i) => (
@@ -70,6 +68,14 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
           </div>
         ))}
       </div>
+      <Validator></Validator>
+      <AlarmPlaceholder>{shouldAlarm && validationError}</AlarmPlaceholder>
     </div>
   );
 }
+const validate = (value: number, isRequired: boolean) => {
+  if (isRequired && value <= 0) {
+    return "Please Choose At Least One Option";
+  }
+  return "";
+};

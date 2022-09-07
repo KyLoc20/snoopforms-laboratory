@@ -1,8 +1,14 @@
-import { useState, useCallback } from "react";
-export default function useInputValidator(canSubmit: boolean) {
-  const [shouldShowReminder, setShouldShowReminder] = useState(false);
-  const hideReminder = () => setShouldShowReminder(false);
-  const showReminder = () => setShouldShowReminder(true);
+import { useState, useCallback, PropsWithChildren } from "react";
+/**
+ *
+ * @param validationError if "", it has passed validations
+ * @returns
+ */
+export default function useInputValidator(validationError: string) {
+  const canSubmit = !Boolean(validationError);
+  const [shouldAlarm, setShouldAlarm] = useState(false);
+  const hideAlarm = () => setShouldAlarm(false);
+  const showAlarm = () => setShouldAlarm(true);
   const Validator = useCallback(() => {
     return (
       <input
@@ -14,9 +20,9 @@ export default function useInputValidator(canSubmit: boolean) {
           e.preventDefault(); //if preventDefault, no error info will display, otherwise use e.currentTarget.setCustomValidity("Hi");
           //fires before onSubmit if HTMLInputElement.checkValidity() returns false
 
-          //showReminder() will not block submit event
+          //showAlarm() will not block submit event
           // setTimeout(showReminder, 0);
-          showReminder();
+          showAlarm();
 
           /**
            * Warning: You provided a `value` prop to a form field without an `onChange` handler.
@@ -31,5 +37,12 @@ export default function useInputValidator(canSubmit: boolean) {
       />
     );
   }, [canSubmit]);
-  return { Validator, shouldShowReminder, hideReminder };
+  return { Validator, shouldAlarm, hideAlarm, validationError };
+}
+export function AlarmPlaceholder({ children }: PropsWithChildren<{}>) {
+  return (
+    <div style={{ position: "absolute", padding: "0 12px", bottom: "2px", left: "0", lineHeight: "16px", color: "#f53b57", fontSize: "14px" }}>
+      <i>{children}</i>
+    </div>
+  );
 }

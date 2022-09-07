@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Rating from "../common/Rating";
 import { QuestionTitle, Mark } from "../../toolkit/ui";
-import useInputValidator from "../../toolkit/base/validate";
+import useInputValidator, { AlarmPlaceholder } from "../../toolkit/base/validate";
 import { RatingQuestionConfigData, RatingQuestionSubmissionData } from "../types";
 
 //open to extension in the future such as conditional info
@@ -17,15 +17,11 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
     .fill(0)
     .map((_, n) => ({ name: n.toString() }));
 
-  const canSubmit = isRequired ? value > 0 : true;
-  const { Validator, shouldShowReminder, hideReminder } = useInputValidator(canSubmit);
+  const validationError = validate(value, isRequired);
+  const { Validator, shouldAlarm, hideAlarm } = useInputValidator(validationError);
   useEffect(() => {
-    // if (shouldShowReminder && canSubmit) {
-    //   //shouldShowReminder === true means that it can not submit BEFORE, canSubmit === means that it can NOW
-    //   hideReminder();
-    // }
-    //when input updates, hideReminder
-    if (shouldShowReminder) hideReminder();
+    //when input updates, hideAlarm
+    if (shouldAlarm) hideAlarm();
     //should init
     onSubmissionChange({ ratings: value });
   }, [value]);
@@ -35,16 +31,22 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
     setValue(v === -1 ? 0 : v + 1);
   };
   return (
-    <div className="question-container" style={{ paddingBottom: "20px" }}>
+    <div className="question-container" style={{ paddingBottom: "20px", position: "relative" }}>
       <div style={{ position: "relative" }}>
         <QuestionTitle title={title} />
         <Mark active={isRequired}></Mark>
-        <Validator></Validator>
-        {shouldShowReminder ? "No Empty!" : ""}
       </div>
       <div style={{ marginTop: "8px" }}>
         <Rating options={_options} icon={icon} onChange={handleRatingChange}></Rating>
       </div>
+      <Validator></Validator>
+      <AlarmPlaceholder>{shouldAlarm && validationError}</AlarmPlaceholder>
     </div>
   );
 }
+const validate = (value: number, isRequired: boolean) => {
+  if (isRequired && value <= 0) {
+    return "Required";
+  }
+  return "";
+};

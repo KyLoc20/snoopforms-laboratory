@@ -20,7 +20,7 @@
 - [TailwindCSS](https://tailwindcss.com/)
 - [Cypress](https://www.cypress.io/)
 
-### Features
+## Features
 - NoCode Builder to build forms rapidly🚀
 - Useful QuestionTypes 
     - [x] [MultipleChoice](https://github.com/KyLoc20/snoop-forms-laboratory/tree/master/lib/snoopforms/react/questions/MultipleChoiceQuestion)⚡
@@ -33,8 +33,8 @@
     - [ ] Connect to wallet (*todo*)🦊
     - [ ] Login with Email (*todo*)📧
 - Pipe your data to work with integrations(*todo*)
-- Juicy analytics out of the box (*doing*)
-    - [x] Simple text&charts to describe results
+- Juicy analytics out of the box (*doing*)🧐
+    - [x] Simple text&charts to describe results📊
 - Painless Developer Experience to make new QuestionTypes (*doing*)😀
 - Smooth User Experience on mobile (*todo*)
 - PWA (*todo*)

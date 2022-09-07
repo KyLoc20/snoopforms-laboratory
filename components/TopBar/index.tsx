@@ -50,7 +50,11 @@ export default function TopBar({ title }: PropsWithChildren<{ title: string }>) 
       <Portal>
         <CreateFormCard onSubmit={handleCreateOneNewForm} />
       </Portal>
-      {isCreating && <FullScreenLoading />}
+      {isCreating && (
+        <div style={{ zIndex: 1200 }}>
+          <FullScreenLoading />
+        </div>
+      )}
     </>
   );
 }

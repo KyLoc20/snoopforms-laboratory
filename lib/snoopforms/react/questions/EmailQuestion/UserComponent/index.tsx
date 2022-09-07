@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Mark from "../../toolkit/ui/Mark";
 import TextField from "../../toolkit/ui/TextField";
 import { QuestionTitle } from "../../toolkit/ui";
-import useInputValidator from "../../toolkit/base/validate";
+import useInputValidator, { AlarmPlaceholder } from "../../toolkit/base/validate";
 import { EmailQuestionConfigData, EmailQuestionSubmissionData } from "../types";
 import EmailIcon from "../common/EmailIcon";
 //open to extension in the future such as conditional info
@@ -15,11 +15,11 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
   const { title, placeholder, isRequired } = config;
   const [value, setValue] = useState<string>(initialData.content);
 
-  const canSubmit = (isRequired ? Boolean(value) : true) && isValidEmailAddress(value);
-  const { Validator, shouldShowReminder, hideReminder } = useInputValidator(canSubmit);
+  const validationError = validate(value, isRequired);
+  const { Validator, shouldAlarm, hideAlarm } = useInputValidator(validationError);
   useEffect(() => {
-    //when input updates, hideReminder
-    if (shouldShowReminder) hideReminder();
+    //when input updates, hideAlarm
+    if (shouldAlarm) hideAlarm();
     //should init
     onSubmissionChange({ content: value });
   }, [value]);
@@ -28,22 +28,31 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
     setValue(v);
   };
   return (
-    <div className="question-container" style={{ paddingBottom: "20px" }}>
+    <div className="question-container" style={{ paddingBottom: "20px", position: "relative" }}>
       <div style={{ position: "relative" }}>
         <QuestionTitle title={title} />
         <Mark active={isRequired}></Mark>
-        <Validator></Validator>
-        {shouldShowReminder ? "No Empty!" : ""}
       </div>
       <div style={{ marginTop: "8px" }}>
         <TextField onChange={handleContentChange} renderIcon={EmailIcon} placeholder={placeholder} type="email" />
       </div>
+      <Validator></Validator>
+      <AlarmPlaceholder>{shouldAlarm && validationError}</AlarmPlaceholder>
     </div>
   );
 }
-//allow void
+//void allowed
 const isValidEmailAddress = (value: string) => {
   if (value === "") return true;
   const regex = new RegExp("[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$");
   return regex.test(value);
+};
+const validate = (value: string, isRequired: boolean) => {
+  if (isRequired && !Boolean(value)) {
+    return "Required";
+  }
+  if (!isValidEmailAddress(value)) {
+    return "Invalid Email Address";
+  }
+  return "";
 };
