@@ -46,9 +46,13 @@ export default function FormListApp({}) {
   return (
     <>
       <CardGrid>
-        <AddFormButton onClick={showModal}></AddFormButton>
+        <CardWrapper>
+          <AddFormButton onClick={showModal}></AddFormButton>
+        </CardWrapper>
         {formList.map((form, i) => (
-          <FormCard key={form.formId} id={form.formId} name={form.name} type={"nocode"} responses={0} onDelete={handleDeleteOneForm}></FormCard>
+          <CardWrapper key={form.formId}>
+            <FormCard id={form.formId} name={form.name} type={"nocode"} responses={0} onDelete={handleDeleteOneForm} />
+          </CardWrapper>
         ))}
       </CardGrid>
       <Portal>
@@ -58,15 +62,16 @@ export default function FormListApp({}) {
     </>
   );
 }
-
+import styles from "./FormListApp.module.css";
 function CardGrid({ children }: PropsWithChildren<{}>) {
-  // const [forms, setForms] = useState(
-  // );
   return (
     <section className="card-grid flex justify-center">
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5,minmax(0,1fr))", gap: " 1.5rem", maxWidth: "1024px", flex: 1, padding: "32px 24px" }}>
+      <div className={styles.cardGrid} style={{ display: "grid", gap: "1.5rem", maxWidth: "1024px", flex: 1, padding: "32px 24px" }}>
         {children}
       </div>
     </section>
   );
+}
+function CardWrapper({ children }: PropsWithChildren<{}>) {
+  return <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>{children}</div>;
 }
