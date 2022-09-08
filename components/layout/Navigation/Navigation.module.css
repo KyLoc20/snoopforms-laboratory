@@ -1,0 +1,14 @@
+.navigation {
+    border-bottom: 1px solid #e5eaef;
+}
+
+@media (max-width: 768px) {
+    .navigation {
+        width: 100vw;
+        border-top: 1px solid #e5eaef;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: 2000;
+    }
+}

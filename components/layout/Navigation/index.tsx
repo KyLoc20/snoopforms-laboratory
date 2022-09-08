@@ -2,12 +2,14 @@ import { useState } from "react";
 import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon, ChartBarIcon, InboxIcon, DocumentDuplicateIcon } from "@heroicons/react/outline";
 import { classNames } from "@/lib/utils";
 import { useRouter } from "next/router";
+import clsx from "clsx";
+import styles from "./Navigation.module.css";
 export type AvailableNav = "builder" | "preview" | "publish" | "share" | "responses" | "summary" | "example";
 export function NavBar({ currentNav, formId = "__unknown" }: { currentNav?: AvailableNav; formId?: string }) {
   //todo disable NavBar if formId is "__unknown"
   const router = useRouter();
   return (
-    <div className="flex items-center justify-center flex-shrink-0 border-b border-ui-gray-light bg-ui-gray-lighter">
+    <div className={clsx(styles.navigation, "flex items-center justify-center")} style={{ background: "#fafafb" }}>
       <nav className="flex space-x-10" aria-label="resultModes">
         <Navigation
           id="builder"
