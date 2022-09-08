@@ -1,0 +1,33 @@
+.wrapper {
+    padding: 0 32px;
+}
+
+.home {
+    width: 20px;
+    height: 20px;
+}
+
+.title {
+    width: 300px;
+    justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+    .button {
+        display: none;
+    }
+    .wrapper {
+        padding: 0 16px;
+    }
+    .divider {
+        display: none;
+    }
+    .title {
+        flex: 1;
+        justify-content: center;
+    }
+    .home {
+        width: 24px;
+        height: 24px;
+    }
+}
