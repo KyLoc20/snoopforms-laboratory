@@ -8,26 +8,62 @@ import ActiveSessionCard from "./ActiveSessionCard";
 import SessionList from "./SessionList";
 import clsx from "clsx";
 import styles from "./ResponseApp.module.css";
+import { useSWRConfig } from "swr";
 export default function ResponseApp({ formId }: { formId: string }) {
-  const { submissionSessions, isLoading, mutate: mutateSubmissionSessions } = useSubmissionSessions(formId);
+  // const { mutate } = useSWRConfig();
+  const { submissionSessions, isLoading, mutate } = useSubmissionSessions(formId);
   const [activeSubmissionSession, setActiveSubmissionSession] = useState<SubmissionSessionData | null>(null);
   const hasActiveSubmissionSession = activeSubmissionSession !== null;
 
   useEffect(() => {
     if (!isLoading && submissionSessions.length > 0) {
       setActiveSubmissionSession(submissionSessions[0]);
+    } else {
+      setActiveSubmissionSession(null);
     }
   }, [isLoading, submissionSessions]);
 
   const handleDelete = async (sessionId: string) => {
     if (confirm("Are you sure you want to delete this submission? It will be gone forever!")) {
       try {
-        await fetch(`/api/forms/${formId}/submissionSessions/${sessionId}`, {
-          method: "DELETE",
-        });
-        await mutateSubmissionSessions();
+        // //way A
+        // fetch(`/api/forms/${formId}/submissionSessions/${sessionId}`, {
+        //   method: "DELETE",
+        // }).then((res) => {
+        //   toast("Successfully Deleted");
+        //   const updatedSubmissionSessions = submissionSessions.filter((session) => session.id !== sessionId);
+        //   mutate(updatedSubmissionSessions);
+        // });
+
+        // //way B Mutate Based on Current Data
+        // mutate(
+        //   async (sessions: SubmissionSessionData[]) => {
+        //     console.log("mutate:", sessions);
+        //     await fetch(`/api/forms/${formId}/submissionSessions/${sessionId}`, {
+        //       method: "DELETE",
+        //     });
+        //     toast("Successfully Deleted");
+        //     const updatedSubmissionSessions = sessions.filter((session) => session.id !== sessionId);
+        //     return [...updatedSubmissionSessions];
+        //   },
+        //   { revalidate: false }
+        // );
+
+        //way C Optimistical
+        const updatedSubmissionSessionsOptimistically = [...submissionSessions.filter((session) => session.id !== sessionId)];
+        mutate(
+          async (sessions: SubmissionSessionData[]) => {
+            console.log("mutate:", sessions);
+            await fetch(`/api/forms/${formId}/submissionSessions/${sessionId}`, {
+              method: "DELETE",
+            });
+            toast("Successfully Deleted");
+            const updatedSubmissionSessions = sessions.filter((session) => session.id !== sessionId);
+            return [...updatedSubmissionSessions];
+          },
+          { optimisticData: updatedSubmissionSessionsOptimistically, rollbackOnError: true }
+        );
         setActiveSubmissionSession(null);
-        toast("Successfully Deleted");
       } catch (error) {
         toast(<div>error</div>);
       }
