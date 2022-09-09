@@ -31,3 +31,25 @@
         height: 24px;
     }
 }
+
+@media (max-width: 428px) {
+    .button {
+        display: none;
+    }
+    .wrapper {
+        padding-left: 16px;
+        padding-right: 4px;
+    }
+    .divider {
+        display: none;
+    }
+    .title {
+        flex: 1;
+        width: 200px;
+        justify-content: center;
+    }
+    .home {
+        width: 24px;
+        height: 24px;
+    }
+}

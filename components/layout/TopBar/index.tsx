@@ -121,6 +121,8 @@ function Profile({ href }: { href: string }) {
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           style={{
+            width: "40px",
+            height: "40px",
             cursor: "pointer",
             padding: "4px",
             display: "flex",
