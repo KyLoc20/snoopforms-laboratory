@@ -11,7 +11,7 @@ export default function SessionList({
   setActiveSubmissionSession,
 }: PropsWithChildren<{ sessions: SubmissionSessionData[]; activeSession: SubmissionSessionData | null; setActiveSubmissionSession: any }>) {
   return (
-    <>
+    <div>
       {/* <DownloadResponses formId={formId} /> */}
       <div className="pt-4 pb-2">
         <h2 className="px-5 text-lg font-medium text-gray-900">Responses</h2>
@@ -42,6 +42,6 @@ export default function SessionList({
           </div>
         </RadioGroup>
       )}
-    </>
+    </div>
   );
 }

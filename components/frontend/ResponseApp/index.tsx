@@ -6,7 +6,8 @@ import Loading from "@/components/layout/Loading";
 import { toast } from "react-toastify";
 import ActiveSessionCard from "./ActiveSessionCard";
 import SessionList from "./SessionList";
-
+import clsx from "clsx";
+import styles from "./ResponseApp.module.css";
 export default function ResponseApp({ formId }: { formId: string }) {
   const { submissionSessions, isLoading, mutate: mutateSubmissionSessions } = useSubmissionSessions(formId);
   const [activeSubmissionSession, setActiveSubmissionSession] = useState<SubmissionSessionData | null>(null);
@@ -48,9 +49,14 @@ export default function ResponseApp({ formId }: { formId: string }) {
                 <Reminder />
               )}
             </main>
-            <aside className="flex flex-col flex-1 flex-shrink-0 order-first h-full border-r border-ui-gray-light md:flex-none md:w-96">
+
+            <aside className={clsx(styles.aside, "flex flex-col flex-1 order-first h-full border-r border-ui-gray-light")}>
               <SessionList sessions={submissionSessions} activeSession={activeSubmissionSession} setActiveSubmissionSession={setActiveSubmissionSession} />
             </aside>
+
+            {/* <aside className="flex flex-col flex-1 flex-shrink-0 order-first h-full border-r border-ui-gray-light md:flex-none md:w-96">
+              <SessionList sessions={submissionSessions} activeSession={activeSubmissionSession} setActiveSubmissionSession={setActiveSubmissionSession} />
+            </aside> */}
           </div>
         </div>
       </section>
