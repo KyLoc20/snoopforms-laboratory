@@ -79,6 +79,8 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
         }
       },
       onChange: async (api, event) => {
+        //console.log("BUILDER start to save");
+        const ts = Date.now();
         //this will trigger when DOM including className changes
         let content = await editor.saver.save();
         // console.log("-> SnoopFormsEditor got some updates:", content);
@@ -88,6 +90,7 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
         newNoCodeForm.blocksDraft = content.blocks;
         await persistNoCodeForm(newNoCodeForm);
         mutateNoCodeForm(newNoCodeForm);
+        console.log("BUILDER Updating timecost: ", Date.now() - ts);
       },
       placeholder: "Let`s create an awesome form!",
       autofocus: autofocus,

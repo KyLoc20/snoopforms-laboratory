@@ -21,11 +21,12 @@ export function SnoopPage(props: PropsWithChildren<SnoopPageProps>) {
   const [pageName, _] = useState(_name || generateId(10));
   const [initializing, setInitializing] = useState(true);
   const { currentPageIdx } = useContext(CurrentPageContext);
-  const { pages: registeredPages, register, hasPage, findPage } = useContext(RegistryContext);
+  const { pages: registeredPages, register, detach, hasPage, findPage } = useContext(RegistryContext);
 
   //register this Page
   useEffect(() => {
     register(pageName);
+    return () => detach(pageName);
   }, [pageName]);
   // setInitializing(false) after finished registering
   useEffect(() => {
@@ -34,7 +35,7 @@ export function SnoopPage(props: PropsWithChildren<SnoopPageProps>) {
 
   const submitThisPage = useContext(SubmitHandlerContext);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("handleSubmit", e);
+    // console.log("handleSubmit", e);
     e.preventDefault();
     submitThisPage(pageName);
   };

@@ -21,12 +21,14 @@ export const SchemaContext = createContext({
 type RegistryState = {
   pages: string[];
   register: (pageName: string) => void;
+  detach: (pageName: string) => void; //opposite to register
   hasPage: (pageName: string) => boolean;
   findPage: (pageName: string) => number; //index of pages
 };
 export const RegistryContext = createContext<RegistryState>({
   pages: [],
   register: (pageName: string) => console.log(pageName),
+  detach: (pageName: string) => console.log(pageName),
   hasPage: (pageName: string) => true,
   findPage: (pageName: string) => -1,
 });
@@ -94,11 +96,25 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
    * page register
    */
   const [pages, setPages] = useState<string[]>([]);
+  const refDetachedPages = useRef<string[]>([]);
+  // console.log("RENDER SnoopForm pages:", pages);
+  useEffect(() => {
+    const detachedPages = refDetachedPages.current;
+    // console.log("Before Update pages, check detachedPages", detachedPages);
+    if (detachedPages.length > 0) {
+      setPages((prev) => prev.filter((pageName) => !detachedPages.includes(pageName)));
+      refDetachedPages.current = [];
+    }
+  }, [pages]);
   const hasPage = (name: string) => pages.includes(name);
   const addPage = (name: string) => {
     if (!hasPage(name)) setPages((prev) => [...prev, name]);
   };
+  const removePage = (name: string) => {
+    refDetachedPages.current.push(name);
+  };
   const findPage = (name: string) => pages.indexOf(name);
+
   /**
    * Being called PreSubmissionData is because they are not yet given "submissionId" and "submissionSessionId"
    * They are kept updating whenever changes happen in the SnoopElements
@@ -141,7 +157,7 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
   return (
     <SchemaContext.Provider value={{ schema, setSchema }}>
       <SubmissionContext.Provider value={{ update: updateSubmissions }}>
-        <RegistryContext.Provider value={{ pages: pages, register: addPage, hasPage, findPage }}>
+        <RegistryContext.Provider value={{ pages: pages, register: addPage, detach: removePage, hasPage, findPage }}>
           <CurrentPageContext.Provider value={{ currentPageIdx }}>
             <SubmitHandlerContext.Provider value={handleSubmit}>
               <section className={classNamesConcat("snoopform-container", "max-w-lg", className)}>
