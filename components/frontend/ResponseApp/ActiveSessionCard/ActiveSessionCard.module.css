@@ -1,8 +1,39 @@
+.wrapper {
+    padding-bottom: 20px;
+}
+
+.control {
+    display: none;
+    justify-content: flex-end;
+}
+
+.delete {
+    display: flex;
+}
+
+@media (max-width: 1024px) {
+    .wrapper {
+        padding-bottom: 68px;
+    }
+    .control {
+        display: flex;
+    }
+    .control .delete {
+        display: flex;
+    }
+    .delete {
+        display: none;
+    }
+}
+
 @media (max-width: 641px) {
     .timeline {
         display: none;
     }
     .divider {
         display: none;
+    }
+    .control {
+        justify-content: center;
     }
 }

@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import { CheckIcon } from "@heroicons/react/solid";
 import { SubmissionSessionData } from "@/lib/types";
 import { convertDateTimeString, convertTimeString } from "@/lib/utils";
-import DeleteButton from "./DeleteButton";
+import { TrashIcon } from "@heroicons/react/outline";
 import clsx from "clsx";
 import styles from "./ActiveSessionCard.module.css";
 export default function ActiveSessionCard({
@@ -13,14 +13,16 @@ export default function ActiveSessionCard({
   //min-width = 120px(List) + 65px(divider) + 252px(Timeline) + 32px(padding) = 469px
   return (
     <div className="flex flex-col w-full">
-      <div className={clsx("wrapper", "flex flex-1 mx-4 px-4 py-5 bg-white rounded-md shadow")}>
+      <div className={clsx(styles.wrapper, "flex flex-1 mx-4 px-4 pt-5 bg-white rounded-md shadow relative")}>
         <div className={clsx("session-list", "min-w-[120px] w-full")}>
           <h1 className="mb-8 text-gray-700">{convertDateTimeString(session.createdAt)}</h1>
           {children}
         </div>
         <Divider></Divider>
         <Timeline session={session} />
+        <Control onDelete={() => onDelete(session.id)} />
       </div>
+
       <DeleteButton OnClick={() => onDelete(session.id)} />
     </div>
   );
@@ -59,4 +61,26 @@ function Timeline({ session }: { session: SubmissionSessionData }) {
 }
 function Divider({}) {
   return <div className={clsx(styles.divider, "bg-gray min-w-[1px] mx-8")}></div>;
+}
+function Control({ onDelete }: { onDelete: () => void }) {
+  return (
+    <div className={clsx(styles.control, "flex items-end h-[54px] w-full absolute left-0 bottom-[16px]")}>
+      <DeleteButton OnClick={onDelete} />
+    </div>
+  );
+}
+
+function DeleteButton({ OnClick }: { OnClick: () => void }) {
+  return (
+    <button
+      className={clsx(
+        styles.delete,
+        "items-center justify-center gap-2 mx-4 mt-4 h-[38px] min-w-[244px] transition-all rounded-sm px-4 py-2 text-sm font-medium text-white bg-gray-300 border border-transparent shadow-sm hover:bg-red-500 focus:outline-none"
+      )}
+      onClick={OnClick}
+    >
+      <TrashIcon className="w-4 h-4" />
+      Delete Submission
+    </button>
+  );
 }
