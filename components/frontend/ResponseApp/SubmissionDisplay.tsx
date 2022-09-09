@@ -31,13 +31,11 @@ export default function SubmissionSessionDisplay({ formId, submissionSession }: 
   const id2Title = getQuestionTitleMap(noCodeForm);
   console.log("SubmissionSessionDisplay id2Title", id2Title);
   return (
-    <div className="flow-root">
-      <ul role="list" className="divide-y divide-ui-gray-light">
-        {pages.map((submissionsInOnePage, i) => (
-          <SubmissionPage submissions={submissionsInOnePage} key={i} titleMap={id2Title}></SubmissionPage>
-        ))}
-      </ul>
-    </div>
+    <ul role="list" className="divide-y divide-ui-gray-light">
+      {pages.map((submissionsInOnePage, i) => (
+        <SubmissionPage submissions={submissionsInOnePage} key={i} titleMap={id2Title}></SubmissionPage>
+      ))}
+    </ul>
   );
 }
 function SubmissionPage({ submissions, titleMap }: { submissions: SubmissionPage; titleMap: TitleMap }) {

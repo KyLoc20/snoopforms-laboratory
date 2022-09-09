@@ -39,7 +39,7 @@ export default function ResponseApp({ formId }: { formId: string }) {
       <section className="w-full h-full">
         <div className="flex flex-col flex-1 w-full h-full mx-auto overflow-visible max-w-screen">
           <div className="relative z-0 flex flex-1 h-full overflow-visible">
-            <main className="relative z-0 flex-1 mb-32 overflow-y-auto focus:outline-none xl:order-last">
+            <main className="relative flex flex-1 justify-center items-start">
               {hasActiveSubmissionSession ? (
                 <ActiveSessionCard session={activeSubmissionSession} onDelete={handleDelete}>
                   <SubmissionSessionDisplay key={activeSubmissionSession.id} submissionSession={activeSubmissionSession} formId={formId} />
