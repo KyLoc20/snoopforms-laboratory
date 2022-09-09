@@ -4,18 +4,14 @@ import { SubmissionSessionData } from "@/lib/types";
 import { convertDateTimeString, convertTimeString } from "@/lib/utils";
 import { TrashIcon } from "@heroicons/react/outline";
 import clsx from "clsx";
-import styles from "./ActiveSessionCard.module.css";
-export default function ActiveSessionCard({
-  session,
-  onDelete,
-  children,
-}: PropsWithChildren<{ session: SubmissionSessionData; onDelete: (id: string) => void }>) {
+import styles from "./SessionCard.module.css";
+export default function SessionCard({ session, onDelete, children }: PropsWithChildren<{ session: SubmissionSessionData; onDelete: (id: string) => void }>) {
   //min-width = 120px(List) + 65px(divider) + 252px(Timeline) + 32px(padding) = 469px
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full mb-4">
       <div className={clsx(styles.wrapper, "flex flex-1 mx-4 px-4 pt-5 bg-white rounded-md shadow relative")}>
         <div className={clsx("session-list", "min-w-[120px] w-full")}>
-          <h1 className="mb-8 text-gray-700">{convertDateTimeString(session.createdAt)}</h1>
+          <h1 className={clsx(styles.header, "mb-8 text-gray-700")}>{convertDateTimeString(session.createdAt)}</h1>
           {children}
         </div>
         <Divider></Divider>
@@ -31,8 +27,8 @@ function Timeline({ session }: { session: SubmissionSessionData }) {
   //min-width = 8px(paddingLeft) + 244px(content) = 252px
   return (
     <div className={clsx(styles.timeline, "pl-2 min-w-[252px]")}>
-      <h1 className="mb-8 text-gray-700">Session Activity</h1>
-      <ul role="list" className="-mb-8">
+      <h1 className={clsx(styles.header, "mb-8 text-gray-700")}>Session Activity</h1>
+      <ul role="list">
         {session.submissions.map((submission, submissionIdx) => (
           <li key={submission.id}>
             <div className={clsx("activity", "relative pb-8")}>

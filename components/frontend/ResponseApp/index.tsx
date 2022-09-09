@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, PropsWithChildren } from "react";
 import { useSubmissionSessions } from "@/lib/submissionSession";
 import { SubmissionSessionData } from "@/lib/types";
 import SubmissionSessionDisplay from "./SubmissionDisplay";
 import Loading from "@/components/layout/Loading";
 import { toast } from "react-toastify";
-import ActiveSessionCard from "./ActiveSessionCard";
+import SessionCard from "./SessionCard";
 import SessionList from "./SessionList";
 import clsx from "clsx";
 import styles from "./ResponseApp.module.css";
-import { useSWRConfig } from "swr";
 export default function ResponseApp({ formId }: { formId: string }) {
   // const { mutate } = useSWRConfig();
   const { submissionSessions, isLoading, mutate } = useSubmissionSessions(formId);
@@ -77,22 +76,30 @@ export default function ResponseApp({ formId }: { formId: string }) {
         <div className="flex flex-col flex-1 w-full h-full mx-auto overflow-visible max-w-screen">
           <div className="relative z-0 flex flex-1 h-full overflow-visible">
             <main className="relative flex flex-1 justify-center items-start">
-              {hasActiveSubmissionSession ? (
-                <ActiveSessionCard session={activeSubmissionSession} onDelete={handleDelete}>
-                  <SubmissionSessionDisplay key={activeSubmissionSession.id} submissionSession={activeSubmissionSession} formId={formId} />
-                </ActiveSessionCard>
-              ) : (
-                <Reminder />
-              )}
+              <>
+                <MobileWrapper>
+                  {submissionSessions.map((session, i) => (
+                    <SessionCard key={session.id} session={session} onDelete={handleDelete}>
+                      <SubmissionSessionDisplay submissionSession={session} formId={formId} />
+                    </SessionCard>
+                  ))}
+                </MobileWrapper>
+              </>
+              <>
+                <DesktopWrapper>
+                  {hasActiveSubmissionSession ? (
+                    <SessionCard session={activeSubmissionSession} onDelete={handleDelete}>
+                      <SubmissionSessionDisplay submissionSession={activeSubmissionSession} formId={formId} />
+                    </SessionCard>
+                  ) : (
+                    <Reminder />
+                  )}
+                </DesktopWrapper>
+              </>
             </main>
-
             <aside className={clsx(styles.aside, "flex flex-col flex-1 order-first h-full border-r border-ui-gray-light")}>
               <SessionList sessions={submissionSessions} activeSession={activeSubmissionSession} setActiveSubmissionSession={setActiveSubmissionSession} />
             </aside>
-
-            {/* <aside className="flex flex-col flex-1 flex-shrink-0 order-first h-full border-r border-ui-gray-light md:flex-none md:w-96">
-              <SessionList sessions={submissionSessions} activeSession={activeSubmissionSession} setActiveSubmissionSession={setActiveSubmissionSession} />
-            </aside> */}
           </div>
         </div>
       </section>
@@ -107,4 +114,11 @@ function Reminder({}) {
       <span className="block mt-2 text-sm font-medium text-gray-500">Select a response on the left to see the details here</span>
     </button>
   );
+}
+
+function MobileWrapper({ children }: PropsWithChildren<{}>) {
+  return <ul className={clsx(styles.mobileWrapper)}>{children}</ul>;
+}
+function DesktopWrapper({ children }: PropsWithChildren<{}>) {
+  return <div className={clsx(styles.desktopWrapper)}>{children}</div>;
 }

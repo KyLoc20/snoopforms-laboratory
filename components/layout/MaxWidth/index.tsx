@@ -1,5 +1,7 @@
 import { PropsWithChildren } from "react";
-export default function MaxWidth({ children, size, padding, full }: PropsWithChildren<{ full?: boolean; size?: number | string; padding?: string }>) {
+import clsx from "clsx";
+import styles from "./MaxWidth.module.css";
+export default function MaxWidth({ children, size, full }: PropsWithChildren<{ full?: boolean; size?: number | string }>) {
   // undefined -> no maxWidth, fill the container
   // string -> percentage
   // number -> px
@@ -12,7 +14,9 @@ export default function MaxWidth({ children, size, padding, full }: PropsWithChi
         flexGrow: 1,
       }}
     >
-      <div style={{ width: "100%", maxWidth: computedSize, padding: padding ?? "32px 24px" }}> {children}</div>
+      <div className={clsx(styles.wrapper)} style={{ width: "100%", maxWidth: computedSize }}>
+        {children}
+      </div>
     </div>
   );
 }

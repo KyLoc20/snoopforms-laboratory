@@ -1,5 +1,19 @@
+.mobileWrapper {
+    display: none;
+}
+
+.desktopWrapper {
+    display: block;
+}
+
 @media (max-width: 1024px) {
     .aside {
+        display: none;
+    }
+    .mobileWrapper {
+        display: block;
+    }
+    .desktopWrapper {
         display: none;
     }
 }
