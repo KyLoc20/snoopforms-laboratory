@@ -51,9 +51,9 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
 
   return (
     <QuestionContainer title={title} isRequired={isRequired}>
-      <div style={{ marginTop: "4px", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+      <div className="option-list" style={{ marginTop: "4px" }}>
         {options.map((option, i) => (
-          <div key={i} style={{ marginTop: "8px", display: "flex", alignItems: "center" }}>
+          <div key={i} className="option-wrapper" style={{ marginTop: "8px", display: "flex", alignItems: "center", maxWidth: "424px", minWidth: "288px" }}>
             <QuestionRadio
               key={i}
               label={option.label}

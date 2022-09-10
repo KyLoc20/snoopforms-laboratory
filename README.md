@@ -32,11 +32,11 @@
     - [x] No Login required!
     - [ ] Connect to wallet (*todo*)🦊
     - [ ] Login with Email (*todo*)📧
-- Pipe your data to work with integrations(*todo*)
+- Pipe your data to work with integrations (*todo*)
 - Juicy analytics out of the box (*doing*)🧐
     - [x] Simple text&charts to describe results📊
 - Painless Developer Experience to make new QuestionTypes (*doing*)😀
-- Smooth User Experience on mobile (*todo*)
+- Smooth User Experience on mobile (now responsive but not smooth enough)
 - PWA (*todo*)
 - Readable docs (*doing*)📘
  

@@ -41,7 +41,7 @@ function DumbSwitch({ active, onChange }: { active: boolean; onChange?: () => vo
         style={{
           cursor: "pointer",
           userSelect: "none",
-          width: "28px", //"50px",
+          minWidth: "28px", //"50px",
           height: "16px", //"24px",
           borderRadius: "8px",
           padding: "2px",

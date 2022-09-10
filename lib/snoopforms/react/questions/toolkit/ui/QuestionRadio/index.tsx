@@ -20,7 +20,14 @@ export default function QuestionRadio({ label, selected, editable, disable, onSe
   return (
     <div
       className="question-radio"
-      style={{ height: "28px", display: "inline-flex", alignItems: "center", cursor: editable || disable ? "default" : "pointer" }}
+      style={{
+        width: "100%",
+        minHeight: "28px",
+        display: "inline-flex",
+        flexWrap: editable ? "nowrap" : "wrap",
+        alignItems: editable ? "center" : "flex-start",
+        cursor: editable || disable ? "default" : "pointer",
+      }}
       onClick={() => {
         if (!disable) onSelect?.(label);
       }}
@@ -29,11 +36,13 @@ export default function QuestionRadio({ label, selected, editable, disable, onSe
         <OuterCircle active={!disable && selected} />
         <InnerCircle active={!disable && selected} />
       </div>
-      <div style={{ marginLeft: "8px", display: "flex", fontWeight: 500, lineHeight: "24px", color: DARK_COLOR }}>
+      <div style={{ marginLeft: "8px", display: "flex", fontWeight: 500, lineHeight: "24px", maxWidth: "360px", flex: 1, color: DARK_COLOR }}>
         {editable ? (
-          <input className="label-editor" style={{ width: "360px" }} defaultValue={label} placeholder={"Type Option Label"} onChange={handleLabelChange} />
+          <input className="label-editor" style={{ width: "100%" }} defaultValue={`${label}`} placeholder={"Type Option Label"} onChange={handleLabelChange} />
         ) : (
-          <div className="label-display">{label}</div>
+          <p className="label-display" style={{ wordBreak: "break-all" }}>
+            {label}
+          </p>
         )}
       </div>
     </div>

@@ -28,6 +28,7 @@ export default function BuilderComponent({ onDataChange, initialData }: Multiple
       return newOptions;
     });
   };
+  // display: "flex", flexDirection: "column", alignItems: "flex-start"
   useEffect(() => {
     onDataChange({ title, options, onlyOne, isRequired });
   }, [title, options, onlyOne, isRequired]);
@@ -37,9 +38,9 @@ export default function BuilderComponent({ onDataChange, initialData }: Multiple
         <QuestionInput defaultValue={title} onChange={(v) => setTitle(v)} />
         <Mark active={isRequired}></Mark>
       </div>
-      <div style={{ marginTop: "4px", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+      <div className="option-list" style={{ marginTop: "4px" }}>
         {options.map((option, i) => (
-          <div key={i} style={{ marginTop: "8px", display: "flex", alignItems: "center" }}>
+          <div key={i} className="option-wrapper" style={{ marginTop: "8px", display: "flex", alignItems: "center", maxWidth: "424px", minWidth: "288px" }}>
             <QuestionRadio disable editable label={option.label} onLabelChange={(newLabel) => handleUpdateOption(i, newLabel)} />
             <DeleteButton onClick={() => handleDeleteOption(i)} />
           </div>
@@ -66,6 +67,7 @@ function DeleteButton({ onClick }: { onClick: () => void }) {
       style={{
         cursor: "pointer",
         display: "inline-flex",
+        marginLeft: "8px",
         padding: "4px",
         transition: "all .2s cubic-bezier(.4,.2,0,1)",
         color: isHovering ? "#f53b57" : "#aebdcb",
