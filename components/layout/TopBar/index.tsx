@@ -46,7 +46,7 @@ export default function TopBar({ title }: PropsWithChildren<{ title: string }>) 
               </a>
             </Link>
             <DividerIcon></DividerIcon>
-            <Title>{title}</Title>
+            <Title>{title || "..."}</Title>
           </div>
 
           <Profile href="https://github.com/KyLoc20" />

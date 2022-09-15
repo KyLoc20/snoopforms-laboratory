@@ -1,16 +1,30 @@
-// import { getSession } from "next-auth/react";
-import Loading from "@/components/layout/Loading";
+import { TopBarAppLayout, Loading } from "@/components/layout";
 import { GetServerSideProps } from "next";
-// import { formHasOwnership } from "../../../lib/api";
 import { prisma } from "@/lib/prisma";
-//NOT GOOD UX
-export default function FormIndexer() {
-  return <Loading />;
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+//This is just an indexer Page to redirect to a specified route
+export default function IndexerPage({ formId, redirectTo }: { formId?: string; redirectTo?: string }) {
+  const router = useRouter();
+  useEffect(() => {
+    if (redirectTo) router.replace(redirectTo);
+  }, [redirectTo]);
+  return <LoadingView></LoadingView>;
 }
+function LoadingView() {
+  return (
+    <TopBarAppLayout title={""}>
+      <Loading />
+    </TopBarAppLayout>
+  );
+}
+// import { getSession } from "next-auth/react";
+// import { formHasOwnership } from "../../../lib/api";
 export const getServerSideProps: GetServerSideProps = async ({ req, params, resolvedUrl }) => {
   //   const session = await getSession({ req });
   //   if (!session) {
   //     return {
+
   //       redirect: {
   //         destination: `/auth/signin?callbackUrl=${encodeURIComponent(resolvedUrl)}`,
   //         statusCode: 302,
@@ -35,18 +49,27 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params, reso
   });
   if (submissionSessionsData.length > 0) {
     return {
-      redirect: {
-        permanent: false,
-        destination: `/forms/${formId}/results/summary`,
+      props: {
+        formId,
+        redirectTo: `/forms/${formId}/results/summary`,
       },
+      //NOT GOOD UX if redirect directly
+      // redirect: {
+      //   permanent: false,
+      //   destination: `/forms/${formId}/results/summary`,
+      // },
     };
   } else {
     // redirect to /builder if there isn't one submissionSession
     return {
-      redirect: {
-        permanent: false,
-        destination: `/forms/${formId}/builder`,
+      props: {
+        formId,
+        redirectTo: `/forms/${formId}/builder`,
       },
+      // redirect: {
+      //   permanent: false,
+      //   destination: `/forms/${formId}/builder`,
+      // },
     };
   }
 };
