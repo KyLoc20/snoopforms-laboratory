@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import clsx from "clsx";
 import styles from "./Navigation.module.css";
 export type AvailableNav = "builder" | "preview" | "publish" | "share" | "responses" | "summary" | "example";
-export function NavBar({ currentNav, formId = "__unknown" }: { currentNav?: AvailableNav; formId?: string }) {
+export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { currentNav?: AvailableNav; formId?: string; disabledAll?: boolean }) {
   //todo disable NavBar if formId is "__unknown"
   const router = useRouter();
   return (
@@ -15,6 +15,7 @@ export function NavBar({ currentNav, formId = "__unknown" }: { currentNav?: Avai
           id="builder"
           label="Builder"
           icon={DocumentAddIcon}
+          disabled={disabledAll}
           onClick={() => {
             router.push(`/forms/${formId}/builder`);
           }}
@@ -24,6 +25,7 @@ export function NavBar({ currentNav, formId = "__unknown" }: { currentNav?: Avai
           id="preview"
           label="Preview"
           icon={EyeIcon}
+          disabled={disabledAll}
           onClick={() => {
             router.push(`/forms/${formId}/preview`);
           }}
@@ -63,6 +65,7 @@ export function NavBar({ currentNav, formId = "__unknown" }: { currentNav?: Avai
           id="responses"
           label="Responses"
           icon={InboxIcon}
+          disabled={disabledAll}
           onClick={() => {
             router.push(`/forms/${formId}/results/responses`);
           }}
@@ -72,9 +75,9 @@ export function NavBar({ currentNav, formId = "__unknown" }: { currentNav?: Avai
           id="summary"
           label="Summary"
           icon={ChartBarIcon}
+          disabled={disabledAll}
           onClick={() => {
             router.push(`/forms/${formId}/results/summary`);
-            //addPage()
           }}
           active={currentNav === "summary"}
         ></Navigation>

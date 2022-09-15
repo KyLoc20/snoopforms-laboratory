@@ -29,11 +29,12 @@ export function TopBarNavagationAppLayout({
   title,
   currentNav,
   formId,
-}: PropsWithChildren<{ title: string; currentNav: AvailableNav; formId?: string }>) {
+  disabledNav,
+}: PropsWithChildren<{ title: string; currentNav?: AvailableNav; formId?: string; disabledNav?: boolean }>) {
   return (
     <Container>
       <TopBar title={title} />
-      <NavBar currentNav={currentNav} formId={formId}></NavBar>
+      <NavBar currentNav={currentNav} formId={formId} disabledAll={disabledNav}></NavBar>
       <MaxWidth>{children}</MaxWidth>
       <div id="new-form-modal"></div>
     </Container>

@@ -1,4 +1,4 @@
-import { TopBarAppLayout, Loading } from "@/components/layout";
+import { TopBarNavagationAppLayout, Loading } from "@/components/layout";
 import { GetServerSideProps } from "next";
 import { prisma } from "@/lib/prisma";
 import { useEffect } from "react";
@@ -13,9 +13,9 @@ export default function IndexerPage({ formId, redirectTo }: { formId?: string; r
 }
 function LoadingView() {
   return (
-    <TopBarAppLayout title={""}>
+    <TopBarNavagationAppLayout title={""} disabledNav>
       <Loading />
-    </TopBarAppLayout>
+    </TopBarNavagationAppLayout>
   );
 }
 // import { getSession } from "next-auth/react";

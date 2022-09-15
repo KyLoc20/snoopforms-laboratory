@@ -41,7 +41,7 @@ export default function TopBar({ title }: PropsWithChildren<{ title: string }>) 
         <div className={styles.wrapper} style={{ flex: 1, display: "flex", color: "#6b7177", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
             <Link href="/forms">
-              <a>
+              <a aria-label="Go to Form List Page which is also a homepage">
                 <HomeIcon className={styles.home} style={{ cursor: "pointer" }} />
               </a>
             </Link>
