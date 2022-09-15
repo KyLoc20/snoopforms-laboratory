@@ -6,6 +6,7 @@ import "highlight.js/styles/tokyo-night-dark.css";
 import "../styles/globals.css";
 import "../styles/editorjs.css";
 import "../styles/toastify.css";
+import "../lib/ProgressIndicator/nprogress.css";
 
 function SnoopApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (

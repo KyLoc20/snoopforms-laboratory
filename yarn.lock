@@ -1341,6 +1341,11 @@
   "resolved" "https://registry.npmjs.org/@types/node/-/node-14.18.26.tgz"
   "version" "14.18.26"
 
+"@types/nprogress@^0.2.0":
+  "integrity" "sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A=="
+  "resolved" "https://registry.npmjs.org/@types/nprogress/-/nprogress-0.2.0.tgz"
+  "version" "0.2.0"
+
 "@types/prop-types@*":
   "integrity" "sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w=="
   "resolved" "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz"
@@ -4140,6 +4145,11 @@
   "version" "4.0.1"
   dependencies:
     "path-key" "^3.0.0"
+
+"nprogress@^0.2.0":
+  "integrity" "sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA=="
+  "resolved" "https://registry.npmjs.org/nprogress/-/nprogress-0.2.0.tgz"
+  "version" "0.2.0"
 
 "oauth@^0.9.15":
   "integrity" "sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA=="
