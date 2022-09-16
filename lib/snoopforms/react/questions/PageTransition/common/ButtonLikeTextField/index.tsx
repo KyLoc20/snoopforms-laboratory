@@ -1,11 +1,14 @@
-import { FormEvent, PropsWithChildren, useState } from "react";
+import { ChangeEvent, PropsWithChildren, useState } from "react";
 import { FORM_GRAY_1, FORM_GRAY_2 } from "../../../toolkit/base/design";
-import { throttle } from "lodash";
+import { debounce } from "lodash";
 export default function ButtonLikeTextField({ defaultValue, onChange }: { defaultValue: string; onChange: (value: string) => void }) {
+  console.log("ButtonLikeTextField");
   const [isHovering, setIsHovering] = useState(false);
-  const handleChange = throttle((e: FormEvent<HTMLDivElement>) => {
-    onChange(e.currentTarget.innerText);
-  }, 2000);
+  const handleChange = debounce((e: ChangeEvent<HTMLInputElement>) => {
+    const newlyValue = e.target.innerText;
+    //BUG every time it updates, the cursor resets
+    onChange(newlyValue);
+  }, 1200);
   return (
     <div
       contentEditable

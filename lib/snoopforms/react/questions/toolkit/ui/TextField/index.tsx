@@ -1,9 +1,10 @@
 import { PropsWithChildren, useState, ChangeEvent } from "react";
-import { throttle } from "lodash";
-export default function TextField({ onChange, type, placeholder, defaultValue, throttleTimeout, renderIcon: RenderIcon }: PropsWithChildren<TextFieldProps>) {
-  const handleChange = throttle((e: ChangeEvent<HTMLInputElement>) => {
+import { debounce } from "lodash";
+export default function TextField({ onChange, type, placeholder, defaultValue, debounceTimeout, renderIcon: RenderIcon }: PropsWithChildren<TextFieldProps>) {
+  const handleChange = debounce((e: ChangeEvent<HTMLInputElement>) => {
+    //debounce works well
     onChange(e.target.value);
-  }, throttleTimeout ?? 2000);
+  }, debounceTimeout ?? 1000);
   const [isFocused, setIsFocused] = useState(false);
   return (
     <label
@@ -51,6 +52,6 @@ type TextFieldProps = {
   defaultValue?: string;
   placeholder?: string;
   onChange: (value: string) => void;
-  throttleTimeout?: number;
+  debounceTimeout?: number;
   renderIcon?: React.FC;
 };

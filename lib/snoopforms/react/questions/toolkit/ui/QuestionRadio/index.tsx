@@ -1,4 +1,4 @@
-import { divide, throttle } from "lodash";
+import { debounce } from "lodash";
 import { ChangeEvent } from "react";
 /**
  * @param disable if true, cann't be selected
@@ -14,9 +14,10 @@ type QuestionRadioProps = {
   onLabelChange?: (label: string) => void;
 };
 export default function QuestionRadio({ label, selected, editable, disable, onSelect, onLabelChange }: QuestionRadioProps) {
-  const handleLabelChange = throttle((e: ChangeEvent<HTMLInputElement>) => {
+  const handleLabelChange = debounce((e: ChangeEvent<HTMLInputElement>) => {
+    //debounce works well
     onLabelChange?.(e.target.value);
-  }, 2000);
+  }, 1000);
   return (
     <div
       className="question-radio"

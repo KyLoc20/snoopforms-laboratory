@@ -46,7 +46,7 @@ function NameInput({ onChange }: { onChange: (v: string) => void }) {
     <div style={{}}>
       <div style={{ lineHeight: "20px", fontSize: "14px", fontWeight: 300, color: "#6b7177" }}>Name your form</div>
       <div style={{ margin: "8px 0 24px" }}>
-        <TextField onChange={onChange} placeholder="e.g. Customer Research Survey" throttleTimeout={500}></TextField>
+        <TextField onChange={onChange} placeholder="e.g. Customer Research Survey" debounceTimeout={500}></TextField>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { throttle } from "lodash";
+import { debounce } from "lodash";
 import { ChangeEvent } from "react";
 export default function QuestionInput({
   onChange,
@@ -9,9 +9,10 @@ export default function QuestionInput({
   placeholder?: string;
   onChange: (value: string) => void;
 }) {
-  const handleChange = throttle((e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = debounce((e: ChangeEvent<HTMLInputElement>) => {
+    //debounce works well
     onChange(e.target.value);
-  }, 2000);
+  }, 1000);
   return (
     <div className="question-input" style={{ color: "rgba(56, 70, 84, 1)", height: "28px", display: "flex", alignItems: "center" }}>
       <input
