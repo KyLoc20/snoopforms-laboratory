@@ -19,6 +19,7 @@ export default function TextField({ onChange, type, placeholder, defaultValue, d
         boxShadow: isFocused ? "0 0 0 1px #0190c8" : "",
         display: "flex",
         alignItems: "center",
+        cursor: "text",
       }}
     >
       {RenderIcon && (

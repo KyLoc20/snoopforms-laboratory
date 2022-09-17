@@ -2,7 +2,7 @@ import { PropsWithChildren, useState } from "react";
 import { HomeIcon, PlusIcon } from "@heroicons/react/outline";
 import useModalPortal from "@/lib/modal";
 import { persistNoCodeForm } from "@/lib/noCodeForm";
-import CreateFormCard, { AvailableType, generateInitialForm } from "@/components/CreateFormCard";
+import CreateFormCard, { AvailableType, generateInitialForm, generateDefaultTemplateForm } from "@/components/CreateFormCard";
 import { generateId } from "@/lib/utils";
 import FullScreenLoading from "../FullScreenLoading";
 import { useRouter } from "next/router";
@@ -12,15 +12,15 @@ export default function TopBar({ title }: PropsWithChildren<{ title: string }>) 
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
   const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
-  const handleCreateOneNewForm = (name: string, type: AvailableType) => {
+  const handleCreateOneNewForm = (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => {
     if (type === "nocode") {
+      hideModal();
       setIsCreating(true);
       const formId = generateId(10);
-      const newForm = generateInitialForm(formId, name);
+      const newForm = shoudUseDefaultTemplate ? generateDefaultTemplateForm(formId, name) : generateInitialForm(formId, name);
       persistNoCodeForm(newForm).then((res) => {
         router.push(`/forms/${formId}/builder`);
         setIsCreating(false);
-        hideModal();
       });
     }
   };
@@ -48,7 +48,6 @@ export default function TopBar({ title }: PropsWithChildren<{ title: string }>) 
             <DividerIcon></DividerIcon>
             <Title>{title || "..."}</Title>
           </div>
-
           <Profile href="https://github.com/KyLoc20" />
         </div>
       </div>

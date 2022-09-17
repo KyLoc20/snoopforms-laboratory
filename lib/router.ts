@@ -5,7 +5,6 @@ export const useFormIdSafely = (onError?: () => void) => {
   const [formId, setFormId] = useState<undefined | string>(undefined); //"__unknown"
   const possibleFormId = router.query.id?.toString();
   useEffect(() => {
-    console.log("possibleFormId useEffect", possibleFormId);
     if (possibleFormId === undefined) {
     } else {
       setFormId(possibleFormId);

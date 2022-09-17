@@ -2,7 +2,6 @@ import { ChangeEvent, PropsWithChildren, useState } from "react";
 import { FORM_GRAY_1, FORM_GRAY_2 } from "../../../toolkit/base/design";
 import { debounce } from "lodash";
 export default function ButtonLikeTextField({ defaultValue, onChange }: { defaultValue: string; onChange: (value: string) => void }) {
-  console.log("ButtonLikeTextField");
   const [isHovering, setIsHovering] = useState(false);
   const handleChange = debounce((e: ChangeEvent<HTMLInputElement>) => {
     const newlyValue = e.target.innerText;

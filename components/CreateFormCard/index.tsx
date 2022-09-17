@@ -1,138 +1,113 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, PropsWithChildren } from "react";
 import TextField from "@/lib/snoopforms/react/questions/toolkit/ui/TextField";
-import { CheckCircleIcon } from "@heroicons/react/solid";
 import { NoCodeFormData } from "@/lib/types";
 import { generateId } from "@/lib/utils";
-export { generateInitialForm };
-export default function CreateFormCard({ onSubmit }: { onSubmit: (name: string, type: AvailableType) => void }) {
+import TypeSelection, { AvailableType } from "./TypeSelection";
+import TemplateSelection, { TemplateStatus } from "./TemplateSelection";
+import Button from "./Button";
+export type { AvailableType };
+export { generateInitialForm, generateDefaultTemplateForm };
+export default function CreateFormCard({ onSubmit }: { onSubmit: (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => void }) {
+  const [step, setStep] = useState<1 | 2>(1);
   const refName = useRef<string>("");
   const refType = useRef<AvailableType>("nocode");
+  const [templateStatus, setTemplateStatus] = useState<TemplateStatus>("none");
+  const shouldCreateFormByTemplate = templateStatus === "unsure";
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <Title></Title>
-      <form
-        style={{ padding: "8px" }}
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formName = refName.current;
-          const formType = refType.current;
-          onSubmit(formName, formType);
-        }}
-      >
-        <NameInput
-          onChange={(v) => {
-            if (refName.current) {
-              refName.current = v;
-            }
+      <Title description={`${step}/2`}>Create A New Form</Title>
+      {step === 1 && (
+        <form
+          style={{ padding: "8px", height: "340px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (shouldCreateFormByTemplate) {
+              //Go to TemplatePage, not create form here
+            } else setStep(2);
           }}
-        ></NameInput>
-        <TypeSelection
-          onChange={(v) => {
-            if (refType.current) {
-              refName.current = v;
-            }
+        >
+          <TemplateSelection onChange={(v) => setTemplateStatus(v)}></TemplateSelection>
+          <Button>{shouldCreateFormByTemplate ? "Explore Templates" : "Next"}</Button>
+        </form>
+      )}
+      {step === 2 && (
+        <form
+          style={{ padding: "8px", height: "340px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const formName = refName.current;
+            const formType = refType.current;
+            const shoudUseDefaultTemplate = templateStatus === "default";
+            onSubmit(formName || DEFAULT_FORM_NAME, formType, shoudUseDefaultTemplate);
           }}
-        ></TypeSelection>
-        <CreateButton></CreateButton>
-      </form>
+        >
+          <NameInput
+            onChange={(v) => {
+              refName.current = v;
+            }}
+          ></NameInput>
+          <TypeSelection
+            onChange={(v) => {
+              refType.current = v;
+            }}
+          ></TypeSelection>
+          <Button>Create</Button>
+        </form>
+      )}
     </div>
   );
 }
-function Title({}) {
-  return <div style={{ padding: "8px", lineHeight: "28px", fontSize: "20px", color: "#6b7177", fontWeight: 700 }}>Create A New Form</div>;
+const DEFAULT_FORM_NAME = "I Need A Name";
+function Title({ children, description }: PropsWithChildren<{ description: string }>) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "8px",
+        lineHeight: "28px",
+        fontSize: "20px",
+        color: "#6b7177",
+        fontWeight: 700,
+      }}
+    >
+      <span>{children}</span>
+      <i style={{ fontSize: "14px", lineHeight: "16px", marginRight: "16px" }}>{description}</i>
+    </div>
+  );
 }
 function NameInput({ onChange }: { onChange: (v: string) => void }) {
   return (
     <div style={{}}>
       <div style={{ lineHeight: "20px", fontSize: "14px", fontWeight: 300, color: "#6b7177" }}>Name your form</div>
       <div style={{ margin: "8px 0 24px" }}>
-        <TextField onChange={onChange} placeholder="e.g. Customer Research Survey" debounceTimeout={500}></TextField>
+        <TextField onChange={onChange} placeholder="e.g. Customer Research Survey" debounceTimeout={0}></TextField>
       </div>
     </div>
   );
 }
-export type AvailableType = "code" | "nocode";
-function TypeSelection({ onChange }: { onChange: (v: AvailableType) => void }) {
-  const [which, setWhich] = useState<AvailableType>("nocode");
-  useEffect(() => {
-    onChange(which);
-  }, [which]);
-  return (
-    <div style={{}}>
-      <div style={{ lineHeight: "20px", fontSize: "14px", fontWeight: 300, color: "#6b7177" }}>How do you build your form?</div>
-      <div style={{ marginTop: "16px", display: "flex", width: "100%", justifyContent: "space-between" }}>
-        <FormType
-          selected={which === "nocode"}
-          name="No-Code Builder"
-          description="Use the Notion-like builder to build your form without a single line of code."
-          onSelect={() => setWhich("nocode")}
-        ></FormType>
-        <FormType
-          selected={which === "code"}
-          name="Code"
-          description="Use the snoopReact library to code the form yourself and manage the data here."
-          onSelect={() => setWhich("code")}
-        ></FormType>
-      </div>
-    </div>
-  );
-}
-function FormType({ selected, name, description, onSelect }: { selected: boolean; name: string; description: string; onSelect: () => void }) {
-  return (
-    <div
-      onClick={onSelect}
-      style={{
-        cursor: "pointer",
-        width: "216px",
-        height: "126px",
-        display: "flex",
-        alignItems: "flex-start",
-        borderRadius: "8px",
-        padding: "16px",
-        border: `1px solid #d2dae2`,
-        background: "#fafafb",
-        boxShadow: selected ? "0 0 0 3px rgba(245,59,87,1)" : "",
-        userSelect: "none",
-      }}
-    >
-      <div>
-        <div style={{ lineHeight: "24px", fontSize: "16px", color: "#6b7177", fontWeight: 700, whiteSpace: "nowrap" }}>{name}</div>
-        <p style={{ marginTop: "4px", lineHeight: "16px", fontSize: "12px", color: "#6b7177" }}>{description}</p>
-      </div>
-      <div>{selected ? <SelectedIcon /> : <UnselectedIcon />}</div>
-    </div>
-  );
-}
-function CreateButton({}) {
-  const [isHovering, setIsHovering] = useState(false);
-  return (
-    <button
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-      type="submit"
-      style={{
-        background: isHovering ? "rgba(245,59,87,1)" : "rgba(245,59,87,0.8)",
-        transition: "all .2s cubic-bezier(.4,.2,0,1)",
-        color: "white",
-        marginTop: "24px",
-        borderRadius: "8px",
-        padding: "12px 20px",
-        lineHeight: "24px",
-        width: "100%",
-        textAlign: "center",
-      }}
-    >
-      Create
-    </button>
-  );
-}
-function UnselectedIcon({}) {
-  return <div style={{ margin: "2px", width: "16px", height: "16px", borderRadius: "50%", border: "2px solid #e5eaef" }}></div>;
-}
-function SelectedIcon({}) {
-  return <CheckCircleIcon style={{ width: "20px", height: "20px", color: "rgba(245,59,87,1)" }}></CheckCircleIcon>;
-}
+
 const generateInitialForm = (formId: string, name: string): NoCodeFormData => ({
+  formId,
+  name,
+  blocks: [],
+  blocksDraft: [
+    { id: generateId(10), type: "header", data: { text: "Welcome to Snoopforms Lab", level: 2 } },
+    {
+      id: generateId(10),
+      type: "textQuestion",
+      data: { _component: { placeholder: "Type Something Here", title: "Text Question", isRequired: false } },
+    },
+    {
+      id: generateId(10),
+      type: "pageTransition",
+      data: { _component: { submitLabel: "Submit" } },
+    },
+    { id: generateId(10), type: "paragraph", data: { text: "Thanks a lot for your time and insights 🙏" } },
+  ],
+});
+const generateDefaultTemplateForm = (formId: string, name: string): NoCodeFormData => ({
   formId,
   name,
   blocks: [],

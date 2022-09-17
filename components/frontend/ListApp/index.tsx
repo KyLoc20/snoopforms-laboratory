@@ -3,7 +3,7 @@ import FormCard from "./FormCard";
 import { NoCodeFormData } from "@/lib/types";
 import { persistNoCodeForm, deleteNoCodeForm } from "@/lib/noCodeForm";
 import useModalPortal from "@/lib/modal";
-import CreateFormCard, { AvailableType, generateInitialForm } from "@/components/CreateFormCard";
+import CreateFormCard, { AvailableType, generateInitialForm, generateDefaultTemplateForm } from "@/components/CreateFormCard";
 import AddFormButton from "./AddFormButton";
 import { generateId } from "@/lib/utils";
 import { useFormList } from "@/lib/forms";
@@ -18,17 +18,17 @@ export default function FormListApp({}) {
 
   const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
   const { navigate: toNewForm } = useNavigation();
-  const handleCreateOneNewForm = (name: string, type: AvailableType) => {
+  const handleCreateOneNewForm = (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => {
     if (type === "nocode") {
+      hideModal();
       setIsCreating(true);
       const formId = generateId(10);
-      const newForm = generateInitialForm(formId, name);
+      const newForm = shoudUseDefaultTemplate ? generateDefaultTemplateForm(formId, name) : generateInitialForm(formId, name);
       persistNoCodeForm(newForm).then((res) => {
         toNewForm(`/forms/${formId}/builder`);
         const newFormList = JSON.parse(JSON.stringify(formList)) as NoCodeFormData[];
         newFormList.unshift(newForm);
         mutateFormList(newFormList);
-        hideModal();
         setIsCreating(false);
       });
     }
