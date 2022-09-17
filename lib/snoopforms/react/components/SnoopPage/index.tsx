@@ -1,6 +1,6 @@
 import { generateId } from "@/lib/utils";
 import React, { createContext, FC, PropsWithChildren, useRef, useContext, useEffect, useState } from "react";
-import { classNamesConcat } from "../../lib/utils";
+import clsx from "clsx";
 import { CurrentPageContext, SubmitHandlerContext, RegistryContext } from "../SnoopForm";
 
 export const PageContext = createContext(""); //pageName
@@ -47,10 +47,7 @@ export function SnoopPage(props: PropsWithChildren<SnoopPageProps>) {
   } else {
     return (
       <PageContext.Provider value={pageName}>
-        <form
-          className={classNamesConcat("snoopform-page", currentPageIdx === findPage(pageName) ? "block" : "hidden", "space-y-6", className)}
-          onSubmit={handleSubmit}
-        >
+        <form className={clsx("snoopform-page", currentPageIdx === findPage(pageName) ? "block" : "hidden", "space-y-6", className)} onSubmit={handleSubmit}>
           {children}
         </form>
       </PageContext.Provider>

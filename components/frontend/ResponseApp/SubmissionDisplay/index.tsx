@@ -1,5 +1,4 @@
-import { useMemo } from "react";
-import { classNames } from "@/lib/utils";
+import clsx from "clsx";
 import { SubmissionSessionData, SubmissionData, NoCodeFormData } from "@/lib/types";
 import { createResponseDisplay, isQuestionType } from "@/lib/snoopforms/react/questions";
 import { useNoCodeForm } from "@/lib/noCodeForm";
@@ -56,7 +55,7 @@ function SubmissionDisplay({ submission, questionTitle }: { submission: Submissi
   return (
     <li className="py-5" style={{ borderBottom: "1px solid #d2dae2" }}>
       <p className="text-sm font-semibold text-gray-800">{questionTitle}</p>
-      <p className={classNames(submission.details ? "text-gray-600" : "text-gray-400", "pt-1 text-sm text-gray-600 line-clamp-2")}>
+      <p className={clsx(submission.details ? "text-gray-600" : "text-gray-400", "pt-1 text-sm text-gray-600 line-clamp-2")}>
         <RenderDisplay></RenderDisplay>
       </p>
     </li>

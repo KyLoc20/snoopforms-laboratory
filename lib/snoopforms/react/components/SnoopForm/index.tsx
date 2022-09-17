@@ -1,9 +1,9 @@
 import FingerprintJS, { Agent } from "@fingerprintjs/fingerprintjs";
 import React, { createContext, FC, ReactNode, useEffect, useState, useRef, PropsWithChildren } from "react";
-import { classNamesConcat } from "../../lib/utils";
 import { PreSubmissionData } from "../../questions";
 import { SubmissionData, SubmissionSessionData } from "../../types";
 import FullScreenLoading from "@/components/layout/FullScreenLoading";
+import clsx from "clsx";
 import { generateId } from "@/lib/utils";
 /**
  * handle the layout and content of Page
@@ -160,7 +160,7 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
         <RegistryContext.Provider value={{ pages: pages, register: addPage, detach: removePage, hasPage, findPage }}>
           <CurrentPageContext.Provider value={{ currentPageIdx }}>
             <SubmitHandlerContext.Provider value={handleSubmit}>
-              <section className={classNamesConcat("snoopform-container", "max-w-lg", className)}>
+              <section className={clsx("snoopform-container", "max-w-lg", className)}>
                 {children}
                 {isSubmitting && <FullScreenLoading />}
               </section>

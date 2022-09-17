@@ -1,8 +1,7 @@
 import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
 import { ArrowSmDownIcon, ArrowSmUpIcon } from "@heroicons/react/solid";
 import React from "react";
-import { classNames } from "@/lib/utils";
-
+import clsx from "clsx";
 interface Props {
   value: string | number;
   label: string;
@@ -22,11 +21,11 @@ const AnalyticsCard: React.FC<Props> = ({ value, label, toolTipText, trend, smal
           )}
         </dt>
         <dd className="flex items-baseline justify-between mt-1 md:block lg:flex">
-          <div className={classNames(smallerText ? "text-lg" : "text-xl", "flex items-baseline text-xl font-semibold text-gray-800")}>{value}</div>
+          <div className={clsx(smallerText ? "text-lg" : "text-xl", "flex items-baseline text-xl font-semibold text-gray-800")}>{value}</div>
 
           {trend && (
             <div
-              className={classNames(
+              className={clsx(
                 trend >= 0 ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800",
                 "inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0"
               )}

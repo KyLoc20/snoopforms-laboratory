@@ -1,6 +1,6 @@
 import { AtSymbolIcon, CheckCircleIcon, GlobeAltIcon, HashtagIcon, MenuAlt1Icon, PhoneIcon } from "@heroicons/react/outline";
 import { IoMdRadioButtonOn } from "react-icons/io";
-import { classNames } from "@/lib/utils";
+import clsx from "clsx";
 import { PropsWithChildren } from "react";
 import { QuestionSummary } from "@/lib/types";
 export const elementTypes = [
@@ -45,7 +45,7 @@ export const elementTypes = [
 export const getElementTypeIcon = (type: string) => {
   const elementType = elementTypes.find((e) => e.type === type);
   return elementType ? (
-    <span className={classNames(`text-white`, `bg-red-500`, "rounded-lg inline-flex p-3 ring-4 ring-white")}>
+    <span className={clsx(`text-white`, `bg-red-500`, "rounded-lg inline-flex p-3 ring-4 ring-white")}>
       <elementType.icon className="w-4 h-4" aria-hidden="true" />
     </span>
   ) : null;

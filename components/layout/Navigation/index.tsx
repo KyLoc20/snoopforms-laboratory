@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon, ChartBarIcon, InboxIcon, DocumentDuplicateIcon } from "@heroicons/react/outline";
-import { classNames } from "@/lib/utils";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import styles from "./Navigation.module.css";
@@ -103,7 +102,7 @@ export function Navigation({
   const handleClick = disabled ? () => {} : onClick;
   return (
     <button
-      className={classNames(
+      className={clsx(
         `h-16 text-xs border-b-2 border-transparent`,
         disabled
           ? "text-ui-gray-medium cursor-default"
