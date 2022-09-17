@@ -4,9 +4,7 @@ import Header from "@editorjs/header";
 import Paragraph from "@editorjs/paragraph";
 // @ts-ignore
 import DragDrop from "editorjs-drag-drop";
-// @ts-ignore
-import Undo from "editorjs-undo";
-import { Fragment, MutableRefObject, useCallback, useEffect } from "react";
+import { Fragment, MutableRefObject, useEffect } from "react";
 import { RatingQuestionBlockTool } from "@/lib/snoopforms/react/questions/RatingQuestion";
 import { TextQuestionBlockTool } from "@/lib/snoopforms/react/questions/TextQuestion";
 import { EmailQuestionBlockTool } from "@/lib/snoopforms/react/questions/EmailQuestion";
@@ -14,22 +12,12 @@ import { MultipleChoiceQuestionBlockTool } from "@/lib/snoopforms/react/question
 import { PageTransitionBlockTool } from "@/lib/snoopforms/react/questions/PageTransition";
 import { useNoCodeForm, persistNoCodeForm } from "@/lib/noCodeForm";
 // import { toast } from "react-toastify";
-// import Loading from "../Loading";
-// import PageTransition from "./tools/PageTransition";
-// import WebsiteQuestion from "./tools/WebsiteQuestion";
-// import PhoneQuestion from "./tools/PhoneQuestion";
-// import NumberQuestion from "./tools/NumberQuestion";
 /**
  * @QUESTION_SETTING
  */
-interface EditorProps {
-  id: string;
-  autofocus: boolean;
-  editorRef: MutableRefObject<EditorJS | null>; //{ current: EditorJS | null }; //RefObject<EditorJS>;
-  formId: string;
-  initAction?: (editor: EditorJS) => void;
-}
-export default function SnoopFormsEditor({ id, autofocus = false, editorRef, formId, initAction }: EditorProps) {
+const EDITOR_ID = "snoopforms-editor";
+const AUTOFOCUS = true;
+export default function SnoopFormsEditor({ editorRef, formId }: EditorProps) {
   const { noCodeForm, isLoading, mutateNoCodeForm } = useNoCodeForm(formId);
   useEffect(() => {
     if (!isLoading && !editorRef.current) {
@@ -49,51 +37,29 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
   const initEditor = () => {
     const editor = new EditorJS({
       minHeight: 0,
-      holder: id,
+      holder: EDITOR_ID,
       data: { blocks: noCodeForm.blocksDraft },
       onReady: () => {
         // console.log("Editor.js is ready to work!", editor.blocks.getBlocksCount());
         editorRef.current = editor;
         new DragDrop(editor);
-        new Undo({ editor });
-        /**
-         * Init Blocks by default
-         */
-        if (editor.blocks.getBlocksCount() === 1) {
-          // initAction(editor); //Init Blocks here, not callback to Builder
-          editor.blocks.insert("header", {
-            text: "Welcome",
-          });
-          const focusBlock = editor.blocks.insert("ratingQuestion");
-          // editor.blocks.insert("pageTransition", {
-          //   submitLabel: "Submit",
-          // });
-          editor.blocks.insert("header", {
-            text: "Thank you",
-          });
-          editor.blocks.insert("paragraph", {
-            text: "Thanks a lot for your time and insights 🙏",
-          });
-          editor.blocks.delete(0); // remove defaultBlock
-          editor.caret.setToBlock(editor.blocks.getBlockIndex(focusBlock.id));
-        }
+        if (editor.blocks.getBlocksCount() === 1) initDefaultBlocks(editor);
       },
       onChange: async (api, event) => {
         //console.log("BUILDER start to save");
         const ts = Date.now();
         //this will trigger when DOM including className changes
         let content = await editor.saver.save();
-        // console.log("-> SnoopFormsEditor got some updates:", content);
-        //todo diff
+        //TODO diff
         const newNoCodeForm = JSON.parse(JSON.stringify(noCodeForm));
-        //todo parse content.blocks(EditorJS's Block type) to BlockData(Snoopforms' Block type)
+        //TODO parse content.blocks(EditorJS's Block type) to BlockData(Snoopforms' Block type)
         newNoCodeForm.blocksDraft = content.blocks;
         await persistNoCodeForm(newNoCodeForm);
         mutateNoCodeForm(newNoCodeForm);
         console.log("BUILDER Updating timecost: ", Date.now() - ts);
       },
       placeholder: "Let`s create an awesome form!",
-      autofocus: autofocus,
+      autofocus: AUTOFOCUS,
       defaultBlock: "paragraph",
       tools: {
         textQuestion: TextQuestionBlockTool,
@@ -101,10 +67,6 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
         ratingQuestion: RatingQuestionBlockTool,
         multipleChoiceQuestion: MultipleChoiceQuestionBlockTool,
         pageTransition: PageTransitionBlockTool,
-        // numberQuestion: NumberQuestion,
-        // phoneQuestion: PhoneQuestion,
-        // websiteQuestion: WebsiteQuestion,
-        // pageTransition: PageTransition,
         paragraph: {
           class: Paragraph,
           inlineToolbar: true,
@@ -125,8 +87,25 @@ export default function SnoopFormsEditor({ id, autofocus = false, editorRef, for
   };
   return (
     <Fragment>
-      <div id={id} />
+      <div id={EDITOR_ID} />
     </Fragment>
   );
 }
-function parse() {}
+type EditorProps = {
+  formId: string;
+  editorRef: MutableRefObject<EditorJS | null>;
+};
+const initDefaultBlocks = (editor: EditorJS) => {
+  editor.blocks.insert("header", {
+    text: "Welcome",
+  });
+  const focusBlock = editor.blocks.insert("ratingQuestion");
+  editor.blocks.insert("header", {
+    text: "Thank you",
+  });
+  editor.blocks.insert("paragraph", {
+    text: "Thanks a lot for your time and insights 🙏",
+  });
+  editor.blocks.delete(0); // remove defaultBlock
+  editor.caret.setToBlock(editor.blocks.getBlockIndex(focusBlock.id));
+};

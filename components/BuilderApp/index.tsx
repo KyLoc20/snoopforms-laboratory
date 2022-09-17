@@ -20,7 +20,7 @@ export default function BuilderApp({ formId }: { formId: string }) {
   return (
     <>
       <section>
-        <SnoopFormsEditor id="editor" editorRef={refEditor} autofocus formId={formId}></SnoopFormsEditor>
+        <SnoopFormsEditor editorRef={refEditor} formId={formId}></SnoopFormsEditor>
       </section>
       <AddPageButton onClick={handleAddPage} />
     </>
