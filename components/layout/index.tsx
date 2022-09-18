@@ -3,11 +3,12 @@ import MaxWidth from "./MaxWidth";
 import Loading from "./Loading";
 import Container from "./Container";
 import FullScreenLoading from "./FullScreenLoading";
-import { NavBar, AvailableNav } from "./Navigation";
-import { FormNotFound } from "./NotFound";
-import TopBar from "./TopBar";
+import { NavBar, AvailableNav, NavigationWrapper, Navigation } from "./Navigation";
+import { FormNotFound, TemplateNotFound } from "./NotFound";
+import TopBar, { TopBarForTemplate } from "./TopBar";
 import { CardGrid } from "./Grid";
-export { Container, MaxWidth, Loading, FormNotFound, FullScreenLoading, CardGrid };
+import { EyeIcon } from "@heroicons/react/outline";
+export { Container, MaxWidth, Loading, FormNotFound, TemplateNotFound, FullScreenLoading, CardGrid };
 /**
  *
  * @returns From top to bottom: TopBar, App
@@ -56,6 +57,22 @@ export function TopBarNavagationFullAppLayout({
       <TopBar title={title} />
       <NavBar currentNav={currentNav} formId={formId}></NavBar>
       <MaxWidth full>{children}</MaxWidth>
+      <div id="new-form-modal"></div>
+    </Container>
+  );
+}
+/**
+ *
+ * @returns From top to bottom: TopBar, Navagation, TemplatePreview
+ */
+export function TopBarNavagationTemplateLayout({ children, title }: PropsWithChildren<{ title: string }>) {
+  return (
+    <Container>
+      <TopBarForTemplate title={title} />
+      <NavigationWrapper>
+        <Navigation id="preview" label="Preview" icon={EyeIcon} onClick={() => {}} active={true}></Navigation>
+      </NavigationWrapper>
+      <MaxWidth>{children}</MaxWidth>
       <div id="new-form-modal"></div>
     </Container>
   );

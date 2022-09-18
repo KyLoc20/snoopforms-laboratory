@@ -1,5 +1,5 @@
 import { PropsWithChildren, useState } from "react";
-import { HomeIcon, PlusIcon } from "@heroicons/react/outline";
+import { HomeIcon, PlusIcon, LightBulbIcon, ArrowLeftIcon } from "@heroicons/react/outline";
 import useModalPortal from "@/lib/modal";
 import { persistNoCodeForm } from "@/lib/noCodeForm";
 import CreateFormCard, { AvailableType, generateInitialForm, generateDefaultTemplateForm } from "@/components/CreateFormCard";
@@ -8,6 +8,7 @@ import FullScreenLoading from "../FullScreenLoading";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "./TopBar.module.css";
+import Button from "./Button";
 export default function TopBar({ title }: PropsWithChildren<{ title: string }>) {
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
@@ -26,18 +27,10 @@ export default function TopBar({ title }: PropsWithChildren<{ title: string }>) 
   };
   return (
     <>
-      <div
-        style={{
-          borderBottom: "1px solid #e5eaef",
-          boxShadow: "0 1px 2px 0 rgba(0,0,0,0.05)",
-          background: "white",
-          display: "flex",
-          alignItems: "center",
-          height: "64px",
-          width: "100%",
-        }}
-      >
-        <CreateFormButton onClick={showModal}></CreateFormButton>
+      <Container>
+        <Button onClick={showModal}>
+          <PlusIcon style={{ width: "16px", height: "16px", marginLeft: "-2px", marginRight: "8px" }} /> create form
+        </Button>
         <div className={styles.wrapper} style={{ flex: 1, display: "flex", color: "#6b7177", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
             <Link href="/forms">
@@ -50,7 +43,7 @@ export default function TopBar({ title }: PropsWithChildren<{ title: string }>) 
           </div>
           <Profile href="https://github.com/KyLoc20" />
         </div>
-      </div>
+      </Container>
       <Portal>
         <CreateFormCard onSubmit={handleCreateOneNewForm} />
       </Portal>
@@ -62,33 +55,67 @@ export default function TopBar({ title }: PropsWithChildren<{ title: string }>) 
     </>
   );
 }
-function CreateFormButton({ onClick }: { onClick: () => void }) {
-  const [isHovering, setIsHovering] = useState(false);
+export function TopBarForTemplate({ title }: PropsWithChildren<{ title: string }>) {
+  const router = useRouter();
+  const [isCreating, setIsCreating] = useState(false);
+  const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
+  const handleCreateOneNewForm = (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => {
+    if (type === "nocode") {
+      hideModal();
+      setIsCreating(true);
+      const formId = generateId(10);
+      const newForm = shoudUseDefaultTemplate ? generateDefaultTemplateForm(formId, name) : generateInitialForm(formId, name);
+      persistNoCodeForm(newForm).then((res) => {
+        router.push(`/forms/${formId}/builder`);
+        setIsCreating(false);
+      });
+    }
+  };
   return (
-    <div className={styles.button} style={{ height: "100%" }}>
-      <div
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-        onClick={onClick}
-        style={{
-          width: "160px",
-          cursor: "pointer",
-          height: "100%",
-          background: isHovering ? "#f53b57" : "#fafafb",
-          color: isHovering ? "white" : "#6b7177",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "0 24px",
-          borderRight: "1px solid #e5eaef",
-          transition: "all .2s cubic-bezier(.4,.2,0,1)",
-          fontSize: "14px",
-          lineHeight: "16px",
-          fontWeight: 500,
-        }}
-      >
-        <PlusIcon style={{ width: "16px", height: "16px", marginLeft: "-2px", marginRight: "8px" }}></PlusIcon> create form
-      </div>
+    <>
+      <Container>
+        <Button onClick={showModal}>
+          <LightBulbIcon style={{ width: "16px", height: "16px", marginLeft: "-2px", marginRight: "8px" }} />
+          Use It!
+        </Button>
+        <div className={styles.wrapper} style={{ flex: 1, display: "flex", color: "#6b7177", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
+            <Link href="/templates">
+              <a aria-label="Go back to Template Gallery">
+                <ArrowLeftIcon className={styles.home} style={{ cursor: "pointer", height: "20px", width: "20px", padding: "2px" }} />
+              </a>
+            </Link>
+            <DividerIcon></DividerIcon>
+            <Title>{title || "..."}</Title>
+          </div>
+          <Profile href="https://github.com/KyLoc20" />
+        </div>
+      </Container>
+      <Portal>
+        <CreateFormCard onSubmit={handleCreateOneNewForm} />
+      </Portal>
+      {isCreating && (
+        <div style={{ zIndex: 1200 }}>
+          <FullScreenLoading />
+        </div>
+      )}
+    </>
+  );
+}
+function Container({ children }: PropsWithChildren<{}>) {
+  return (
+    <div
+      style={{
+        borderBottom: "1px solid #e5eaef",
+        boxShadow: "0 1px 2px 0 rgba(0,0,0,0.05)",
+        background: "white",
+        display: "flex",
+        alignItems: "center",
+        height: "64px",
+        width: "100%",
+      }}
+    >
+      {children}
     </div>
   );
 }

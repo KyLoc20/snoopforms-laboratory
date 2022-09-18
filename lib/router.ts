@@ -12,6 +12,7 @@ export const useFormIdSafely = (onError?: () => void) => {
   }, [possibleFormId]);
   return { formId, isValid: Boolean(formId) };
 };
+
 export const useNavigation = (route?: string) => {
   const router = useRouter();
   const navigate = (_route?: string) => router.push(_route ?? route ?? "");

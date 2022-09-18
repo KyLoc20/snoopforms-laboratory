@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, PropsWithChildren } from "react";
 import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon, ChartBarIcon, InboxIcon, DocumentDuplicateIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import clsx from "clsx";
@@ -9,7 +9,7 @@ export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { curr
   const router = useRouter();
   return (
     <div className={clsx(styles.navigation, "flex items-center justify-center")} style={{ background: "#fafafb" }}>
-      <nav className="flex space-x-10" aria-label="resultModes">
+      <nav className="flex space-x-10" aria-label="Navigation">
         <Navigation
           id="builder"
           label="Builder"
@@ -80,6 +80,15 @@ export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { curr
           }}
           active={currentNav === "summary"}
         ></Navigation>
+      </nav>
+    </div>
+  );
+}
+export function NavigationWrapper({ children }: PropsWithChildren<{}>) {
+  return (
+    <div className={clsx(styles.navigation, "flex items-center justify-center")} style={{ background: "#fafafb" }}>
+      <nav className="flex space-x-10" aria-label="Navigation">
+        {children}
       </nav>
     </div>
   );

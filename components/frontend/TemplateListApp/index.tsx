@@ -1,6 +1,7 @@
 import { PropsWithChildren, useState } from "react";
 import TemplateCard from "./TemplateCard";
 import { CardGrid } from "@/components/layout";
+import { TEMPLATE_LIST } from "@/lib/template";
 export default function TemplateListApp({}) {
   return (
     <>
@@ -18,11 +19,3 @@ export default function TemplateListApp({}) {
 function CardWrapper({ children }: PropsWithChildren<{}>) {
   return <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>{children}</div>;
 }
-const TEMPLATE_LIST: Template[] = [
-  { id: "tell-us-about-yourself-template", name: "Tell Us About Yourself Template" },
-  { id: "cake-order-template", name: "Cake Order Template" },
-];
-type Template = {
-  id: string; //"cake-order-template"
-  name: string; //"Cake Order Template"
-};
