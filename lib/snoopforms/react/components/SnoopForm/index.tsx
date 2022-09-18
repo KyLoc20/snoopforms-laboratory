@@ -65,6 +65,7 @@ interface onSubmitProps {
 }
 
 interface SnoopFormProps {
+  offline?: boolean; //if true, DO NOT submit
   domain?: string;
   formId?: string;
   protocol?: "http" | "https";
@@ -76,6 +77,7 @@ interface SnoopFormProps {
 
 export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
   const { domain = "app.snoopforms.com", protocol = "https", localOnly = false, className = "", onSubmit = (): any => {}, onDone, children } = props;
+  const isOffline = Boolean(props.offline);
   const formId = props.formId ?? "";
   const [schema, setSchema] = useState<any>({ pages: [] });
   const [hasDone, setHasDone] = useState(false);
@@ -143,15 +145,17 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = (pageName: string) => {
     if (refAllSubmissions.current !== null) {
-      //todo update the whole SubmissioSession
       console.log(`Session ${refSessionId.current} of Page ${pageName} handleSubmit:`, refAllSubmissions.current);
-      setIsSubmitting(true);
-      persistOneSubmissionSession(formId, { formId, id: refSessionId.current, createdAt: "", updatedAt: "", submissions: refAllSubmissions.current }).then(
-        (res) => {
-          setIsSubmitting(false);
-          nextPage();
-        }
-      );
+      if (isOffline) nextPage();
+      else {
+        setIsSubmitting(true);
+        persistOneSubmissionSession(formId, { formId, id: refSessionId.current, createdAt: "", updatedAt: "", submissions: refAllSubmissions.current }).then(
+          (res) => {
+            setIsSubmitting(false);
+            nextPage();
+          }
+        );
+      }
     }
   };
   return (
