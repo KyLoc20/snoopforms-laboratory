@@ -13,7 +13,7 @@ export default function Screen({ templateId }: { templateId: string }) {
   } else
     return (
       <TopBarNavagationTemplateLayout templateId={templateId} templateName={templateName}>
-        <PreviewApp formId={""} blocks={getBlocksBy(templateId)} />
+        <PreviewApp offline={true} formId={""} blocks={getBlocksBy(templateId)} />
       </TopBarNavagationTemplateLayout>
     );
 }

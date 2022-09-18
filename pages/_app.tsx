@@ -7,8 +7,9 @@ import "../styles/globals.css";
 import "../styles/editorjs.css";
 import "../styles/toastify.css";
 import "../lib/ProgressIndicator/nprogress.css";
-
+import { useIndicatorOnChangeRoute } from "@/lib/ProgressIndicator";
 function SnoopApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  useIndicatorOnChangeRoute();
   return (
     <>
       <Head>

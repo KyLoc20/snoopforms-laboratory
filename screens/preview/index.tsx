@@ -1,8 +1,8 @@
 import { useNoCodeForm } from "@/lib/noCodeForm";
 import { TopBarNavagationAppLayout, Loading, FormNotFound } from "@/components/layout";
-import FormApp from "@/components/frontend/FormApp";
 import { useFormIdSafely } from "@/lib/router";
 import { BlockData } from "@/lib/types";
+import PreviewApp from "@/components/frontend/PreviewApp";
 export default function Screen() {
   const { formId, isValid } = useFormIdSafely();
   if (isValid) return <View formId={formId as string} />;
@@ -11,7 +11,7 @@ export default function Screen() {
 function R({ formId, isReady, hasError, blocks }: { formId: string; isReady: boolean; hasError: boolean; blocks: BlockData[] }) {
   if (isReady) {
     if (hasError) return <FormNotFound formId={formId} />;
-    else return <FormApp formId={formId as string} blocks={blocks} />;
+    else return <PreviewApp offline={false} formId={formId as string} blocks={blocks} />;
   } else return <Loading />;
 }
 function View({ formId }: { formId: string }) {

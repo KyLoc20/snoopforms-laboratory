@@ -1,30 +1,37 @@
 import { PropsWithChildren, useState } from "react";
-import { HomeIcon, PlusIcon, LightBulbIcon, ArrowLeftIcon } from "@heroicons/react/outline";
+import { HomeIcon, PlusIcon } from "@heroicons/react/outline";
 import useModalPortal from "@/lib/modal";
 import { persistNoCodeForm } from "@/lib/noCodeForm";
-import CreateFormCard, { AvailableType, generateInitialForm, generateDefaultTemplateForm } from "@/components/CreateFormCard";
+import CreateFormCard, { AvailableType } from "@/components/CreateFormCard";
 import { generateId } from "@/lib/utils";
 import FullScreenLoading from "../FullScreenLoading";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "./TopBar.module.css";
 import Button from "./Button";
+import { useNavigation } from "@/lib/router";
+import { generateForm } from "@/lib/noCodeForm";
+import { DEFAULT_TEMPLATE, WELCOME_TEMPLATE } from "@/lib/template";
 export { Container, Title, DividerIcon, Profile };
 export default function TopBar({ title }: PropsWithChildren<{ title: string }>) {
-  const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
   const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
+  const { navigateTo } = useNavigation();
   const handleCreateOneNewForm = (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => {
     if (type === "nocode") {
       hideModal();
       setIsCreating(true);
       const formId = generateId(10);
-      const newForm = shoudUseDefaultTemplate ? generateDefaultTemplateForm(formId, name) : generateInitialForm(formId, name);
+      const newForm = generateForm(formId, name, shoudUseDefaultTemplate ? DEFAULT_TEMPLATE() : WELCOME_TEMPLATE());
       persistNoCodeForm(newForm).then((res) => {
-        router.push(`/forms/${formId}/builder`);
+        navigateTo(`/forms/${formId}/builder`);
         setIsCreating(false);
       });
     }
+  };
+
+  const handleBrowseTemplates = () => {
+    hideModal();
+    navigateTo(`/templates`);
   };
   return (
     <>
@@ -46,7 +53,7 @@ export default function TopBar({ title }: PropsWithChildren<{ title: string }>) 
         </div>
       </Container>
       <Portal>
-        <CreateFormCard onSubmit={handleCreateOneNewForm} />
+        <CreateFormCard onSubmit={handleCreateOneNewForm} onBrowseTemplates={handleBrowseTemplates} />
       </Portal>
       {isCreating && (
         <div style={{ zIndex: 1200 }}>

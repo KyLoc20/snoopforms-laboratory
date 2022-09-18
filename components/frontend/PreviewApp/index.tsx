@@ -4,7 +4,7 @@ import Loading from "@/components/layout/Loading";
 import { BlockData } from "@/lib/types";
 import { toast } from "react-toastify";
 import { SnoopForm, SnoopPage, SnoopElement } from "@/lib/snoopforms/react";
-export default function PreviewApp({ formId, blocks }: { formId: string; blocks: BlockData[] }) {
+export default function PreviewApp({ formId, blocks, offline }: { formId: string; blocks: BlockData[]; offline: boolean }) {
   console.log("RENDER PreviewApp", formId, blocks);
   const pages = useMemo(() => {
     const allPages: Page[] = [];
@@ -17,8 +17,10 @@ export default function PreviewApp({ formId, blocks }: { formId: string; blocks:
         cPage = { id: generateId(10), blocks: [] };
       }
     });
+    //TODO make it configurable
+    //the last Page, add a Done Button by default
     if (cPage.blocks.length > 0) {
-      cPage.blocks.push({ id: generateId(10), type: "pageTransition", data: { _component: { submitLabel: "Submit" } } });
+      cPage.blocks.push({ id: generateId(10), type: "pageTransition", data: { _component: { submitLabel: "DONE" } } });
       allPages.push(cPage);
     }
     return allPages;
@@ -33,7 +35,7 @@ export default function PreviewApp({ formId, blocks }: { formId: string; blocks:
     console.log("RENDER FormApp", pages);
     return (
       <div className="w-full px-5 py-5">
-        <SnoopForm offline formId={formId} onDone={handleFormCompleted}>
+        <SnoopForm offline={offline} formId={formId} onDone={handleFormCompleted}>
           {pages.map((page, _) => (
             <SnoopPage name={page.id} key={page.id}>
               {page.blocks.map((block, i) => (

@@ -3,12 +3,14 @@ import FormCard from "./FormCard";
 import { NoCodeFormData } from "@/lib/types";
 import { persistNoCodeForm, deleteNoCodeForm } from "@/lib/noCodeForm";
 import useModalPortal from "@/lib/modal";
-import CreateFormCard, { AvailableType, generateInitialForm, generateDefaultTemplateForm } from "@/components/CreateFormCard";
+import CreateFormCard, { AvailableType } from "@/components/CreateFormCard";
 import AddFormButton from "./AddFormButton";
 import { generateId } from "@/lib/utils";
 import { useFormList } from "@/lib/forms";
 import { FullScreenLoading } from "@/components/layout";
 import { useNavigation } from "@/lib/router";
+import { generateForm } from "@/lib/noCodeForm";
+import { DEFAULT_TEMPLATE, WELCOME_TEMPLATE } from "@/lib/template";
 export default function FormListApp({}) {
   const { formList, mutateFormList } = useFormList();
 
@@ -17,15 +19,15 @@ export default function FormListApp({}) {
   const shouldBeLoading = isCreating || isDeleting;
 
   const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
-  const { navigate: toNewForm } = useNavigation();
+  const { navigateTo } = useNavigation();
   const handleCreateOneNewForm = (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => {
     if (type === "nocode") {
       hideModal();
       setIsCreating(true);
       const formId = generateId(10);
-      const newForm = shoudUseDefaultTemplate ? generateDefaultTemplateForm(formId, name) : generateInitialForm(formId, name);
+      const newForm = generateForm(formId, name, shoudUseDefaultTemplate ? DEFAULT_TEMPLATE() : WELCOME_TEMPLATE());
       persistNoCodeForm(newForm).then((res) => {
-        toNewForm(`/forms/${formId}/builder`);
+        navigateTo(`/forms/${formId}/builder`);
         const newFormList = JSON.parse(JSON.stringify(formList)) as NoCodeFormData[];
         newFormList.unshift(newForm);
         mutateFormList(newFormList);
@@ -43,6 +45,10 @@ export default function FormListApp({}) {
     });
   };
 
+  const handleBrowseTemplates = () => {
+    hideModal();
+    navigateTo(`/templates`);
+  };
   return (
     <>
       <CardGrid>
@@ -56,7 +62,7 @@ export default function FormListApp({}) {
         ))}
       </CardGrid>
       <Portal>
-        <CreateFormCard onSubmit={handleCreateOneNewForm} />
+        <CreateFormCard onSubmit={handleCreateOneNewForm} onBrowseTemplates={handleBrowseTemplates} />
       </Portal>
       {shouldBeLoading && <FullScreenLoading />}
     </>

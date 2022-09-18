@@ -15,6 +15,7 @@ export const useFormIdSafely = (onError?: () => void) => {
 
 export const useNavigation = (route?: string) => {
   const router = useRouter();
-  const navigate = (_route?: string) => router.push(_route ?? route ?? "");
-  return { navigate };
+  const navigateTo = (_route: string) => router.push(_route);
+  const navigate = () => router.push(route ?? "");
+  return { navigate, navigateTo };
 };

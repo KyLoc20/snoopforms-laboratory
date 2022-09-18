@@ -23,7 +23,7 @@ export default function TemplateListApp({}) {
     showModal();
   };
 
-  const { navigate: toNewForm } = useNavigation();
+  const { navigateTo } = useNavigation();
   const handleCreateFormFromTemplate = (formName: string) => {
     hideModal();
     setIsCreating(true);
@@ -31,11 +31,14 @@ export default function TemplateListApp({}) {
     const newForm = generateForm(formId, formName, templateInUse);
     console.log("handleCreateFormFromTemplate", newForm);
     persistNoCodeForm(newForm).then((res) => {
-      toNewForm(`/forms/${formId}/builder`);
+      navigateTo(`/forms/${formId}/builder`);
       setIsCreating(false);
     });
   };
-
+  const handleBrowseTemplates = () => {
+    hideModal();
+    navigateTo(`/templates`);
+  };
   return (
     <>
       <CardGrid>
@@ -46,7 +49,7 @@ export default function TemplateListApp({}) {
         ))}
       </CardGrid>
       <Portal>
-        <CreateFormCard fromTemplate onSubmit={handleCreateFormFromTemplate} />
+        <CreateFormCard fromTemplate onSubmit={handleCreateFormFromTemplate} onBrowseTemplates={handleBrowseTemplates} />
       </Portal>
       {shouldBeLoading && <FullScreenLoading />}
     </>

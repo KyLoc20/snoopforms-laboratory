@@ -7,9 +7,8 @@ import TemplateSelection, { TemplateStatus } from "./TemplateSelection";
 import Button from "./Button";
 import { useRouter } from "next/router";
 export type { AvailableType };
-export { generateInitialForm, generateDefaultTemplateForm };
 
-export default function CreateFormCard({ fromTemplate, onSubmit }: CreateFormCardProps) {
+export default function CreateFormCard({ fromTemplate, onSubmit, onBrowseTemplates }: CreateFormCardProps) {
   /**
    * step 1: options about template
    * step 2: options about formName
@@ -31,7 +30,8 @@ export default function CreateFormCard({ fromTemplate, onSubmit }: CreateFormCar
             e.preventDefault();
             if (shouldCreateFormByTemplate) {
               //Go to TemplatePage, not create form here
-              router.push("/templates");
+              // router.push("/templates");
+              onBrowseTemplates();
             } else setStep(2);
           }}
         >
@@ -67,7 +67,11 @@ export default function CreateFormCard({ fromTemplate, onSubmit }: CreateFormCar
   );
 }
 const DEFAULT_FORM_NAME = "I Need A Name";
-type CreateFormCardProps = { onSubmit: (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => void; fromTemplate?: boolean };
+type CreateFormCardProps = {
+  onBrowseTemplates: () => void;
+  onSubmit: (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => void;
+  fromTemplate?: boolean;
+};
 function Title({ children, description }: PropsWithChildren<{ description: string }>) {
   return (
     <div
@@ -97,69 +101,3 @@ function NameInput({ onChange }: { onChange: (v: string) => void }) {
     </div>
   );
 }
-
-const generateInitialForm = (formId: string, name: string): NoCodeFormData => ({
-  formId,
-  name,
-  blocks: [],
-  blocksDraft: [
-    { id: generateId(10), type: "header", data: { text: "Welcome to Snoopforms Lab", level: 2 } },
-    {
-      id: generateId(10),
-      type: "textQuestion",
-      data: { _component: { placeholder: "Type Something Here", title: "Text Question", isRequired: false } },
-    },
-    {
-      id: generateId(10),
-      type: "pageTransition",
-      data: { _component: { submitLabel: "Submit" } },
-    },
-    { id: generateId(10), type: "paragraph", data: { text: "Thanks a lot for your time and insights 🙏" } },
-  ],
-});
-const generateDefaultTemplateForm = (formId: string, name: string): NoCodeFormData => ({
-  formId,
-  name,
-  blocks: [],
-  blocksDraft: [
-    { id: generateId(10), type: "header", data: { text: "Welcome to Snoopforms Lab", level: 2 } },
-    {
-      id: generateId(10),
-      type: "textQuestion",
-      data: { _component: { placeholder: "Type Your Name Here", title: "May I know your name?", isRequired: false } },
-    },
-    {
-      id: generateId(10),
-      type: "multipleChoiceQuestion",
-      data: {
-        _component: {
-          onlyOne: true,
-          isRequired: false,
-          options: [
-            { label: "She/her", value: "She/her" },
-            { label: "He/him", value: "He/him" },
-            { label: "They/them", value: "They/them" },
-            { label: "I prefer not to say", value: "I prefer not to say" },
-          ],
-          title: "What are your pronouns?",
-        },
-      },
-    },
-    {
-      id: generateId(10),
-      type: "pageTransition",
-      data: { _component: { submitLabel: "Submit" } },
-    },
-    {
-      id: generateId(10),
-      type: "ratingQuestion",
-      data: { _component: { num: 5, icon: "hearts", isRequired: false, title: "How do you like this stuff?" } },
-    },
-    {
-      id: generateId(10),
-      type: "emailQuestion",
-      data: { _component: { placeholder: "Type Email Here", title: "May I have your email?", isRequired: false } },
-    },
-    { id: generateId(10), type: "paragraph", data: { text: "Thanks a lot for your time and insights 🙏" } },
-  ],
-});
