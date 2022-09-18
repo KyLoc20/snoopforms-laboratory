@@ -6,9 +6,9 @@ interface TemplateCardProps {
   id: string;
   name: string;
   // onSetDefault: (name: string) => void;
-  // onUse: (name: string) => void;
+  onUse: (templateId: string) => void;
 }
-export default function TemplateCard({ id, name }: TemplateCardProps) {
+export default function TemplateCard({ id, name, onUse }: TemplateCardProps) {
   const templateHref = `/templates/${id}`;
   return (
     <CardWrapper>
@@ -27,6 +27,7 @@ export default function TemplateCard({ id, name }: TemplateCardProps) {
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
+            onUse(id);
           }}
         />
         <PreviewButton toWhere={templateHref} />

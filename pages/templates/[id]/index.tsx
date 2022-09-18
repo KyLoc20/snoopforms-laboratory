@@ -6,11 +6,6 @@ export default function Page({ templateId }: { templateId: string }) {
 }
 export const getServerSideProps: GetServerSideProps = async ({ req, params, resolvedUrl }) => {
   const templateId = params?.id?.toString();
-  //todo
-  //   if (!templateId) {
-  //     //404
-  //     return {};
-  //   }
   return {
     props: {
       templateId,

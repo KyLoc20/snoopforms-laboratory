@@ -1,5 +1,5 @@
 import { useSWRSafely } from "./utils";
-import { NoCodeFormData } from "./types";
+import { BlockData, NoCodeFormData } from "./types";
 const EMPTY_NOCODEFORM: NoCodeFormData = {
   formId: "_empty_nocode_form",
   name: "_empty_nocode_form",
@@ -34,3 +34,9 @@ export const deleteNoCodeForm = (formId: string) => {
     body: undefined,
   });
 };
+export const generateForm = (formId: string, name: string, blocks: BlockData[]): NoCodeFormData => ({
+  formId,
+  name,
+  blocks: [],
+  blocksDraft: blocks,
+});

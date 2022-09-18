@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Switch from "@/lib/ui/Switch";
 import FormOption from "../FormOption";
-export type TemplateStatus = "default" | "unsure" | "none";
+export type TemplateStatus = "default" | "unsure" | "none" | "selected";
 type TemplateSelectionProps = {
   /**
    * @option "default" -> use DefaultTemplete;

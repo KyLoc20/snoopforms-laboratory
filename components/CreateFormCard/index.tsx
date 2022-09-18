@@ -5,14 +5,22 @@ import { generateId } from "@/lib/utils";
 import TypeSelection, { AvailableType } from "./TypeSelection";
 import TemplateSelection, { TemplateStatus } from "./TemplateSelection";
 import Button from "./Button";
+import { useRouter } from "next/router";
 export type { AvailableType };
 export { generateInitialForm, generateDefaultTemplateForm };
-export default function CreateFormCard({ onSubmit }: { onSubmit: (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => void }) {
-  const [step, setStep] = useState<1 | 2>(1);
+
+export default function CreateFormCard({ fromTemplate, onSubmit }: CreateFormCardProps) {
+  /**
+   * step 1: options about template
+   * step 2: options about formName
+   * if fromTemplate is true, go to set formName directly
+   */
+  const [step, setStep] = useState<1 | 2>(fromTemplate ? 2 : 1);
   const refName = useRef<string>("");
   const refType = useRef<AvailableType>("nocode");
-  const [templateStatus, setTemplateStatus] = useState<TemplateStatus>("none");
+  const [templateStatus, setTemplateStatus] = useState<TemplateStatus>(fromTemplate ? "selected" : "none");
   const shouldCreateFormByTemplate = templateStatus === "unsure";
+  const router = useRouter();
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <Title description={`${step}/2`}>Create A New Form</Title>
@@ -23,6 +31,7 @@ export default function CreateFormCard({ onSubmit }: { onSubmit: (name: string, 
             e.preventDefault();
             if (shouldCreateFormByTemplate) {
               //Go to TemplatePage, not create form here
+              router.push("/templates");
             } else setStep(2);
           }}
         >
@@ -58,6 +67,7 @@ export default function CreateFormCard({ onSubmit }: { onSubmit: (name: string, 
   );
 }
 const DEFAULT_FORM_NAME = "I Need A Name";
+type CreateFormCardProps = { onSubmit: (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => void; fromTemplate?: boolean };
 function Title({ children, description }: PropsWithChildren<{ description: string }>) {
   return (
     <div

@@ -65,10 +65,10 @@ export function TopBarNavagationFullAppLayout({
  *
  * @returns From top to bottom: TopBar, Navagation, TemplatePreview
  */
-export function TopBarNavagationTemplateLayout({ children, title }: PropsWithChildren<{ title: string }>) {
+export function TopBarNavagationTemplateLayout({ children, templateId, templateName }: PropsWithChildren<{ templateId: string; templateName: string }>) {
   return (
     <Container>
-      <TopBarForTemplate title={title} />
+      <TopBarForTemplate templateId={templateId} templateName={templateName} />
       <NavigationWrapper>
         <Navigation id="preview" label="Preview" icon={EyeIcon} onClick={() => {}} active={true}></Navigation>
       </NavigationWrapper>
