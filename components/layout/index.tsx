@@ -6,7 +6,8 @@ import FullScreenLoading from "./FullScreenLoading";
 import { NavBar, AvailableNav } from "./Navigation";
 import { FormNotFound } from "./NotFound";
 import TopBar from "./TopBar";
-export { Container, MaxWidth, Loading, FormNotFound, FullScreenLoading };
+import { CardGrid } from "./Grid";
+export { Container, MaxWidth, Loading, FormNotFound, FullScreenLoading, CardGrid };
 /**
  *
  * @returns From top to bottom: TopBar, App
