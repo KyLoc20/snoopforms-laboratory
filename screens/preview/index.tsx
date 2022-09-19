@@ -11,7 +11,7 @@ export default function Screen() {
 function R({ formId, isReady, hasError, blocks }: { formId: string; isReady: boolean; hasError: boolean; blocks: BlockData[] }) {
   if (isReady) {
     if (hasError) return <FormNotFound formId={formId} />;
-    else return <PreviewApp offline={false} formId={formId as string} blocks={blocks} />;
+    else return <PreviewApp formId={formId as string} blocks={blocks} />;
   } else return <Loading />;
 }
 function View({ formId }: { formId: string }) {

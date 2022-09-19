@@ -4,8 +4,8 @@ import Loading from "@/components/layout/Loading";
 import { BlockData } from "@/lib/types";
 import { toast } from "react-toastify";
 import { SnoopForm, SnoopPage, SnoopElement } from "@/lib/snoopforms/react";
-export default function PreviewApp({ formId, blocks }: { formId: string; blocks: BlockData[] }) {
-  console.log("RENDER PreviewApp", formId, blocks);
+export default function ConsumeApp({ formId, blocks }: { formId: string; blocks: BlockData[] }) {
+  console.log("RENDER ConsumeApp", formId, blocks);
   const pages = useMemo(() => {
     const allPages: Page[] = [];
     let cPage: Page = { id: generateId(10), blocks: [] };
@@ -28,14 +28,14 @@ export default function PreviewApp({ formId, blocks }: { formId: string; blocks:
 
   const handleFormCompleted = () => {
     toast("Congratulations! You Have Finished the Form 🎉", { autoClose: 2000 });
+    //TODO show results
   };
 
   if (!pages) return <Loading />;
   else {
-    // console.log("RENDER FormApp", pages);
     return (
       <div className="w-full px-5 py-5">
-        <SnoopForm offline={true} formId={formId} onDone={handleFormCompleted}>
+        <SnoopForm offline={false} formId={formId} onDone={handleFormCompleted}>
           {pages.map((page, _) => (
             <SnoopPage name={page.id} key={page.id}>
               {page.blocks.map((block, i) => (

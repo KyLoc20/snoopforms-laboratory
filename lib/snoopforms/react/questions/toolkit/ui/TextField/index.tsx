@@ -1,6 +1,14 @@
 import { PropsWithChildren, useState, ChangeEvent } from "react";
 import { debounce } from "lodash";
-export default function TextField({ onChange, type, placeholder, defaultValue, debounceTimeout, renderIcon: RenderIcon }: PropsWithChildren<TextFieldProps>) {
+export default function TextField({
+  onChange,
+  disabled,
+  type,
+  placeholder,
+  defaultValue,
+  debounceTimeout,
+  renderIcon: RenderIcon,
+}: PropsWithChildren<TextFieldProps>) {
   const handleChange = debounce((e: ChangeEvent<HTMLInputElement>) => {
     //debounce works well
     onChange(e.target.value);
@@ -30,6 +38,7 @@ export default function TextField({ onChange, type, placeholder, defaultValue, d
       <input
         // DO NOT check pattern here
         // pattern={type === "email" ? "^[A-Za-z0-9]+@[A-Za-z0-9]+.com$" : undefined}
+        disabled={disabled}
         type={type ?? "text"}
         onInvalid={(e) => e.preventDefault()}
         placeholder={placeholder ?? ""}
@@ -49,6 +58,7 @@ export default function TextField({ onChange, type, placeholder, defaultValue, d
 }
 type AvailableType = "text" | "email" | "phone";
 type TextFieldProps = {
+  disabled?: boolean;
   type?: AvailableType;
   defaultValue?: string;
   placeholder?: string;

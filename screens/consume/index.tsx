@@ -1,7 +1,7 @@
 import { useNoCodeForm } from "@/lib/noCodeForm";
 import { AppLayout, Loading, FormNotFound, FormNotPublished } from "@/components/layout";
 import { BlockData } from "@/lib/types";
-import PreviewApp from "@/components/frontend/PreviewApp";
+import ConsumeApp from "@/components/frontend/ConsumeApp";
 export default function Screen({ formId }: { formId: string }) {
   return <View formId={formId as string} />;
 }
@@ -18,6 +18,6 @@ function R({ formId, isReady, hasError, blocks }: { formId: string; isReady: boo
   if (isReady) {
     if (hasError) return <FormNotFound formId={formId} />;
     if (blocks.length === 0) return <FormNotPublished formId={formId} />;
-    else return <PreviewApp offline={false} formId={formId as string} blocks={blocks} />;
+    else return <ConsumeApp formId={formId as string} blocks={blocks} />;
   } else return <Loading />;
 }

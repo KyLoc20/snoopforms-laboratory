@@ -3,7 +3,6 @@ import TextField from "@/lib/snoopforms/react/questions/toolkit/ui/TextField";
 import TypeSelection, { AvailableType } from "./TypeSelection";
 import TemplateSelection, { TemplateStatus } from "./TemplateSelection";
 import { Title, SubmitButton } from "../widgets";
-import { useRouter } from "next/router";
 export type { AvailableType };
 
 export default function CreateFormCard({ fromTemplate, onSubmit, onBrowseTemplates }: CreateFormCardProps) {
@@ -17,7 +16,6 @@ export default function CreateFormCard({ fromTemplate, onSubmit, onBrowseTemplat
   const refType = useRef<AvailableType>("nocode");
   const [templateStatus, setTemplateStatus] = useState<TemplateStatus>(fromTemplate ? "selected" : "none");
   const shouldCreateFormByTemplate = templateStatus === "unsure";
-  const router = useRouter();
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <Title description={`${step}/2`}>Create A New Form</Title>
