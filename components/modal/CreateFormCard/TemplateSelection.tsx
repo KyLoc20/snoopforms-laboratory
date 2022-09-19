@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Switch from "@/lib/ui/Switch";
-import FormOption from "../FormOption";
+import { FormOption } from "../widgets";
 export type TemplateStatus = "default" | "unsure" | "none" | "selected";
 type TemplateSelectionProps = {
   /**

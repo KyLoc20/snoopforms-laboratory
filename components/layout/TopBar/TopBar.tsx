@@ -2,7 +2,7 @@ import { PropsWithChildren, useState } from "react";
 import { HomeIcon, PlusIcon } from "@heroicons/react/outline";
 import useModalPortal from "@/lib/modal";
 import { persistNoCodeForm } from "@/lib/noCodeForm";
-import CreateFormCard, { AvailableType } from "@/components/CreateFormCard";
+import CreateFormCard, { AvailableType } from "@/components/modal/CreateFormCard";
 import { generateId } from "@/lib/utils";
 import FullScreenLoading from "../FullScreenLoading";
 import Link from "next/link";

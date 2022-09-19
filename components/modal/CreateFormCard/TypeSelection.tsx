@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import FormOption from "../FormOption";
+import { FormOption } from "../widgets";
 export type AvailableType = "code" | "nocode";
 export default function TypeSelection({ onChange }: { onChange: (v: AvailableType) => void }) {
   const [which, setWhich] = useState<AvailableType>("nocode");

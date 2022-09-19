@@ -1,12 +1,18 @@
 import { useState, PropsWithChildren } from "react";
 import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon, ChartBarIcon, InboxIcon, DocumentDuplicateIcon } from "@heroicons/react/outline";
-import { useRouter } from "next/router";
+import { useNavigation } from "@/lib/router";
+import PublishCard from "@/components/modal/PublishCard";
 import clsx from "clsx";
 import styles from "./Navigation.module.css";
+import useModalPortal from "@/lib/modal";
 export type AvailableNav = "builder" | "preview" | "publish" | "share" | "responses" | "summary" | "example";
 export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { currentNav?: AvailableNav; formId?: string; disabledAll?: boolean }) {
   //todo disable NavBar if formId is "__unknown"
-  const router = useRouter();
+  const { navigateTo } = useNavigation();
+
+  //for PublishCard
+  const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
+
   return (
     <div className={clsx(styles.navigation, "flex items-center justify-center")} style={{ background: "#fafafb" }}>
       <nav className="flex space-x-10" aria-label="Navigation">
@@ -16,7 +22,7 @@ export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { curr
           icon={DocumentAddIcon}
           disabled={disabledAll}
           onClick={() => {
-            router.push(`/forms/${formId}/builder`);
+            navigateTo(`/forms/${formId}/builder`);
           }}
           active={currentNav === "builder"}
         ></Navigation>
@@ -26,30 +32,15 @@ export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { curr
           icon={EyeIcon}
           disabled={disabledAll}
           onClick={() => {
-            router.push(`/forms/${formId}/preview`);
+            navigateTo(`/forms/${formId}/preview`);
           }}
           active={currentNav === "preview"}
         ></Navigation>
-        {/* <Navigation
-          id="example"
-          label="Example"
-          icon={DocumentDuplicateIcon}
-          onClick={() => {
-            router.push(`/example`);
-          }}
-          active={currentNav === "example"}
-        ></Navigation>
-        <Navigation
-          id="publish"
-          label="Publish"
-          icon={PaperAirplaneIcon}
-          onClick={() => {
-            //setCurrentNav("publish");
-            //publishChanges()
-          }}
-          active={currentNav === "publish"}
-          disabled
-        ></Navigation>
+        <Navigation id="publish" label="Publish" icon={PaperAirplaneIcon} onClick={showModal} active={currentNav === "publish"}></Navigation>
+        <Portal>
+          <PublishCard onDone={hideModal} onCancel={hideModal} />
+        </Portal>
+        {/*  
         <Navigation
           id="share"
           label="Share"
@@ -66,7 +57,7 @@ export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { curr
           icon={InboxIcon}
           disabled={disabledAll}
           onClick={() => {
-            router.push(`/forms/${formId}/results/responses`);
+            navigateTo(`/forms/${formId}/results/responses`);
           }}
           active={currentNav === "responses"}
         ></Navigation>
@@ -76,7 +67,7 @@ export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { curr
           icon={ChartBarIcon}
           disabled={disabledAll}
           onClick={() => {
-            router.push(`/forms/${formId}/results/summary`);
+            navigateTo(`/forms/${formId}/results/summary`);
           }}
           active={currentNav === "summary"}
         ></Navigation>

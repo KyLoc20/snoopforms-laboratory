@@ -1,4 +1,4 @@
-import BuilderApp from "@/components/BuilderApp";
+import BuilderApp from "@/components/frontend/BuilderApp";
 import { useNoCodeForm } from "@/lib/noCodeForm";
 import { TopBarNavagationAppLayout, Loading, FormNotFound } from "@/components/layout";
 import { useFormIdSafely } from "@/lib/router";

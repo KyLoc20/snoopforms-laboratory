@@ -6,7 +6,7 @@ import styles from "./TopBar.module.css";
 import Button from "./Button";
 import { Container, Title, DividerIcon, Profile } from "./TopBar";
 import useModalPortal from "@/lib/modal";
-import CreateFormCard from "@/components/CreateFormCard";
+import CreateFormCard from "@/components/modal/CreateFormCard";
 import { generateId } from "@/lib/utils";
 import { getBlocksBy } from "@/lib/template";
 import { BlockData } from "@/lib/types";

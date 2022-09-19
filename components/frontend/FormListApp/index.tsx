@@ -3,7 +3,7 @@ import FormCard from "./FormCard";
 import { NoCodeFormData } from "@/lib/types";
 import { persistNoCodeForm, deleteNoCodeForm } from "@/lib/noCodeForm";
 import useModalPortal from "@/lib/modal";
-import CreateFormCard, { AvailableType } from "@/components/CreateFormCard";
+import CreateFormCard, { AvailableType } from "@/components/modal/CreateFormCard";
 import AddFormButton from "./AddFormButton";
 import { generateId } from "@/lib/utils";
 import { useFormList } from "@/lib/forms";

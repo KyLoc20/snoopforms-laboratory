@@ -5,7 +5,7 @@ import { TEMPLATE_LIST } from "@/lib/template";
 import { BlockData } from "@/lib/types";
 import { generateForm, persistNoCodeForm } from "@/lib/noCodeForm";
 import useModalPortal from "@/lib/modal";
-import CreateFormCard from "@/components/CreateFormCard";
+import CreateFormCard from "@/components/modal/CreateFormCard";
 
 import { generateId } from "@/lib/utils";
 

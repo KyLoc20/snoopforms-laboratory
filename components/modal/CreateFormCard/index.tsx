@@ -1,10 +1,8 @@
-import { useState, useEffect, useRef, PropsWithChildren } from "react";
+import { useState, useRef } from "react";
 import TextField from "@/lib/snoopforms/react/questions/toolkit/ui/TextField";
-import { NoCodeFormData } from "@/lib/types";
-import { generateId } from "@/lib/utils";
 import TypeSelection, { AvailableType } from "./TypeSelection";
 import TemplateSelection, { TemplateStatus } from "./TemplateSelection";
-import Button from "./Button";
+import { Title, SubmitButton } from "../widgets";
 import { useRouter } from "next/router";
 export type { AvailableType };
 
@@ -36,7 +34,7 @@ export default function CreateFormCard({ fromTemplate, onSubmit, onBrowseTemplat
           }}
         >
           <TemplateSelection onChange={(v) => setTemplateStatus(v)}></TemplateSelection>
-          <Button>{shouldCreateFormByTemplate ? "Explore Templates" : "Next"}</Button>
+          <SubmitButton>{shouldCreateFormByTemplate ? "Explore Templates" : "Next"}</SubmitButton>
         </form>
       )}
       {step === 2 && (
@@ -60,7 +58,7 @@ export default function CreateFormCard({ fromTemplate, onSubmit, onBrowseTemplat
               refType.current = v;
             }}
           ></TypeSelection>
-          <Button>Create</Button>
+          <SubmitButton>Create</SubmitButton>
         </form>
       )}
     </div>
@@ -72,25 +70,7 @@ type CreateFormCardProps = {
   onSubmit: (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => void;
   fromTemplate?: boolean;
 };
-function Title({ children, description }: PropsWithChildren<{ description: string }>) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "8px",
-        lineHeight: "28px",
-        fontSize: "20px",
-        color: "#6b7177",
-        fontWeight: 700,
-      }}
-    >
-      <span>{children}</span>
-      <i style={{ fontSize: "14px", lineHeight: "16px", marginRight: "16px" }}>{description}</i>
-    </div>
-  );
-}
+
 function NameInput({ onChange }: { onChange: (v: string) => void }) {
   return (
     <div style={{}}>
