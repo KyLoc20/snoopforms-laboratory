@@ -18,17 +18,19 @@ export function findOneForm(id: string) {
     },
   });
 }
-export function upsertOneForm(id: string, name: string, schema: any[]) {
+export function upsertOneForm(id: string, name: string, schema: any[], schemaDraft: any[]) {
   return prisma.form.upsert({
     where: { id },
     update: {
       name,
       schema,
+      schemaDraft,
     },
     create: {
       id,
       name,
       schema,
+      schemaDraft,
     },
   });
 }
@@ -54,7 +56,12 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   if (req.method === "GET") {
     const data = await findOneForm(formId);
     if (data) {
-      const nocodeFormData: NoCodeFormData = { formId: data.id, name: data.name, blocks: [], blocksDraft: JSON.parse(JSON.stringify(data.schema)) };
+      const nocodeFormData: NoCodeFormData = {
+        formId: data.id,
+        name: data.name,
+        blocks: JSON.parse(JSON.stringify(data.schema)),
+        blocksDraft: JSON.parse(JSON.stringify(data.schemaDraft)),
+      };
       res.status(200).json(nocodeFormData);
     } else {
       //empty
@@ -65,8 +72,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const formId = payloadData.formId;
     const formName = payloadData.name;
     //TODO const formSchema = payloadData.blocks;
-    const formSchema = payloadData.blocksDraft;
-    const result = await upsertOneForm(formId, formName, formSchema);
+    const formSchema = payloadData.blocks;
+    const formSchemaDraft = payloadData.blocksDraft;
+    const result = await upsertOneForm(formId, formName, formSchema, formSchemaDraft);
     return res.status(200).json({ isOk: true, result });
   } else if (req.method === "DELETE") {
     const result = await deleteOneForm(formId);

@@ -16,6 +16,7 @@ model Form {
   updatedAt         DateTime            @updatedAt
   name              String              @default("")
   schema            Json                @default("[]") //blocks
+  schemaDraft       Json                @default("[]") //blocksDraft
   SubmissionSession SubmissionSession[]
 }
 
