@@ -10,16 +10,19 @@ export type AvailableNav = "builder" | "preview" | "publish" | "share" | "respon
 export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { currentNav?: AvailableNav; formId?: string; disabledAll?: boolean }) {
   //todo disable NavBar if formId is "__unknown"
   const { navigateTo } = useNavigation();
-  const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
-
+  const { showModal: showPublishModal, hideModal: hidePublishModal, Portal: PublishPortal } = useModalPortal("new-form-modal");
+  const { showModal: showShareModal, hideModal: hideShareModal, Portal: SharePortal } = useModalPortal("new-form-modal");
   const shouldBeLoading = false;
   const handleDone = () => {};
   return (
     <>
       {shouldBeLoading && <FullScreenLoading />}
-      <Portal>
-        <PublishShareCard onDone={handleDone} onCancel={hideModal} formId={formId} />
-      </Portal>
+      <PublishPortal>
+        <PublishShareCard onDone={handleDone} onCancel={hidePublishModal} formId={formId} />
+      </PublishPortal>
+      <SharePortal>
+        <PublishShareCard fromShare onDone={handleDone} onCancel={hideShareModal} formId={formId} />
+      </SharePortal>
       <div className={clsx(styles.navigation, "flex items-center justify-center")} style={{ background: "#fafafb" }}>
         <nav className="flex space-x-10" aria-label="Navigation">
           <Navigation
@@ -42,18 +45,8 @@ export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { curr
             }}
             active={currentNav === "preview"}
           />
-          <Navigation id="publish" label="Publish" icon={PaperAirplaneIcon} onClick={showModal} active={currentNav === "publish"} />
-          {/*  
-        <Navigation
-          id="share"
-          label="Share"
-          icon={ShareIcon}
-          onClick={() => {
-            //setCurrentNav("share");
-          }}
-          active={currentNav === "share"}
-          disabled
-        ></Navigation> */}
+          <Navigation id="publish" label="Publish" icon={PaperAirplaneIcon} onClick={showPublishModal} active={currentNav === "publish"} />
+          <Navigation id="share" label="Share" icon={ShareIcon} onClick={showShareModal} active={currentNav === "share"} />
           <Navigation
             id="responses"
             label="Responses"

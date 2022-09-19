@@ -6,8 +6,8 @@ import Link from "next/link";
 import { useNoCodeForm, persistNoCodeForm } from "@/lib/noCodeForm";
 import { toast } from "react-toastify";
 import TextField from "@/lib/snoopforms/react/questions/toolkit/ui/TextField";
-export default function PublishShareCard({ onDone, onCancel, formId }: PublishCardProps) {
-  const [step, setStep] = useState<"publish" | "share">("publish");
+export default function PublishShareCard({ onDone, onCancel, formId, fromShare }: PublishCardProps) {
+  const [step, setStep] = useState<"publish" | "share">(fromShare ? "share" : "publish");
   const [isPublishing, setIsPublishing] = useState(false);
   // const [status, setStatus] = useState<"todo" | "doing" | "done">("todo");
   const shouldBeLoading = isPublishing;
@@ -89,6 +89,7 @@ export default function PublishShareCard({ onDone, onCancel, formId }: PublishCa
 //TODO env variant
 const DEFAULT_ENDPOINT = "https://snoopforms-lab.vercel.app";
 type PublishCardProps = {
+  fromShare?: boolean;
   onDone: () => void;
   onCancel: () => void;
   formId: string;
