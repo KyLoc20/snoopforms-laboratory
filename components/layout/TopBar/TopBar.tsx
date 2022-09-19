@@ -14,6 +14,7 @@ import { DEFAULT_TEMPLATE, WELCOME_TEMPLATE } from "@/lib/template";
 export { Container, Title, DividerIcon, Profile };
 export default function TopBar({ title }: PropsWithChildren<{ title: string }>) {
   const [isCreating, setIsCreating] = useState(false);
+  const shouldBeLoading = isCreating;
   const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
   const { navigateTo } = useNavigation();
   const handleCreateOneNewForm = (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => {
@@ -55,11 +56,7 @@ export default function TopBar({ title }: PropsWithChildren<{ title: string }>) 
       <Portal>
         <CreateFormCard onSubmit={handleCreateOneNewForm} onBrowseTemplates={handleBrowseTemplates} />
       </Portal>
-      {isCreating && (
-        <div style={{ zIndex: 1200 }}>
-          <FullScreenLoading />
-        </div>
-      )}
+      {shouldBeLoading && <FullScreenLoading />}
     </>
   );
 }

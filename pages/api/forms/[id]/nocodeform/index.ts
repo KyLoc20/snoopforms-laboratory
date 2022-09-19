@@ -64,6 +64,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const payloadData = req.body as NoCodeFormData;
     const formId = payloadData.formId;
     const formName = payloadData.name;
+    //TODO const formSchema = payloadData.blocks;
     const formSchema = payloadData.blocksDraft;
     const result = await upsertOneForm(formId, formName, formSchema);
     return res.status(200).json({ isOk: true, result });
