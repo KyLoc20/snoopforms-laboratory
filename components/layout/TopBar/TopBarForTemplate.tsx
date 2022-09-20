@@ -4,7 +4,7 @@ import FullScreenLoading from "../FullScreenLoading";
 import Link from "next/link";
 import styles from "./TopBar.module.css";
 import Button from "./Button";
-import { Container, Title, DividerIcon, Profile } from "./TopBar";
+import { Container, Title, DividerIcon, Profile } from "./widgets";
 import { getBlocksBy } from "@/lib/template";
 import { BlockData, NoCodeFormData } from "@/lib/types";
 import useCreateFormModal from "@/hooks/useCreateFormModal";
