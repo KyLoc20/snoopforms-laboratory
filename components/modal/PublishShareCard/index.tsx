@@ -9,14 +9,12 @@ import TextField from "@/lib/snoopforms/react/questions/toolkit/ui/TextField";
 export default function PublishShareCard({ onDone, onCancel, formId, fromShare }: PublishCardProps) {
   const [step, setStep] = useState<"publish" | "share">(fromShare ? "share" : "publish");
   const [isPublishing, setIsPublishing] = useState(false);
-  // const [status, setStatus] = useState<"todo" | "doing" | "done">("todo");
   const shouldBeLoading = isPublishing;
   const shareLink = `${DEFAULT_ENDPOINT}/to/${formId}`;
   const { noCodeForm } = useNoCodeForm(formId);
   const handlePublishForm = () => {
     if (formId && formId !== "__unknown") {
       setIsPublishing(true);
-
       //possible dangerous
       setTimeout(() => {
         const newNoCodeForm = JSON.parse(JSON.stringify(noCodeForm)) as NoCodeFormData;
