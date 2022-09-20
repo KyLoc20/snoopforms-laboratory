@@ -5,43 +5,28 @@ import Link from "next/link";
 import styles from "./TopBar.module.css";
 import Button from "./Button";
 import { Container, Title, DividerIcon, Profile } from "./TopBar";
-import useModalPortal from "@/lib/modal";
-import CreateFormCard from "@/components/modal/CreateFormCard";
-import { generateId } from "@/lib/utils";
 import { getBlocksBy } from "@/lib/template";
-import { BlockData } from "@/lib/types";
-import { useNavigation } from "@/lib/router";
-import { generateForm, persistNoCodeForm } from "@/lib/noCodeForm";
+import { BlockData, NoCodeFormData } from "@/lib/types";
+import useCreateFormModal from "@/hooks/useCreateFormModal";
 export default function TopBarForTemplate({ templateId, templateName }: PropsWithChildren<{ templateId: string; templateName: string }>) {
-  const [isCreating, setIsCreating] = useState(false);
-  const shouldBeLoading = isCreating;
   const [templateInUse, setTemplateInUse] = useState<BlockData[]>([]);
-  const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
+
+  const handleCreateFormComplete = (newForm: NoCodeFormData) => {
+    console.log("handleCreateFormFromTemplate", newForm);
+  };
+
+  const { isCreating, showModal, hideModal, CreateFormModal } = useCreateFormModal("new-form-modal", handleCreateFormComplete, true, templateInUse);
+  const shouldBeLoading = isCreating;
 
   const haneleSelectOneTemplate = (templateId: string) => {
     setTemplateInUse(getBlocksBy(templateId));
     showModal();
   };
 
-  const { navigateTo } = useNavigation();
-  const handleCreateFormFromTemplate = (formName: string) => {
-    hideModal();
-    setIsCreating(true);
-    const formId = generateId(10);
-    const newForm = generateForm(formId, formName, templateInUse);
-    console.log("handleCreateFormFromTemplate", newForm);
-    persistNoCodeForm(newForm).then((res) => {
-      navigateTo(`/forms/${formId}/builder`);
-      setIsCreating(false);
-    });
-  };
-
-  const handleBrowseTemplates = () => {
-    hideModal();
-    navigateTo(`/templates`);
-  };
   return (
     <>
+      {shouldBeLoading && <FullScreenLoading />}
+      <CreateFormModal />
       <Container>
         <Button onClick={() => haneleSelectOneTemplate(templateId)}>
           <LightBulbIcon style={{ width: "16px", height: "16px", marginLeft: "-2px", marginRight: "8px" }} />
@@ -60,10 +45,6 @@ export default function TopBarForTemplate({ templateId, templateName }: PropsWit
           <Profile href="https://github.com/KyLoc20" />
         </div>
       </Container>
-      <Portal>
-        <CreateFormCard fromTemplate onSubmit={handleCreateFormFromTemplate} onBrowseTemplates={handleBrowseTemplates} />
-      </Portal>
-      {shouldBeLoading && <FullScreenLoading />}
     </>
   );
 }
