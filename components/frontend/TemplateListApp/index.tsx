@@ -3,44 +3,27 @@ import TemplateCard from "./TemplateCard";
 import { CardGrid } from "@/components/layout";
 import { TEMPLATE_LIST } from "@/lib/template";
 import { BlockData } from "@/lib/types";
-import { generateForm, persistNoCodeForm } from "@/lib/noCodeForm";
-import useModalPortal from "@/lib/modal";
-import CreateFormCard from "@/components/modal/CreateFormCard";
-
-import { generateId } from "@/lib/utils";
-
+import useCreateFormModal from "@/hooks/useCreateFormModal";
+import { NoCodeFormData } from "@/lib/types";
 import { FullScreenLoading } from "@/components/layout";
-import { useNavigation } from "@/lib/router";
 import { getBlocksBy } from "@/lib/template";
 export default function TemplateListApp({}) {
-  const [isCreating, setIsCreating] = useState(false);
-  const shouldBeLoading = isCreating;
   const [templateInUse, setTemplateInUse] = useState<BlockData[]>([]);
-  const { showModal, hideModal, Portal } = useModalPortal("new-form-modal");
-
   const haneleSelectOneTemplate = (templateId: string) => {
     setTemplateInUse(getBlocksBy(templateId));
     showModal();
   };
 
-  const { navigateTo } = useNavigation();
-  const handleCreateFormFromTemplate = (formName: string) => {
-    hideModal();
-    setIsCreating(true);
-    const formId = generateId(10);
-    const newForm = generateForm(formId, formName, templateInUse);
+  const handleCreateFormComplete = (newForm: NoCodeFormData) => {
     console.log("handleCreateFormFromTemplate", newForm);
-    persistNoCodeForm(newForm).then((res) => {
-      navigateTo(`/forms/${formId}/builder`);
-      setIsCreating(false);
-    });
   };
-  const handleBrowseTemplates = () => {
-    hideModal();
-    navigateTo(`/templates`);
-  };
+  const { isCreating, showModal, hideModal, CreateFormModal } = useCreateFormModal("new-form-modal", handleCreateFormComplete, templateInUse);
+  const shouldBeLoading = isCreating;
+
   return (
     <>
+      {shouldBeLoading && <FullScreenLoading />}
+      <CreateFormModal />
       <CardGrid>
         {TEMPLATE_LIST.map((template, i) => (
           <CardWrapper key={template.id}>
@@ -48,10 +31,6 @@ export default function TemplateListApp({}) {
           </CardWrapper>
         ))}
       </CardGrid>
-      <Portal>
-        <CreateFormCard fromTemplate onSubmit={handleCreateFormFromTemplate} onBrowseTemplates={handleBrowseTemplates} />
-      </Portal>
-      {shouldBeLoading && <FullScreenLoading />}
     </>
   );
 }

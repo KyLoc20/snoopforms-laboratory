@@ -6,23 +6,22 @@ import { generateId } from "@/lib/utils";
 import { useNavigation } from "@/lib/router";
 import { generateForm } from "@/lib/noCodeForm";
 import { DEFAULT_TEMPLATE, WELCOME_TEMPLATE } from "@/lib/template";
-import { NoCodeFormData } from "@/lib/types";
-export default function useCreateFormModal(targetId: string, onSuccess: (newForm: NoCodeFormData) => void) {
+import { NoCodeFormData, BlockData } from "@/lib/types";
+export default function useCreateFormModal(targetId: string, onSuccess: (newForm: NoCodeFormData) => void, template?: BlockData[]) {
   const [isCreating, setIsCreating] = useState(false);
   const { showModal, hideModal, Portal } = useModalPortal(targetId);
   const { navigateTo } = useNavigation();
-  const handleCreateForm = (name: string, type: AvailableType, shoudUseDefaultTemplate: boolean) => {
-    if (type === "nocode") {
-      hideModal();
-      setIsCreating(true);
-      const formId = generateId(10);
-      const newForm = generateForm(formId, name, shoudUseDefaultTemplate ? DEFAULT_TEMPLATE() : WELCOME_TEMPLATE());
-      persistNoCodeForm(newForm).then((res) => {
-        onSuccess(newForm);
-        navigateTo(`/forms/${formId}/builder`);
-        setIsCreating(false);
-      });
-    }
+  const handleCreateForm = (formName: string, formType: AvailableType, shoudUseDefaultTemplate: boolean) => {
+    hideModal();
+    setIsCreating(true);
+    const formId = generateId(10);
+    const templateInUse = shoudUseDefaultTemplate ? DEFAULT_TEMPLATE() : template === undefined ? WELCOME_TEMPLATE() : template;
+    const newForm = generateForm(formId, formName, templateInUse);
+    persistNoCodeForm(newForm).then((res) => {
+      onSuccess(newForm);
+      navigateTo(`/forms/${formId}/builder`);
+      setIsCreating(false);
+    });
   };
   const handleBrowseTemplates = () => {
     hideModal();
