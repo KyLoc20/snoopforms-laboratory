@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { SubmissionSessionData, SubmissionData, NoCodeFormData } from "@/lib/types";
+import { SubmissionSessionData, SubmissionData, NoCodeFormData, BlockData } from "@/lib/types";
 import { createResponseDisplay, isQuestionType } from "@/lib/snoopforms/react/questions";
 import { useNoCodeForm } from "@/lib/noCodeForm";
 type List<T> = T[];
@@ -9,10 +9,10 @@ type TitleMap = { [questionId: string]: string };
 const paginateSession = (session: SubmissionSessionData): List<SubmissionPage> => {
   return [session.submissions];
 };
-const getQuestionTitleMap = (formData: NoCodeFormData) => {
+export const getQuestionTitleMap = (blocks: BlockData[]) => {
   //init a Map: questionId -> questionTitle
   const questionTitleMap: TitleMap = {};
-  formData.blocksDraft.forEach((block) => {
+  blocks.forEach((block) => {
     const { id, type, data } = block;
     if (isQuestionType(type)) {
       //todo questionConfig: data._component dangerous
@@ -27,17 +27,17 @@ export default function SubmissionSessionDisplay({ formId, submissionSession }: 
   const { noCodeForm } = useNoCodeForm(formId);
   //pagination
   const pages = paginateSession(submissionSession);
-  const id2Title = getQuestionTitleMap(noCodeForm);
+  const id2Title = getQuestionTitleMap(noCodeForm.blocks);
   console.log("SubmissionSessionDisplay id2Title", id2Title);
   return (
-    <ul role="list" className="divide-y divide-ui-gray-light">
+    <ul role="list" className={clsx("submission-list", "divide-y divide-ui-gray-light")}>
       {pages.map((submissionsInOnePage, i) => (
-        <SubmissionPage submissions={submissionsInOnePage} key={i} titleMap={id2Title}></SubmissionPage>
+        <SubmissionPage submissions={submissionsInOnePage} key={i} titleMap={id2Title} />
       ))}
     </ul>
   );
 }
-function SubmissionPage({ submissions, titleMap }: { submissions: SubmissionPage; titleMap: TitleMap }) {
+export function SubmissionPage({ submissions, titleMap }: { submissions: SubmissionPage; titleMap: TitleMap }) {
   return (
     <div style={{ marginBottom: "8px", padding: "8px", border: "dashed 2px rgb(210, 218, 226)", borderRadius: "6px" }}>
       {submissions.map((submission, i) => (
@@ -52,6 +52,7 @@ function SubmissionPage({ submissions, titleMap }: { submissions: SubmissionPage
 }
 function SubmissionDisplay({ submission, questionTitle }: { submission: SubmissionData; questionTitle: string }) {
   const RenderDisplay = createResponseDisplay(submission.questionType, submission.details);
+  //TODO no answer
   return (
     <li className="py-5" style={{ borderBottom: "1px solid #d2dae2" }}>
       <p className="text-sm font-semibold text-gray-800">{questionTitle}</p>

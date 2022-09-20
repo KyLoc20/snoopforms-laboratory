@@ -72,7 +72,7 @@ interface SnoopFormProps {
   localOnly?: boolean;
   className?: string;
   onSubmit?: (obj: onSubmitProps) => void;
-  onDone?: () => void;
+  onDone?: (submissions: SubmissionData[]) => void;
 }
 
 export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
@@ -83,19 +83,8 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
   const [hasDone, setHasDone] = useState(false);
   const refSessionId = useRef(generateId(10));
 
-  const [currentPageIdx, setCurrentPageIdx] = useState(0); //CurrentPageContext
-  const nextPage = () => {
-    //check whether it is the last Page
-    if (currentPageIdx >= pages.length - 1) {
-      refSessionId.current = generateId(10);
-      setHasDone(true);
-      // setCurrentPageIdx(0);
-      // alert("Congratulations!");
-      onDone?.();
-    } else setCurrentPageIdx((prev) => prev + 1);
-  };
   /**
-   * page register
+   * page register, this is an INITIAL work
    */
   const [pages, setPages] = useState<string[]>([]);
   const refDetachedPages = useRef<string[]>([]);
@@ -142,6 +131,19 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
     }
     // console.log("updateSubmissions FINISHED", refAllSubmissions.current);
   };
+
+  const [currentPageIdx, setCurrentPageIdx] = useState(0); //CurrentPageContext
+  const nextPage = () => {
+    //check whether it is the last Page
+    if (currentPageIdx >= pages.length - 1) {
+      refSessionId.current = generateId(10);
+      setHasDone(true);
+      // setCurrentPageIdx(0);
+      // forward AllSubmissions
+      onDone?.(refAllSubmissions.current || []);
+    } else setCurrentPageIdx((prev) => prev + 1);
+  };
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = (pageName: string) => {
     if (refAllSubmissions.current !== null) {
