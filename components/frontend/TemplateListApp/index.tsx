@@ -9,17 +9,17 @@ import { FullScreenLoading } from "@/components/layout";
 import { getBlocksBy } from "@/lib/template";
 export default function TemplateListApp({}) {
   const [templateInUse, setTemplateInUse] = useState<BlockData[]>([]);
-  const haneleSelectOneTemplate = (templateId: string) => {
-    setTemplateInUse(getBlocksBy(templateId));
-    showModal();
-  };
 
   const handleCreateFormComplete = (newForm: NoCodeFormData) => {
     console.log("handleCreateFormFromTemplate", newForm);
   };
-  const { isCreating, showModal, hideModal, CreateFormModal } = useCreateFormModal("new-form-modal", handleCreateFormComplete, templateInUse);
+  const { isCreating, showModal, hideModal, CreateFormModal } = useCreateFormModal("new-form-modal", handleCreateFormComplete, true, templateInUse);
   const shouldBeLoading = isCreating;
 
+  const haneleSelectOneTemplate = (templateId: string) => {
+    setTemplateInUse(getBlocksBy(templateId));
+    showModal();
+  };
   return (
     <>
       {shouldBeLoading && <FullScreenLoading />}

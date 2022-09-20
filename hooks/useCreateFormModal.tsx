@@ -7,7 +7,7 @@ import { useNavigation } from "@/lib/router";
 import { generateForm } from "@/lib/noCodeForm";
 import { DEFAULT_TEMPLATE, WELCOME_TEMPLATE } from "@/lib/template";
 import { NoCodeFormData, BlockData } from "@/lib/types";
-export default function useCreateFormModal(targetId: string, onSuccess: (newForm: NoCodeFormData) => void, template?: BlockData[]) {
+export default function useCreateFormModal(targetId: string, onSuccess: (newForm: NoCodeFormData) => void, fromTemplate?: boolean, template?: BlockData[]) {
   const [isCreating, setIsCreating] = useState(false);
   const { showModal, hideModal, Portal } = useModalPortal(targetId);
   const { navigateTo } = useNavigation();
@@ -29,7 +29,7 @@ export default function useCreateFormModal(targetId: string, onSuccess: (newForm
   };
   const CreateFormModal: React.FC = () => (
     <Portal>
-      <CreateFormCard onSubmit={handleCreateForm} onBrowseTemplates={handleBrowseTemplates} />
+      <CreateFormCard fromTemplate={fromTemplate} onSubmit={handleCreateForm} onBrowseTemplates={handleBrowseTemplates} />
     </Portal>
   );
   return { isCreating, showModal, hideModal, CreateFormModal };
