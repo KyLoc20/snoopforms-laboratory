@@ -3,6 +3,7 @@ import { generateId } from "@/lib/utils";
 import Loading from "@/components/layout/Loading";
 import { BlockData } from "@/lib/types";
 import { toast } from "react-toastify";
+import clsx from "clsx";
 import { SnoopForm, SnoopPage, SnoopElement } from "@/lib/snoopforms/react";
 export default function ConsumeApp({ formId, blocks }: { formId: string; blocks: BlockData[] }) {
   console.log("RENDER ConsumeApp", formId, blocks);
@@ -34,7 +35,7 @@ export default function ConsumeApp({ formId, blocks }: { formId: string; blocks:
   if (!pages) return <Loading />;
   else {
     return (
-      <div className="w-full px-5 py-5">
+      <div className={clsx("comsume-app", "w-full h-full px-5 py-[10vh] flex flex-col justify-center overflow-auto")}>
         <SnoopForm offline={false} formId={formId} onDone={handleFormCompleted}>
           {pages.map((page, _) => (
             <SnoopPage name={page.id} key={page.id}>

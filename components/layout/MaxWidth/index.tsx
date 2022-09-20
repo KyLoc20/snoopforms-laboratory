@@ -8,13 +8,15 @@ export default function MaxWidth({ children, size, full }: PropsWithChildren<{ f
   const computedSize = full ? undefined : typeof size === "string" ? size : `${size ?? 1024}px`;
   return (
     <div
+      className="max-width-provider"
       style={{
         display: "flex",
         justifyContent: "center",
         flexGrow: 1,
+        overflow: "auto",
       }}
     >
-      <div className={clsx(styles.wrapper)} style={{ width: "100%", maxWidth: computedSize }}>
+      <div className={clsx(styles.wrapper)} style={{ width: "100%", height: "100%", maxWidth: computedSize }}>
         {children}
       </div>
     </div>

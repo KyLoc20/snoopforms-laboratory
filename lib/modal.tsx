@@ -11,7 +11,8 @@ export default function useModalPortal(targetId: string) {
     setActive(true);
   };
   const hideModal = () => {
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = "";
+    // document.body.style.overflow = "auto";//NOT GOOD, it mutates
     document.body.style.paddingRight = "0";
     setActive(false);
   };

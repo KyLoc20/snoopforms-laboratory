@@ -4,6 +4,7 @@ import Loading from "@/components/layout/Loading";
 import { BlockData } from "@/lib/types";
 import { toast } from "react-toastify";
 import { SnoopForm, SnoopPage, SnoopElement } from "@/lib/snoopforms/react";
+import clsx from "clsx";
 export default function PreviewApp({ formId, blocks }: { formId: string; blocks: BlockData[] }) {
   console.log("RENDER PreviewApp", formId, blocks);
   const pages = useMemo(() => {
@@ -34,7 +35,7 @@ export default function PreviewApp({ formId, blocks }: { formId: string; blocks:
   else {
     // console.log("RENDER FormApp", pages);
     return (
-      <div className="w-full px-5 py-5">
+      <div className={clsx("preview-app", "w-full h-full px-5 py-5 mb-[10vh]")}>
         <SnoopForm offline={true} formId={formId} onDone={handleFormCompleted}>
           {pages.map((page, _) => (
             <SnoopPage name={page.id} key={page.id}>
@@ -49,6 +50,7 @@ export default function PreviewApp({ formId, blocks }: { formId: string; blocks:
             </SnoopPage>
           ))}
         </SnoopForm>
+        <div className={clsx("block-placeholder-incase-overflow", "w-full h-[48px]")}></div>
       </div>
     );
   }
