@@ -9,6 +9,7 @@ import { RatingQuestionBlockTool } from "@/lib/snoopforms/react/questions/Rating
 import { TextQuestionBlockTool } from "@/lib/snoopforms/react/questions/TextQuestion";
 import { EmailQuestionBlockTool } from "@/lib/snoopforms/react/questions/EmailQuestion";
 import { MultipleChoiceQuestionBlockTool } from "@/lib/snoopforms/react/questions/MultipleChoiceQuestion";
+import { NetPromoterScoreQuestionBlockTool } from "@/lib/snoopforms/react/questions/NetPromoterScoreQuestion";
 import { PageTransitionBlockTool } from "@/lib/snoopforms/react/questions/PageTransition";
 import { useNoCodeForm, persistNoCodeForm } from "@/lib/noCodeForm";
 // import { toast } from "react-toastify";
@@ -66,6 +67,7 @@ export default function SnoopFormsEditor({ editorRef, formId }: EditorProps) {
         emailQuestion: EmailQuestionBlockTool,
         ratingQuestion: RatingQuestionBlockTool,
         multipleChoiceQuestion: MultipleChoiceQuestionBlockTool,
+        netPromoterScoreQuestion: NetPromoterScoreQuestionBlockTool,
         pageTransition: PageTransitionBlockTool,
         paragraph: {
           class: Paragraph,

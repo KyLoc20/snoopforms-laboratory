@@ -6,4 +6,5 @@ export type { PreSubmissionData, BlockDataForQuestion };
 /**
  * @QUESTION_SETTING
  */
-const isQuestionType = (value: string) => ["ratingQuestion", "multipleChoiceQuestion", "emailQuestion", "textQuestion"].includes(value);
+const isQuestionType = (value: string) =>
+  ["ratingQuestion", "multipleChoiceQuestion", "emailQuestion", "textQuestion", "netPromoterScoreQuestion"].includes(value);

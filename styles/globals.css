@@ -116,3 +116,7 @@ input {
     padding: 0;
     background-color: transparent;
 }
+
+.codex-editor svg.outlined {
+    fill: none !important;
+}

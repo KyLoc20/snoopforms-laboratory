@@ -2,6 +2,7 @@ import { RatingQuestionResponseDisplay } from "../RatingQuestion";
 import { TextQuestionResponseDisplay } from "../TextQuestion";
 import { EmailQuestionResponseDisplay } from "../EmailQuestion";
 import { MultipleChoiceQuestionResponseDisplay } from "../MultipleChoiceQuestion";
+import { NetPromoterScoreQuestionResponseDisplay } from "../NetPromoterScoreQuestion";
 export { createResponseDisplay };
 /**
  * @QUESTION_SETTING
@@ -32,6 +33,11 @@ function createResponseDisplay(type: string, data: any) {
       case "multipleChoiceQuestion":
         render = function _() {
           return <MultipleChoiceQuestionResponseDisplay data={data} />;
+        };
+        break;
+      case "netPromoterScore":
+        render = function _() {
+          return <NetPromoterScoreQuestionResponseDisplay data={data} />;
         };
         break;
       default:

@@ -2,6 +2,7 @@ import { RatingQuestionSummaryDisplay, RatingQuestionSummaryAnalyzer } from "../
 import { TextQuestionSummaryDisplay, TextQuestionSummaryAnalyzer } from "../TextQuestion";
 import { EmailQuestionSummaryDisplay, EmailQuestionSummaryAnalyzer } from "../EmailQuestion";
 import { MultipleChoiceQuestionSummaryDisplay, MultipleChoiceQuestionSummaryAnalyzer } from "../MultipleChoiceQuestion";
+import { NetPromoterScoreQuestionSummaryDisplay, NetPromoterScoreQuestionSummaryAnalyzer } from "../NetPromoterScoreQuestion";
 export { createSummaryDisplay, createSummaryAnalyzer };
 export type { SummaryDisplayProps };
 /**
@@ -40,6 +41,11 @@ function createSummaryDisplay(type: string) {
         return <MultipleChoiceQuestionSummaryDisplay {...props} />;
       };
       break;
+    case "netPromoterScoreQuestion":
+      render = function _(props) {
+        return <NetPromoterScoreQuestionSummaryDisplay {...props} />;
+      };
+      break;
     default:
       render = function _(props) {
         return <RatingQuestionSummaryDisplay {...props} />;
@@ -69,6 +75,9 @@ function createSummaryAnalyzer(type: string): (config: any, details: any[]) => a
       break;
     case "multipleChoiceQuestion":
       analyzer = MultipleChoiceQuestionSummaryAnalyzer;
+      break;
+    case "netPromoterScore":
+      analyzer = NetPromoterScoreQuestionSummaryAnalyzer;
       break;
     default:
       analyzer = RatingQuestionSummaryAnalyzer;
