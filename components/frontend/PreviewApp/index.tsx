@@ -7,10 +7,12 @@ import { SnoopForm, SnoopPage, SnoopElement, SubmissionData } from "@/lib/snoopf
 import { SubmissionPage, getQuestionTitleMap } from "../ResponseApp/SubmissionDisplay";
 import clsx from "clsx";
 import { Description, Button } from "@/components/modal/widgets";
+import DownloadButton from "./DownloadButton";
 export default function PreviewApp({ formId, blocks }: { formId: string; blocks: BlockData[] }) {
   const id2Title = getQuestionTitleMap(blocks);
   const [isCompleted, setIsCompleted] = useState(false);
   const [localSubmissions, setLocalSubmissions] = useState<SubmissionData[]>([]);
+  const [whenSubmit, setWhenSubmit] = useState<number | undefined>(undefined);
 
   console.log("RENDER PreviewApp", formId, blocks);
   const pages = useMemo(() => {
@@ -33,10 +35,11 @@ export default function PreviewApp({ formId, blocks }: { formId: string; blocks:
     return allPages;
   }, [blocks, formId]);
 
-  const handleFormCompleted = (submissions: SubmissionData[]) => {
+  const handleFormCompleted = (submissions: SubmissionData[], when: number) => {
     toast("Congratulations! You Have Finished the PREVIEW Form 🎉", { autoClose: 2000 });
     setIsCompleted(true);
     setLocalSubmissions(submissions);
+    setWhenSubmit(when);
     console.log("handleFormCompleted", submissions);
   };
   const handleFormReset = () => {
@@ -54,11 +57,11 @@ export default function PreviewApp({ formId, blocks }: { formId: string; blocks:
             <div className="ml-[-8px]">
               <Description>Submissions here will NOT be saved.</Description>
             </div>
-            <div className="my-[12px] ml-[-8px]">
+            <div className="my-[12px] ml-[-8px] flex">
               <Button onClick={handleFormReset} width={120} theme="red">
                 Try Again
               </Button>
-              <Button width={120}>Export</Button>
+              <DownloadButton formId={formId} whenSubmit={whenSubmit ?? 0} submissions={localSubmissions} />
             </div>
             <ul role="list" className={clsx("submission-list", "divide-y divide-ui-gray-light")}>
               <SubmissionPage submissions={localSubmissions} titleMap={id2Title} />

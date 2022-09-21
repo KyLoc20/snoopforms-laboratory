@@ -1,5 +1,5 @@
 import { useSWRSafely } from "./utils";
-import { BlockData, NoCodeFormData } from "./types";
+import { BlockData, NoCodeFormData, FormInformationData } from "./types";
 const EMPTY_NOCODEFORM: NoCodeFormData = {
   formId: "_empty_nocode_form",
   name: "_empty_nocode_form",
@@ -19,6 +19,12 @@ export const useNoCodeForm = (formId?: string) => {
     error,
     mutateNoCodeForm: mutate,
   };
+};
+export const queryNoCodeFormInformation = (formId: string): Promise<FormInformationData> => {
+  return fetch(`/api/forms/${formId}/information`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  }).then((res) => res.json());
 };
 export const persistNoCodeForm = (noCodeForm: NoCodeFormData) => {
   return fetch(`/api/forms/${noCodeForm.formId}/nocodeform`, {

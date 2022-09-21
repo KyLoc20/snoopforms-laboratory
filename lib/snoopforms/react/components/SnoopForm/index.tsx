@@ -72,7 +72,7 @@ interface SnoopFormProps {
   localOnly?: boolean;
   className?: string;
   onSubmit?: (obj: onSubmitProps) => void;
-  onDone?: (submissions: SubmissionData[]) => void;
+  onDone?: (submissions: SubmissionData[], when: number) => void;
 }
 
 export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
@@ -140,7 +140,7 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
       setHasDone(true);
       // setCurrentPageIdx(0);
       // forward AllSubmissions
-      onDone?.(refAllSubmissions.current || []);
+      onDone?.(refAllSubmissions.current || [], Date.now());
     } else setCurrentPageIdx((prev) => prev + 1);
   };
 

@@ -9,6 +9,11 @@ export type NoCodeFormData = {
   blocksDraft: BlockData[];
   blocks: BlockData[];
 };
+export type FormInformationData = {
+  formId: string;
+  name: string;
+  lastUpdated: number; //timestamp
+};
 export type SubmissionData = {
   id: string;
   questionId: string; //BlockData->id
