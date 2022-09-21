@@ -76,7 +76,7 @@ function createSummaryAnalyzer(type: string): (config: any, details: any[]) => a
     case "multipleChoiceQuestion":
       analyzer = MultipleChoiceQuestionSummaryAnalyzer;
       break;
-    case "netPromoterScore":
+    case "netPromoterScoreQuestion":
       analyzer = NetPromoterScoreQuestionSummaryAnalyzer;
       break;
     default:

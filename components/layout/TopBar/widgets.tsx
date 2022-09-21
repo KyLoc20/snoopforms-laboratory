@@ -11,7 +11,7 @@ function Container({ children }: PropsWithChildren<{}>) {
         background: "white",
         display: "flex",
         alignItems: "center",
-        height: "64px",
+        minHeight: "64px",
         width: "100%",
       }}
     >
