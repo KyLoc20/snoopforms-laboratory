@@ -35,7 +35,7 @@ function createResponseDisplay(type: string, data: any) {
           return <MultipleChoiceQuestionResponseDisplay data={data} />;
         };
         break;
-      case "netPromoterScore":
+      case "netPromoterScoreQuestion":
         render = function _() {
           return <NetPromoterScoreQuestionResponseDisplay data={data} />;
         };

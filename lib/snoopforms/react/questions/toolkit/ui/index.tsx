@@ -8,4 +8,5 @@ import Select from "./Select";
 import Switch from "./Switch";
 import Mark from "./Mark";
 import ConfigurablePanel from "./ConfigurablePanel";
-export { Button, Divider, QuestionContainer, QuestionInput, QuestionTitle, QuestionRadio, Select, Switch, Mark, ConfigurablePanel };
+import TextField from "./TextField";
+export { TextField, Button, Divider, QuestionContainer, QuestionInput, QuestionTitle, QuestionRadio, Select, Switch, Mark, ConfigurablePanel };

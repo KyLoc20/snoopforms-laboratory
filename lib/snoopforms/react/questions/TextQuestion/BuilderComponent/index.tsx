@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Mark from "../../toolkit/ui/Mark";
-import TextField from "../../toolkit/ui/TextField";
-import { Switch, QuestionInput, Divider } from "../../toolkit/ui";
+import { Switch, QuestionInput, TextField } from "../../toolkit/ui";
 import { TextQuestionConfigData } from "../types";
 interface TextQuestionProps {
   onDataChange: (data: TextQuestionConfigData) => void;

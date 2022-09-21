@@ -114,7 +114,7 @@ const createQuestionElement = (type: string, block: BlockDataForQuestion) => {
             config={{
               title: block.data._component?.title,
               isRequired: block.data._component?.isRequired,
-              bestText: block.data._component?.options,
+              bestText: block.data._component?.bestText,
               worstText: block.data._component?.worstText,
             }}
             initialData={{

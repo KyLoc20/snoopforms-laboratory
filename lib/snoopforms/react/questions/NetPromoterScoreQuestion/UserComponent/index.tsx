@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { QuestionRadio, QuestionContainer } from "../../toolkit/ui";
+import { QuestionContainer } from "../../toolkit/ui";
 import useInputValidator, { AlarmPlaceholder } from "../../toolkit/base/validate";
 import { NetPromoterScoreQuestionConfigData, NetPromoterScoreQuestionSubmissionData } from "../types";
-
+import ScoreList from "../ScoreList";
 //open to extension in the future such as conditional info
 interface NetPromoterScoreQuestionProps {
   config: NetPromoterScoreQuestionConfigData;
@@ -20,6 +20,7 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
     if (shouldAlarm) hideAlarm();
     //should init
     onSubmissionChange({ score });
+    console.log("UserComponent", score);
   }, [score]);
 
   const handleSelect = (score: number) => {
@@ -28,18 +29,8 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
 
   return (
     <QuestionContainer title={title} isRequired={isRequired}>
-      <div className="option-list" style={{ marginTop: "4px" }}>
-        0-10
-        {/* {options.map((option, i) => (
-          <div key={i} className="option-wrapper" style={{ marginTop: "8px", display: "flex", alignItems: "center", maxWidth: "424px", minWidth: "288px" }}>
-            <QuestionRadio
-              key={i}
-              label={option.label}
-              onSelect={handleSelect}
-              selected={choiceList.findIndex((choice) => choice.label === option.label) > -1}
-            />
-          </div>
-        ))} */}
+      <div className="score-list" style={{ marginTop: "4px" }}>
+        <ScoreList num={11} bestText={bestText} worstText={worstText} onChange={handleSelect}></ScoreList>
       </div>
       <Validator></Validator>
       <AlarmPlaceholder>{shouldAlarm && validationError}</AlarmPlaceholder>

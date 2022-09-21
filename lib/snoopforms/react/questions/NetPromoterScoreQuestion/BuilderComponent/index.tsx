@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Mark from "../../toolkit/ui/Mark";
-import { Switch, QuestionInput, QuestionRadio, Divider, ConfigurablePanel, Button } from "../../toolkit/ui";
+import { Switch, QuestionInput, Divider, TextField, ConfigurablePanel } from "../../toolkit/ui";
 import { NetPromoterScoreQuestionConfigData } from "../types";
+import ScoreList from "../ScoreList";
 interface NetPromoterScoreQuestionProps {
   onDataChange: (data: NetPromoterScoreQuestionConfigData) => void;
   initialData: NetPromoterScoreQuestionConfigData;
@@ -21,16 +22,14 @@ export default function BuilderComponent({ onDataChange, initialData }: NetPromo
         <QuestionInput defaultValue={title} onChange={(v) => setTitle(v)} />
         <Mark active={isRequired}></Mark>
       </div>
-      <div className="option-list" style={{ marginTop: "4px" }}>
-        0-10
-        {/* {options.map((option, i) => (
-          <div key={i} className="option-wrapper" style={{ marginTop: "8px", display: "flex", alignItems: "center", maxWidth: "424px", minWidth: "288px" }}>
-            <QuestionRadio disable editable label={option.label} onLabelChange={(newLabel) => handleUpdateOption(i, newLabel)} />
-            <DeleteButton onClick={() => handleDeleteOption(i)} />
-          </div>
-        ))} */}
+      <div className="score-list" style={{ marginTop: "4px" }}>
+        <ScoreList num={11} bestText={bestText} worstText={worstText}></ScoreList>
       </div>
       <ConfigurablePanel>
+        <TextField onChange={setWorstText} defaultValue={worstText} placeholder={"Lowest Indicator"} />
+        <Divider h={38} />
+        <TextField onChange={setBestText} defaultValue={bestText} placeholder={"Highest Indicator"} />
+        <Divider h={38} />
         <Switch label={"Required"} onChange={() => setIsRequired((prev) => !prev)} defaultValue={isRequired}></Switch>
       </ConfigurablePanel>
     </div>

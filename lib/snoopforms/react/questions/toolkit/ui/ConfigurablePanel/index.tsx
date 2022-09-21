@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-export default function ConfigurablePanel({ children }: PropsWithChildren<{}>) {
+export default function ConfigurablePanel({ children, wrap }: PropsWithChildren<{ wrap?: boolean }>) {
   return (
     <div
       className="configurable-panel"
@@ -8,6 +8,7 @@ export default function ConfigurablePanel({ children }: PropsWithChildren<{}>) {
         marginTop: "8px",
         paddingTop: "8px",
         display: "flex",
+        flexWrap: wrap ? "wrap" : "nowrap",
         alignItems: "center",
       }}
     >
