@@ -21,14 +21,13 @@ export const getQuestionTitleMap = (blocks: BlockData[]) => {
   });
   return questionTitleMap;
 };
-export default function SubmissionSessionDisplay({ formId, submissionSession }: { formId: string; submissionSession: SubmissionSessionData }) {
+export default function SessionDetails({ formId, submissionSession }: { formId: string; submissionSession: SubmissionSessionData }) {
   //make sure the corresponding Form to be existed
   // const { form, isLoadingForm } = useForm(formId);
   const { noCodeForm } = useNoCodeForm(formId);
   //pagination
   const pages = paginateSession(submissionSession);
   const id2Title = getQuestionTitleMap(noCodeForm.blocks);
-  console.log("SubmissionSessionDisplay id2Title", id2Title);
   return (
     <ul role="list" className={clsx("submission-list", "divide-y divide-ui-gray-light")}>
       {pages.map((submissionsInOnePage, i) => (

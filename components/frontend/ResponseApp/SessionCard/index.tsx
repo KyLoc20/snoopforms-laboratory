@@ -1,11 +1,15 @@
 import { PropsWithChildren } from "react";
-import { CheckIcon } from "@heroicons/react/solid";
+import { CheckIcon, MinusIcon } from "@heroicons/react/solid";
 import { SubmissionSessionData } from "@/lib/types";
 import { convertDateTimeString, convertTimeString } from "@/lib/utils";
 import { TrashIcon } from "@heroicons/react/outline";
 import clsx from "clsx";
 import styles from "./SessionCard.module.css";
-export default function SessionCard({ session, onDelete, children }: PropsWithChildren<{ session: SubmissionSessionData; onDelete: (id: string) => void }>) {
+export default function SessionCardWithTimeline({
+  session,
+  onDelete,
+  children,
+}: PropsWithChildren<{ session: SubmissionSessionData; onDelete: (id: string) => void }>) {
   //min-width = 120px(List) + 65px(divider) + 252px(Timeline) + 32px(padding) = 469px
   return (
     <div className="flex flex-col w-full mb-4">
@@ -18,7 +22,6 @@ export default function SessionCard({ session, onDelete, children }: PropsWithCh
         <Timeline session={session} />
         <Control onDelete={() => onDelete(session.id)} />
       </div>
-
       <DeleteButton OnClick={() => onDelete(session.id)} />
     </div>
   );
@@ -29,24 +32,16 @@ function Timeline({ session }: { session: SubmissionSessionData }) {
     <div className={clsx(styles.timeline, "pl-2 min-w-[252px]")}>
       <h1 className={clsx(styles.header, "mb-8 text-gray-700")}>Session Activity</h1>
       <ul role="list">
-        {session.submissions.map((submission, submissionIdx) => (
-          <li key={submission.id}>
-            <div className={clsx("activity", "relative pb-8")}>
-              {submissionIdx !== session.submissions.length - 1 ? (
-                <span className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-ui-gray-light" aria-hidden="true" />
-              ) : null}
-              <div className={"min-w-[244px] relative flex space-x-3"}>
-                <div>
-                  <span className={clsx("activity-icon", "bg-red-200 h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white")}>
-                    <CheckIcon className="w-5 h-5 text-white" aria-hidden="true" />
-                  </span>
-                </div>
-                <div className="min-w-0 flex-1 pt-1.5 flex justify-between flex-wrap gap-4">
-                  <p className="w-[200px] truncate text-sm text-gray-500">{submission.questionType}</p>
-                  <div className="text-sm text-right text-gray-500 whitespace-nowrap">
-                    <time dateTime={session.createdAt}>{convertTimeString(session.createdAt)}</time>
-                  </div>
-                </div>
+        {session.submissions.reverse().map((submission, submissionIdx) => (
+          <li key={submission.id} className={clsx("activity", "relative pb-8")}>
+            {submissionIdx !== session.submissions.length - 1 && <ActivityLine />}
+            <div className={"min-w-[244px] relative flex space-x-3"}>
+              <ActivityIvon hasAnswer={true} />
+              <div className="min-w-0 flex-1 pt-1.5 flex justify-between flex-wrap gap-4">
+                <p className="w-[200px] truncate text-sm text-gray-500">{submission.questionType}</p>
+                <p className="text-sm text-right text-gray-500 whitespace-nowrap">
+                  <time dateTime={session.createdAt}>{convertTimeString(session.createdAt)}</time>
+                </p>
               </div>
             </div>
           </li>
@@ -54,6 +49,23 @@ function Timeline({ session }: { session: SubmissionSessionData }) {
       </ul>
     </div>
   );
+}
+function ActivityLine({}) {
+  return <span className={clsx("activity-line", "absolute top-4 left-4 -ml-px h-full w-0.5 bg-ui-gray-light")} aria-hidden="true" />;
+}
+function ActivityIvon({ hasAnswer }: { hasAnswer: boolean }) {
+  if (hasAnswer)
+    return (
+      <div className={clsx("activity-icon", "answered", "bg-red-200 h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white")}>
+        <CheckIcon className="w-5 h-5 text-white" aria-hidden="true" />
+      </div>
+    );
+  else
+    return (
+      <div className={clsx("activity-icon", "unanswered", "bg-gray-200 h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white")}>
+        <MinusIcon className="w-5 h-5 text-white" aria-hidden="true" />
+      </div>
+    );
 }
 function Divider({}) {
   return <div className={clsx(styles.divider, "bg-gray min-w-[1px] mx-8")}></div>;

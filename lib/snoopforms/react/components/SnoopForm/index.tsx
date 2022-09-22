@@ -125,6 +125,7 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
     if (prev !== null) {
       const updatingIds = payload.map((o) => o.questionId);
       const updatingSubmissions = payload.map((preSubmission) => ({ ...preSubmission, id: generateId(10) }));
+      //in order [oldestUpdated, ..., latestUpdated]
       refAllSubmissions.current = [...prev.filter((o) => !updatingIds.includes(o.questionId)), ...updatingSubmissions];
     } else {
       //init passively

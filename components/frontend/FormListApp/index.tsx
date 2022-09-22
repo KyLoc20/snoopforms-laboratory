@@ -4,14 +4,13 @@ import { NoCodeFormData } from "@/lib/types";
 import { deleteNoCodeForm } from "@/lib/noCodeForm";
 import AddFormButton from "./AddFormButton";
 import { useFormList } from "@/lib/forms";
-import { FullScreenLoading } from "@/components/layout";
+import { FullScreenLoading, CardGrid } from "@/components/layout";
 import useCreateFormModal from "@/hooks/useCreateFormModal";
 export default function FormListApp({}) {
   const { formList, mutateFormList } = useFormList();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleCreateFormComplete = (newForm: NoCodeFormData) => {
-    console.log("handleCreateFormComplete", newForm);
     const newFormList = JSON.parse(JSON.stringify(formList)) as NoCodeFormData[];
     newFormList.unshift(newForm);
     mutateFormList(newFormList);
@@ -46,16 +45,7 @@ export default function FormListApp({}) {
     </>
   );
 }
-import styles from "./FormListApp.module.css";
-function CardGrid({ children }: PropsWithChildren<{}>) {
-  return (
-    <section className="card-grid flex justify-center">
-      <div className={styles.cardGrid} style={{ display: "grid", gap: "1.5rem", maxWidth: "1024px", flex: 1, padding: "32px 24px" }}>
-        {children}
-      </div>
-    </section>
-  );
-}
+
 function CardWrapper({ children }: PropsWithChildren<{}>) {
   return <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>{children}</div>;
 }

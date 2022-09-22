@@ -3,7 +3,7 @@ import Loading from "@/components/layout/Loading";
 import { BlockData } from "@/lib/types";
 import { toast } from "react-toastify";
 import { SnoopForm, SnoopPage, SnoopElement, SubmissionData } from "@/lib/snoopforms/react";
-import { SubmissionPage, getQuestionTitleMap } from "../ResponseApp/SubmissionDisplay";
+import { SubmissionPage, getQuestionTitleMap } from "../ResponseApp/SessionDetails";
 import clsx from "clsx";
 import { Description, Button } from "@/components/modal/widgets";
 import DownloadButton from "./DownloadButton";

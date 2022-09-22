@@ -11,6 +11,7 @@ export type PreSubmissionData = {
   questionId: string; //BlockData->id
   questionType: string;
   details: any; //content
+  // updatedAt: number;
 };
 export type BlockDataForQuestion = {
   id: string; //if this Block represents a Question, this is the questionId

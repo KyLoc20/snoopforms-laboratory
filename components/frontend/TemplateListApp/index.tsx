@@ -1,11 +1,10 @@
 import { PropsWithChildren, useState } from "react";
 import TemplateCard from "./TemplateCard";
-import { CardGrid } from "@/components/layout";
 import { TEMPLATE_LIST } from "@/lib/template";
 import { BlockData } from "@/lib/types";
 import useCreateFormModal from "@/hooks/useCreateFormModal";
 import { NoCodeFormData } from "@/lib/types";
-import { FullScreenLoading } from "@/components/layout";
+import { FullScreenLoading, CardGrid } from "@/components/layout";
 import { getBlocksBy } from "@/lib/template";
 export default function TemplateListApp({}) {
   const [templateInUse, setTemplateInUse] = useState<BlockData[]>([]);

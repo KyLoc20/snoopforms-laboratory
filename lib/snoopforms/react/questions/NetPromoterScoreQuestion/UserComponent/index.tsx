@@ -20,7 +20,6 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
     if (shouldAlarm) hideAlarm();
     //should init
     onSubmissionChange({ score });
-    console.log("UserComponent", score);
   }, [score]);
 
   const handleSelect = (score: number) => {
