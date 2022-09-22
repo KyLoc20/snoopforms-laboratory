@@ -5,6 +5,7 @@ import { SubmissionData, SubmissionSessionData } from "../../types";
 import FullScreenLoading from "@/components/layout/FullScreenLoading";
 import clsx from "clsx";
 import { generateId } from "@/lib/utils";
+import PageController from "./PageController";
 /**
  * handle the layout and content of Page
  */
@@ -133,7 +134,7 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
   };
 
   const [currentPageIdx, setCurrentPageIdx] = useState(0); //CurrentPageContext
-  const nextPage = () => {
+  const nextPageAfterSubmit = () => {
     //check whether it is the last Page
     if (currentPageIdx >= pages.length - 1) {
       refSessionId.current = generateId(10);
@@ -143,18 +144,28 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
       onDone?.(refAllSubmissions.current || [], Date.now());
     } else setCurrentPageIdx((prev) => prev + 1);
   };
+  const handleGotoPrevPage = () => {
+    if (currentPageIdx > 0) {
+      setCurrentPageIdx((prev) => prev - 1);
+    }
+  };
+  const handleGotoNextPage = () => {
+    if (currentPageIdx < pages.length - 1) {
+      setCurrentPageIdx((prev) => prev + 1);
+    }
+  };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = (pageName: string) => {
     if (refAllSubmissions.current !== null) {
       console.log(`Session ${refSessionId.current} of Page ${pageName} handleSubmit:`, refAllSubmissions.current);
-      if (isOffline) nextPage();
+      if (isOffline) nextPageAfterSubmit();
       else {
         setIsSubmitting(true);
         persistOneSubmissionSession(formId, { formId, id: refSessionId.current, createdAt: "", updatedAt: "", submissions: refAllSubmissions.current }).then(
           (res) => {
             setIsSubmitting(false);
-            nextPage();
+            nextPageAfterSubmit();
           }
         );
       }
@@ -166,7 +177,13 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
         <RegistryContext.Provider value={{ pages: pages, register: addPage, detach: removePage, hasPage, findPage }}>
           <CurrentPageContext.Provider value={{ currentPageIdx }}>
             <SubmitHandlerContext.Provider value={handleSubmit}>
-              <section className={clsx("snoopform-container", "max-w-lg", className)}>
+              <section className={clsx("snoopform-container", "max-w-lg relative", className)}>
+                <PageController
+                  onPrev={handleGotoPrevPage}
+                  onNext={handleGotoNextPage}
+                  isFirstPage={currentPageIdx === 0}
+                  isLastPage={currentPageIdx === pages.length - 1}
+                />
                 {children}
                 {isSubmitting && <FullScreenLoading />}
               </section>

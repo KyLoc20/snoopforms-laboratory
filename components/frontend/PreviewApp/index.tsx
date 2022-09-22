@@ -54,8 +54,10 @@ export default function PreviewApp({ formId, blocks }: { formId: string; blocks:
       <div className={clsx("preview-app", "w-full h-full px-5 py-5 mb-[10vh]")}>
         {isCompleted ? (
           <>
-            <div className="ml-[-8px]">
-              <Description>Submissions here will NOT be saved.</Description>
+            <div className="ml-[-8px] mt-[-24px] mb-4">
+              <Description>
+                <i>Submissions here will NOT be saved.</i>
+              </Description>
             </div>
             <div className="my-[12px] ml-[-8px] flex">
               <Button onClick={handleFormReset} width={120} theme="red">
@@ -69,8 +71,10 @@ export default function PreviewApp({ formId, blocks }: { formId: string; blocks:
           </>
         ) : (
           <>
-            <div className="ml-[-8px]">
-              <Description>This is only a Preview.</Description>
+            <div className="ml-[-8px] mt-[-24px] mb-4">
+              <Description>
+                <i>This is only a Preview.</i>
+              </Description>
             </div>
             <SnoopForm offline={true} formId={formId} onDone={handleFormCompleted}>
               {pages.map((page, _) => (
