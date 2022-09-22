@@ -62,7 +62,7 @@ export default class RatingQuestion implements BlockTool {
   }
 }
 const DEFAULT_DATA: RatingQuestionConfigData = {
-  title: "",
+  title: "Your Question",
   num: 5,
   icon: "stars",
   isRequired: false,
