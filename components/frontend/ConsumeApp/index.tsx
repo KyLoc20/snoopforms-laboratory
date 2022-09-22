@@ -6,28 +6,11 @@ import { toast } from "react-toastify";
 import clsx from "clsx";
 import { Description, Button } from "@/components/modal/widgets";
 import { SnoopForm, SnoopPage, SnoopElement } from "@/lib/snoopforms/react";
+import usePages from "@/hooks/usePages";
 export default function ConsumeApp({ formId, blocks }: { formId: string; blocks: BlockData[] }) {
   console.log("RENDER ConsumeApp", formId, blocks);
   const [isCompleted, setIsCompleted] = useState(false);
-  const pages = useMemo(() => {
-    const allPages: Page[] = [];
-    let cPage: Page = { id: generateId(10), blocks: [] };
-    blocks.forEach((cBlock) => {
-      cPage.blocks.push(cBlock);
-      if (cBlock.type === "pageTransition") {
-        //generate a new Page
-        allPages.push(cPage);
-        cPage = { id: generateId(10), blocks: [] };
-      }
-    });
-    //TODO make it configurable
-    //the last Page, add a Done Button by default
-    if (cPage.blocks.length > 0) {
-      cPage.blocks.push({ id: generateId(10), type: "pageTransition", data: { _component: { submitLabel: "DONE" } } });
-      allPages.push(cPage);
-    }
-    return allPages;
-  }, [blocks, formId]);
+  const { pages } = usePages(blocks);
 
   const handleFormCompleted = () => {
     toast("Congratulations! You Have Finished the Form 🎉", { autoClose: 2000 });
@@ -74,7 +57,3 @@ export default function ConsumeApp({ formId, blocks }: { formId: string; blocks:
     );
   }
 }
-type Page = {
-  id: string;
-  blocks: BlockData[];
-};
