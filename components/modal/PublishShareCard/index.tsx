@@ -1,17 +1,21 @@
-import { useState, PropsWithChildren } from "react";
+import { useState, PropsWithChildren, useMemo } from "react";
 import { Button, Title, Description } from "../widgets";
 import { FullScreenLoading } from "@/components/layout";
-import { NoCodeFormData } from "@/lib/types";
+import { NoCodeFormData, BlockData } from "@/lib/types";
 import Link from "next/link";
 import { useNoCodeForm, persistNoCodeForm } from "@/lib/noCodeForm";
 import { toast } from "react-toastify";
 import TextField from "@/lib/snoopforms/react/questions/toolkit/ui/TextField";
+import { isQuestionType } from "@/lib/snoopforms/react/questions";
 export default function PublishShareCard({ onDone, onCancel, formId, fromShare }: PublishCardProps) {
   const [step, setStep] = useState<"publish" | "share">(fromShare ? "share" : "publish");
   const [isPublishing, setIsPublishing] = useState(false);
   const shouldBeLoading = isPublishing;
   const shareLink = `${DEFAULT_ENDPOINT}/to/${formId}`;
   const { noCodeForm } = useNoCodeForm(formId);
+  const statics = useMemo(() => {
+    return formStatics(noCodeForm.blocksDraft);
+  }, [noCodeForm.blocksDraft]);
   const handlePublishForm = () => {
     if (formId && formId !== "__unknown") {
       setIsPublishing(true);
@@ -36,6 +40,8 @@ export default function PublishShareCard({ onDone, onCancel, formId, fromShare }
       {step === "publish" && (
         <Wrapper>
           <Title>Are You Ready To Publish?</Title>
+          <Description>{`Question${statics.questionNum > 1 ? "s" : ""}: ${statics.questionNum}`}</Description>
+          <Description>{`Page${statics.questionNum > 1 ? "s" : ""}: ${statics.pageNum}`}</Description>
           <div
             style={{
               marginTop: "24px",
@@ -93,5 +99,15 @@ type PublishCardProps = {
   formId: string;
 };
 function Wrapper({ children }: PropsWithChildren<{}>) {
-  return <div style={{ display: "flex", flexDirection: "column", height: "226px" }}>{children}</div>;
+  return <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "226px" }}>{children}</div>;
 }
+const formStatics = (blocks: BlockData[]) => {
+  const statics = { pageNum: 0, questionNum: 0 };
+  blocks.forEach((block) => {
+    if (isQuestionType(block.type)) statics.questionNum += 1;
+    if (block.type === "pageTransition") statics.pageNum += 1;
+  });
+  let lastOne = blocks.slice(-1)[0];
+  if (lastOne.type !== "pageTransition") statics.pageNum += 1;
+  return statics;
+};

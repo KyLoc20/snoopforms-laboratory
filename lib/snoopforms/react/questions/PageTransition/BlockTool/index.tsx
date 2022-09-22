@@ -1,7 +1,6 @@
 import { API, BlockTool, BlockToolData, ToolConfig } from "../../toolkit/types/editorjs";
 import BuilderComponent from "../BuilderComponent";
 import { PageTransitionConfigData } from "../types";
-import ReactDOM from "react-dom";
 import { createRoot } from "react-dom/client";
 interface PageTransitionData extends BlockToolData {
   label: string;

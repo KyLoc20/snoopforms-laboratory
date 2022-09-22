@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import DividingLine from "../common/DividingLine";
 import { Button } from "../../toolkit/ui";
 import { PageTransitionConfigData } from "../types";
 

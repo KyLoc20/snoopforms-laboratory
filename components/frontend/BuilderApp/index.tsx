@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import EditorJS from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
 import AddPageButton from "@/components/layout/FloatActionButton/AddPage";
+import clsx from "clsx";
 let SnoopFormsEditor = dynamic(() => import("@/lib/editorjs"), {
   ssr: false,
 });
@@ -21,6 +22,7 @@ export default function BuilderApp({ formId }: { formId: string }) {
     <>
       <section>
         <SnoopFormsEditor editorRef={refEditor} formId={formId}></SnoopFormsEditor>
+        <div className={clsx("block-placeholder-incase-overflow", "w-full h-[48px]")}></div>
       </section>
       <AddPageButton onClick={handleAddPage} />
     </>
