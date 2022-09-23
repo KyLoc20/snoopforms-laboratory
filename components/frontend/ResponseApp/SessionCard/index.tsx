@@ -2,8 +2,9 @@ import { PropsWithChildren } from "react";
 import { CheckIcon, MinusIcon } from "@heroicons/react/solid";
 import { SubmissionSessionData } from "@/lib/types";
 import { convertDateTimeString, convertTimeString } from "@/lib/utils";
+import Chip from "@/lib/ui/Chip";
 import { TrashIcon } from "@heroicons/react/outline";
-import { hasAnswer } from "@/lib/snoopforms/react/questions";
+import { hasAnswer, shortcut } from "@/lib/snoopforms/react/questions";
 import clsx from "clsx";
 import styles from "./SessionCard.module.css";
 export default function SessionCardWithTimeline({
@@ -38,8 +39,10 @@ function Timeline({ session }: { session: SubmissionSessionData }) {
             {submissionIdx !== session.submissions.length - 1 && <ActivityLine />}
             <div className={"min-w-[244px] relative flex space-x-3"}>
               <ActivityIvon hasAnswer={hasAnswer(submission.questionType, submission.details)} />
-              <div className="min-w-0 flex-1 pt-1.5 flex justify-between flex-wrap gap-4">
-                <p className="w-[200px] truncate text-sm text-gray-500">{submission.questionType}</p>
+              <div className="min-w-0 flex-1 flex justify-between flex-wrap gap-4">
+                <p className="w-[200px] truncate text-sm text-gray-500">
+                  <Chip label={shortcut(submission.questionType)} />
+                </p>
                 <p className="text-sm text-right text-gray-500 whitespace-nowrap">
                   <time dateTime={session.createdAt}>{convertTimeString(session.createdAt)}</time>
                 </p>

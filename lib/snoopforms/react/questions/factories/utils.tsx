@@ -3,7 +3,7 @@ import { TextQuestionSubmissionData } from "../TextQuestion";
 import { EmailQuestionSubmissionData } from "../EmailQuestion";
 import { MultipleChoiceQuestionSubmissionData } from "../MultipleChoiceQuestion";
 import { NetPromoterScoreQuestionSubmissionData } from "../NetPromoterScoreQuestion";
-export { hasAnswer, isQuestionType };
+export { hasAnswer, isQuestionType, shortcut };
 /**
  * @QUESTION_SETTING
  */
@@ -28,5 +28,25 @@ const hasAnswer = (type: string, details: any) => {
     default:
       //unknown QuestionType
       return false;
+  }
+};
+/**
+ * @QUESTION_SETTING
+ */
+const shortcut = (type: string) => {
+  switch (type) {
+    case "ratingQuestion":
+      return "Rating";
+    case "textQuestion":
+      return "Text";
+    case "emailQuestion":
+      return "Email";
+    case "multipleChoiceQuestion":
+      return "Choices";
+    case "netPromoterScoreQuestion":
+      return "NPS";
+    default:
+      //unknown QuestionType
+      return "Unknown";
   }
 };
