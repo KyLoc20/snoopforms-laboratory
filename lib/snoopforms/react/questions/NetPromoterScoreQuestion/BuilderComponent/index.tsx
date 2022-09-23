@@ -22,7 +22,7 @@ export default function BuilderComponent({ onDataChange, initialData }: NetPromo
         <QuestionInput defaultValue={title} onChange={(v) => setTitle(v)} />
         <Mark active={isRequired}></Mark>
       </div>
-      <div className="score-list" style={{ marginTop: "4px" }}>
+      <div className="score-list" style={{ marginTop: "4px", overflowX: "auto" }}>
         <ScoreList num={11} bestText={bestText} worstText={worstText}></ScoreList>
       </div>
       <ConfigurablePanel>

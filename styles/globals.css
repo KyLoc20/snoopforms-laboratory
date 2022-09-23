@@ -75,7 +75,7 @@
 
 .ce-block__content,
 .ce-toolbar__content {
-    max-width: calc(100% - 80px) !important;
+    max-width: calc(100% - 40px) !important;
 }
 
 .cdx-block {

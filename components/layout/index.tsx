@@ -24,7 +24,7 @@ export function TopBarAppLayout({ children, title }: PropsWithChildren<{ title: 
 }
 /**
  *
- * @returns From top to bottom: TopBar, Navagation, App
+ * @returns From top to bottom: TopBar, Navagation, App, BottomBar(for Mobile)
  */
 export function TopBarNavagationAppLayout({
   children,

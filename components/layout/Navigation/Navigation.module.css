@@ -1,8 +1,35 @@
 .navigation {
     border-bottom: 1px solid #e5eaef;
+    justify-content: center;
 }
 
-@media (max-width: 768px) {
+.navigation button {
+    margin: 0 12px;
+}
+
+@media (max-width: 578px) {
+    .navigation {
+        overflow-x: scroll;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        justify-content: space-between;
+    }
+    .navigation button {
+        margin: 0 24px;
+    }
+    .navigation::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+
+/*
+this is a bottom bar
+*/
+
+
+/* @media (max-width: 768px) {
+    
     .navigation {
         width: 100vw;
         border-top: 1px solid #e5eaef;
@@ -11,4 +38,4 @@
         bottom: 0;
         z-index: 2000;
     }
-}
+} */

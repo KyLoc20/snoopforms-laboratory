@@ -28,7 +28,7 @@ export default function UserComponent({ config, initialData, onSubmissionChange 
 
   return (
     <QuestionContainer title={title} isRequired={isRequired}>
-      <div className="score-list" style={{ marginTop: "4px" }}>
+      <div className="score-list" style={{ marginTop: "4px", overflowX: "auto" }}>
         <ScoreList num={11} bestText={bestText} worstText={worstText} onChange={handleSelect}></ScoreList>
       </div>
       <Validator></Validator>

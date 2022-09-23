@@ -10,6 +10,8 @@ export default function ConfigurablePanel({ children, wrap }: PropsWithChildren<
         display: "flex",
         flexWrap: wrap ? "wrap" : "nowrap",
         alignItems: "center",
+        minWidth: "220px",
+        overflowX: "auto",
       }}
     >
       {children}

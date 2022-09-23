@@ -23,52 +23,50 @@ export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { curr
       <SharePortal>
         <PublishShareCard fromShare onDone={handleDone} onCancel={hideShareModal} formId={formId} />
       </SharePortal>
-      <div className={clsx(styles.navigation, "flex items-center justify-center")} style={{ background: "#fafafb" }}>
-        <nav className="flex space-x-10" aria-label="Navigation">
-          <Navigation
-            id="builder"
-            label="Builder"
-            icon={DocumentAddIcon}
-            disabled={disabledAll}
-            onClick={() => {
-              navigateTo(`/forms/${formId}/builder`);
-            }}
-            active={currentNav === "builder"}
-          />
-          <Navigation
-            id="preview"
-            label="Preview"
-            icon={EyeIcon}
-            disabled={disabledAll}
-            onClick={() => {
-              navigateTo(`/forms/${formId}/preview`);
-            }}
-            active={currentNav === "preview"}
-          />
-          <Navigation id="publish" label="Publish" icon={PaperAirplaneIcon} onClick={showPublishModal} active={currentNav === "publish"} />
-          <Navigation id="share" label="Share" icon={ShareIcon} onClick={showShareModal} active={currentNav === "share"} />
-          <Navigation
-            id="responses"
-            label="Responses"
-            icon={InboxIcon}
-            disabled={disabledAll}
-            onClick={() => {
-              navigateTo(`/forms/${formId}/results/responses`);
-            }}
-            active={currentNav === "responses"}
-          />
-          <Navigation
-            id="summary"
-            label="Summary"
-            icon={ChartBarIcon}
-            disabled={disabledAll}
-            onClick={() => {
-              navigateTo(`/forms/${formId}/results/summary`);
-            }}
-            active={currentNav === "summary"}
-          />
-        </nav>
-      </div>
+      <nav className={clsx(styles.navigation, "flex min-h-[64px] w-full bg-[#fafafb]")} aria-label="Navigation">
+        <Navigation
+          id="builder"
+          label="Builder"
+          icon={DocumentAddIcon}
+          disabled={disabledAll}
+          onClick={() => {
+            navigateTo(`/forms/${formId}/builder`);
+          }}
+          active={currentNav === "builder"}
+        />
+        <Navigation
+          id="preview"
+          label="Preview"
+          icon={EyeIcon}
+          disabled={disabledAll}
+          onClick={() => {
+            navigateTo(`/forms/${formId}/preview`);
+          }}
+          active={currentNav === "preview"}
+        />
+        <Navigation id="publish" label="Publish" icon={PaperAirplaneIcon} onClick={showPublishModal} active={currentNav === "publish"} />
+        <Navigation id="share" label="Share" icon={ShareIcon} onClick={showShareModal} active={currentNav === "share"} />
+        <Navigation
+          id="responses"
+          label="Responses"
+          icon={InboxIcon}
+          disabled={disabledAll}
+          onClick={() => {
+            navigateTo(`/forms/${formId}/results/responses`);
+          }}
+          active={currentNav === "responses"}
+        />
+        <Navigation
+          id="summary"
+          label="Summary"
+          icon={ChartBarIcon}
+          disabled={disabledAll}
+          onClick={() => {
+            navigateTo(`/forms/${formId}/results/summary`);
+          }}
+          active={currentNav === "summary"}
+        />
+      </nav>
     </>
   );
 }
@@ -100,7 +98,7 @@ export function Navigation({
   return (
     <button
       className={clsx(
-        `h-16 text-xs border-b-2 border-transparent`,
+        `min-w-[65px] h-16 text-xs border-b-2 border-transparent select-none`,
         disabled
           ? "text-ui-gray-medium cursor-default"
           : active
