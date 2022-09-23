@@ -6,6 +6,7 @@ import { SubmissionData, SubmissionSessionData, NoCodeFormData } from "@/lib/typ
 import { QuestionSummary } from "@/lib/types";
 import { createSummaryAnalyzer, createSummaryDisplay, isQuestionType } from "@/lib/snoopforms/react/questions";
 import { timeSince } from "@/lib/utils";
+import clsx from "clsx";
 export default function SummaryApp({ formId }: { formId: string }) {
   const { noCodeForm } = useNoCodeForm(formId);
   const { submissionSessions } = useSubmissionSessions(formId);
@@ -19,6 +20,7 @@ export default function SummaryApp({ formId }: { formId: string }) {
         lastSession={timeSince(submissionSessions[0]?.updatedAt)}
       ></Overview>
       <SummaryList list={summaryList}></SummaryList>
+      <div className={clsx("block-placeholder-incase-overflow", "w-full h-[48px]")}></div>
     </section>
   );
 }
