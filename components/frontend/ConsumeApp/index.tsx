@@ -65,7 +65,7 @@ function CompletedView({
   const { SubmissionResults } = useSubmissionResults(formId, submissions);
   return (
     <>
-      <div className="ml-[-8px] mt-[-24px] mb-4">
+      <div className="ml-[-8px] mt-[48px] mb-4">
         <Description>
           <i>Your submissions have been saved.</i>
         </Description>

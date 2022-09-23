@@ -162,13 +162,18 @@ export function SnoopForm(props: PropsWithChildren<SnoopFormProps>) {
       console.log(`Session ${refSessionId.current} of Page ${pageName} handleSubmit:`, refAllSubmissions.current);
       if (isOffline) nextPageAfterSubmit();
       else {
-        setIsSubmitting(true);
-        persistOneSubmissionSession(formId, { formId, id: refSessionId.current, createdAt: "", updatedAt: "", submissions: refAllSubmissions.current }).then(
-          (res) => {
-            setIsSubmitting(false);
-            nextPageAfterSubmit();
-          }
-        );
+        //only at last will it POST submissions
+        if (currentPageIdx === pages.length - 1) {
+          setIsSubmitting(true);
+          persistOneSubmissionSession(formId, { formId, id: refSessionId.current, createdAt: "", updatedAt: "", submissions: refAllSubmissions.current }).then(
+            (res) => {
+              setIsSubmitting(false);
+              nextPageAfterSubmit();
+            }
+          );
+        } else {
+          nextPageAfterSubmit();
+        }
       }
     }
   };
