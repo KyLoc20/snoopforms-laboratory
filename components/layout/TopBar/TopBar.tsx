@@ -11,7 +11,7 @@ export default function TopBar({ title }: PropsWithChildren<{ title: string }>) 
   const handleCreateFormComplete = (newForm: NoCodeFormData) => {
     console.log("handleCreateFormComplete", newForm);
   };
-  const { isCreating, showModal, hideModal, CreateFormModal } = useCreateFormModal("new-form-modal", handleCreateFormComplete);
+  const { isCreating, showModal, hideModal, CreateFormModal } = useCreateFormModal("global-modal-container", handleCreateFormComplete);
   const shouldBeLoading = isCreating;
 
   return (

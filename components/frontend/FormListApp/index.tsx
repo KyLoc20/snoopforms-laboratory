@@ -15,7 +15,7 @@ export default function FormListApp({}) {
     newFormList.unshift(newForm);
     mutateFormList(newFormList);
   };
-  const { isCreating, showModal, hideModal, CreateFormModal } = useCreateFormModal("new-form-modal", handleCreateFormComplete);
+  const { isCreating, showModal, hideModal, CreateFormModal } = useCreateFormModal("global-modal-container", handleCreateFormComplete);
 
   const shouldBeLoading = isCreating || isDeleting;
 

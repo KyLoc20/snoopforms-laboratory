@@ -8,6 +8,7 @@ import SessionCardWithTimeline from "./SessionCard";
 import SessionList from "./SessionList";
 import clsx from "clsx";
 import styles from "./ResponseApp.module.css";
+
 export default function ResponseApp({ formId }: { formId: string }) {
   // const { mutate } = useSWRConfig();
   const { submissionSessions, isLoading, mutate } = useSubmissionSessions(formId);
@@ -23,50 +24,44 @@ export default function ResponseApp({ formId }: { formId: string }) {
   }, [isLoading, submissionSessions]);
 
   const handleDelete = async (sessionId: string) => {
-    if (confirm("Are you sure you want to delete this submission? It will be gone forever!")) {
-      try {
-        // //way A
-        // fetch(`/api/forms/${formId}/submissionSessions/${sessionId}`, {
-        //   method: "DELETE",
-        // }).then((res) => {
-        //   toast("Successfully Deleted");
-        //   const updatedSubmissionSessions = submissionSessions.filter((session) => session.id !== sessionId);
-        //   mutate(updatedSubmissionSessions);
-        // });
+    // //way A
+    // fetch(`/api/forms/${formId}/submissionSessions/${sessionId}`, {
+    //   method: "DELETE",
+    // }).then((res) => {
+    //   toast("Successfully Deleted");
+    //   const updatedSubmissionSessions = submissionSessions.filter((session) => session.id !== sessionId);
+    //   mutate(updatedSubmissionSessions);
+    // });
 
-        // //way B Mutate Based on Current Data
-        // mutate(
-        //   async (sessions: SubmissionSessionData[]) => {
-        //     console.log("mutate:", sessions);
-        //     await fetch(`/api/forms/${formId}/submissionSessions/${sessionId}`, {
-        //       method: "DELETE",
-        //     });
-        //     toast("Successfully Deleted");
-        //     const updatedSubmissionSessions = sessions.filter((session) => session.id !== sessionId);
-        //     return [...updatedSubmissionSessions];
-        //   },
-        //   { revalidate: false }
-        // );
+    // //way B Mutate Based on Current Data
+    // mutate(
+    //   async (sessions: SubmissionSessionData[]) => {
+    //     console.log("mutate:", sessions);
+    //     await fetch(`/api/forms/${formId}/submissionSessions/${sessionId}`, {
+    //       method: "DELETE",
+    //     });
+    //     toast("Successfully Deleted");
+    //     const updatedSubmissionSessions = sessions.filter((session) => session.id !== sessionId);
+    //     return [...updatedSubmissionSessions];
+    //   },
+    //   { revalidate: false }
+    // );
 
-        //way C Optimistical
-        const updatedSubmissionSessionsOptimistically = [...submissionSessions.filter((session) => session.id !== sessionId)];
-        mutate(
-          async (sessions: SubmissionSessionData[]) => {
-            console.log("mutate:", sessions);
-            await fetch(`/api/forms/${formId}/submissionSessions/${sessionId}`, {
-              method: "DELETE",
-            });
-            toast("Successfully Deleted");
-            const updatedSubmissionSessions = sessions.filter((session) => session.id !== sessionId);
-            return [...updatedSubmissionSessions];
-          },
-          { optimisticData: updatedSubmissionSessionsOptimistically, rollbackOnError: true }
-        );
-        setActiveSubmissionSession(null);
-      } catch (error) {
-        toast(<div>error</div>);
-      }
-    }
+    //way C Optimistical
+    const updatedSubmissionSessionsOptimistically = [...submissionSessions.filter((session) => session.id !== sessionId)];
+    mutate(
+      async (sessions: SubmissionSessionData[]) => {
+        console.log("mutate:", sessions);
+        await fetch(`/api/forms/${formId}/submissionSessions/${sessionId}`, {
+          method: "DELETE",
+        });
+        toast("Successfully Deleted");
+        const updatedSubmissionSessions = sessions.filter((session) => session.id !== sessionId);
+        return [...updatedSubmissionSessions];
+      },
+      { optimisticData: updatedSubmissionSessionsOptimistically, rollbackOnError: true }
+    );
+    setActiveSubmissionSession(null);
   };
   if (isLoading) {
     return <Loading />;

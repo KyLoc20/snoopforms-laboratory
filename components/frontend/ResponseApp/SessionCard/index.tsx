@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState } from "react";
 import { CheckIcon, MinusIcon } from "@heroicons/react/solid";
 import { SubmissionSessionData } from "@/lib/types";
 import { convertDateTimeString, convertTimeString } from "@/lib/utils";
@@ -82,18 +82,40 @@ function Control({ onDelete }: { onDelete: () => void }) {
     </div>
   );
 }
-
+import { Button } from "@/components/modal/widgets";
 function DeleteButton({ OnClick }: { OnClick: () => void }) {
+  const [confirming, setConfirming] = useState(false);
   return (
-    <button
-      className={clsx(
-        styles.delete,
-        "items-center justify-center gap-2 mx-4 mt-4 h-[38px] min-w-[244px] transition-all rounded-sm px-4 py-2 text-sm font-medium text-white bg-gray-300 border border-transparent shadow-sm hover:bg-red-500 focus:outline-none"
+    <>
+      {confirming ? (
+        <div style={{ display: "flex", margin: "16px 16px 0" }}>
+          <Button theme="red" width={120} onClick={OnClick}>
+            Right Now
+          </Button>
+          <Button
+            width={120}
+            theme="gray"
+            onClick={() => {
+              setConfirming(false);
+            }}
+          >
+            Not Today
+          </Button>
+        </div>
+      ) : (
+        <button
+          className={clsx(
+            styles.delete,
+            "items-center justify-center gap-2 mx-4 mt-4 h-[38px] min-w-[244px] transition-all rounded-sm px-[20px] py-[12px] text-sm font-medium text-white bg-gray-300 border border-transparent shadow-sm hover:bg-red-500 focus:outline-none"
+          )}
+          onClick={() => {
+            setConfirming(true);
+          }}
+        >
+          <TrashIcon className="w-4 h-4" />
+          Delete Submission
+        </button>
       )}
-      onClick={OnClick}
-    >
-      <TrashIcon className="w-4 h-4" />
-      Delete Submission
-    </button>
+    </>
   );
 }

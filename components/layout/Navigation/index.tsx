@@ -10,8 +10,8 @@ export type AvailableNav = "builder" | "preview" | "publish" | "share" | "respon
 export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { currentNav?: AvailableNav; formId?: string; disabledAll?: boolean }) {
   //todo disable NavBar if formId is "__unknown"
   const { navigateTo } = useNavigation();
-  const { showModal: showPublishModal, hideModal: hidePublishModal, Portal: PublishPortal } = useModalPortal("new-form-modal");
-  const { showModal: showShareModal, hideModal: hideShareModal, Portal: SharePortal } = useModalPortal("new-form-modal");
+  const { showModal: showPublishModal, hideModal: hidePublishModal, Portal: PublishPortal } = useModalPortal("global-modal-container");
+  const { showModal: showShareModal, hideModal: hideShareModal, Portal: SharePortal } = useModalPortal("global-modal-container");
   const shouldBeLoading = false;
   const handleDone = () => {};
   return (

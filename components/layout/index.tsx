@@ -18,7 +18,7 @@ export function TopBarAppLayout({ children, title }: PropsWithChildren<{ title: 
     <Container bg="rgb(246, 248, 249, 1)">
       <TopBar title={title} />
       <MaxWidth>{children}</MaxWidth>
-      <div id="new-form-modal"></div>
+      <div id="global-modal-container"></div>
     </Container>
   );
 }
@@ -38,7 +38,7 @@ export function TopBarNavagationAppLayout({
       <TopBar title={title} />
       <NavBar currentNav={currentNav} formId={formId} disabledAll={disabledNav}></NavBar>
       <MaxWidth>{children}</MaxWidth>
-      <div id="new-form-modal"></div>
+      <div id="global-modal-container"></div>
     </Container>
   );
 }
@@ -50,7 +50,7 @@ export function AppLayout({ children }: PropsWithChildren<{}>) {
   return (
     <Container>
       <MaxWidth>{children}</MaxWidth>
-      <div id="new-form-modal"></div>
+      <div id="global-modal-container"></div>
     </Container>
   );
 }
@@ -69,7 +69,7 @@ export function TopBarNavagationFullAppLayout({
       <TopBar title={title} />
       <NavBar currentNav={currentNav} formId={formId}></NavBar>
       <MaxWidth full>{children}</MaxWidth>
-      <div id="new-form-modal"></div>
+      <div id="global-modal-container"></div>
     </Container>
   );
 }
@@ -85,7 +85,7 @@ export function TopBarNavagationTemplateLayout({ children, templateId, templateN
         <Navigation id="preview" label="Preview" icon={EyeIcon} onClick={() => {}} active={true}></Navigation>
       </NavigationWrapper>
       <MaxWidth>{children}</MaxWidth>
-      <div id="new-form-modal"></div>
+      <div id="global-modal-container"></div>
     </Container>
   );
 }

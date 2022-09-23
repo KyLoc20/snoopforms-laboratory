@@ -15,7 +15,7 @@ export default function TopBarForTemplate({ templateId, templateName }: PropsWit
     console.log("handleCreateFormFromTemplate", newForm);
   };
 
-  const { isCreating, showModal, hideModal, CreateFormModal } = useCreateFormModal("new-form-modal", handleCreateFormComplete, true, templateInUse);
+  const { isCreating, showModal, hideModal, CreateFormModal } = useCreateFormModal("global-modal-container", handleCreateFormComplete, true, templateInUse);
   const shouldBeLoading = isCreating;
 
   const haneleSelectOneTemplate = (templateId: string) => {
