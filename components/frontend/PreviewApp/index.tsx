@@ -7,15 +7,15 @@ import clsx from "clsx";
 import { Description, Button } from "@/components/modal/widgets";
 import usePages from "@/hooks/usePages";
 import useSubmissionResults, { DownloadButton } from "@/hooks/useSubmissionResults";
+import Link from "next/link";
 export default function PreviewApp({ formId, blocks }: { formId: string; blocks: BlockData[] }) {
   const { pages } = usePages(blocks);
-  console.log("RENDER PreviewApp", formId, blocks);
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [localSubmissions, setLocalSubmissions] = useState<SubmissionData[]>([]);
   const [whenSubmit, setWhenSubmit] = useState<number | undefined>(undefined);
   const handleFormCompleted = (submissions: SubmissionData[], when: number) => {
-    toast("Congratulations! You Have Finished the PREVIEW Form 🎉", { autoClose: 2000 });
+    toast("You Have Finished the PREVIEW Form 🎉", { autoClose: 2000 });
     setIsCompleted(true);
     setLocalSubmissions(submissions);
     setWhenSubmit(when);
@@ -37,6 +37,11 @@ export default function PreviewApp({ formId, blocks }: { formId: string; blocks:
             <div className="ml-[-8px] mt-[-24px] mb-4">
               <Description>
                 <i>This is only a Preview.</i>
+                <Link href={`/to/${formId}`}>
+                  <a>
+                    <i className="underline ml-1 cursor-pointer">Get your Published form here</i>
+                  </a>
+                </Link>
               </Description>
             </div>
             <SnoopForm offline={true} formId={formId} onDone={handleFormCompleted}>

@@ -9,7 +9,6 @@ import usePages from "@/hooks/usePages";
 import useSubmissionResults, { DownloadButton } from "@/hooks/useSubmissionResults";
 export default function ConsumeApp({ formId, blocks }: { formId: string; blocks: BlockData[] }) {
   const { pages } = usePages(blocks);
-  console.log("RENDER ConsumeApp", formId, blocks);
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [localSubmissions, setLocalSubmissions] = useState<SubmissionData[]>([]);
