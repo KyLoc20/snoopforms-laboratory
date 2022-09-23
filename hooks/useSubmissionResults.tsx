@@ -1,13 +1,14 @@
+import { SubmissionData } from "@/lib/types";
+import SessionDetails from "@/components/frontend/ResponseApp/SessionDetails";
+export default function useSubmissionResults(formId: string, submissions: SubmissionData[]) {
+  const Render: React.FC = () => <SessionDetails formId={formId} submissions={submissions} />;
+  return { SubmissionResults: Render };
+}
 import { PropsWithChildren, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
-import { SubmissionData } from "@/lib/snoopforms/react";
 import { Button } from "@/components/modal/widgets";
 import { queryNoCodeFormInformation } from "@/lib/noCodeForm";
-export default function DownloadButton({
-  formId,
-  whenSubmit,
-  submissions,
-}: PropsWithChildren<{ formId: string; whenSubmit: number; submissions: SubmissionData[] }>) {
+export function DownloadButton({ formId, whenSubmit, submissions }: PropsWithChildren<{ formId: string; whenSubmit: number; submissions: SubmissionData[] }>) {
   const [isDownloading, setIsDownloading] = useState(false);
   const handleDownload = () => {
     //TODO Error

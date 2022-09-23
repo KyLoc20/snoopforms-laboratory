@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { SubmissionSessionData, SubmissionData } from "@/lib/types";
+import { SubmissionData } from "@/lib/types";
 import { createResponseDisplay } from "@/lib/snoopforms/react/questions";
 import { useNoCodeForm } from "@/lib/noCodeForm";
 import Chip from "@/lib/ui/Chip";
@@ -7,15 +7,15 @@ import { shortcut } from "@/lib/snoopforms/react/questions";
 import { useMemo } from "react";
 import { getFormPagination, getSubmissionPagination, getQuestionTitleMap, TitleMap } from "./helpers";
 
-export default function SessionDetails({ formId, submissionSession }: { formId: string; submissionSession: SubmissionSessionData }) {
+export default function SessionDetails({ formId, submissions }: { formId: string; submissions: SubmissionData[] }) {
   //make sure the corresponding Form to be existed
   const { noCodeForm } = useNoCodeForm(formId);
   //pagination
   const pages = useMemo(() => {
     const formPagination = getFormPagination(noCodeForm.blocks);
-    const pages = getSubmissionPagination(submissionSession.submissions, formPagination);
+    const pages = getSubmissionPagination(submissions, formPagination);
     return pages;
-  }, [submissionSession, noCodeForm]);
+  }, [submissions, noCodeForm]);
   //id title mapping
   const id2Title = getQuestionTitleMap(noCodeForm.blocks);
   return (

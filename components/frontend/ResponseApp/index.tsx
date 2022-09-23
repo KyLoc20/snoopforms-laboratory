@@ -81,7 +81,7 @@ export default function ResponseApp({ formId }: { formId: string }) {
             <MobileWrapper>
               {submissionSessions.map((session, i) => (
                 <SessionCardWithTimeline key={session.id} session={session} onDelete={handleDelete}>
-                  <SessionDetails submissionSession={session} formId={formId} />
+                  <SessionDetails submissions={session.submissions} formId={formId} />
                 </SessionCardWithTimeline>
               ))}
             </MobileWrapper>
@@ -90,7 +90,7 @@ export default function ResponseApp({ formId }: { formId: string }) {
             <DesktopWrapper>
               {hasActiveSubmissionSession ? (
                 <SessionCardWithTimeline session={activeSubmissionSession} onDelete={handleDelete}>
-                  <SessionDetails submissionSession={activeSubmissionSession} formId={formId} />
+                  <SessionDetails submissions={activeSubmissionSession.submissions} formId={formId} />
                 </SessionCardWithTimeline>
               ) : (
                 <Reminder />

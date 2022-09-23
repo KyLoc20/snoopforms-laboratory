@@ -28,6 +28,7 @@ export default function SessionCardWithTimeline({
     </div>
   );
 }
+
 function Timeline({ session }: { session: SubmissionSessionData }) {
   //min-width = 8px(paddingLeft) + 244px(content) = 252px
   return (
