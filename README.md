@@ -5,8 +5,8 @@
 ## Why I Built This
 
 - To privide a glance of [snoopForms](https://github.com/snoopForms/snoopforms) without any auth, and more developing features🧪 
-- To help you Build&Use forms easily like a breeze🌬️🍃
-- To help you Integrate data with other services(*todo*)🕹️
+- To help you Build&Consume forms easily like a breeze🌬️🍃
+- To help you Integrate data with other services🕹️
 
 ## How I Built This
 
@@ -23,11 +23,12 @@
 ## Features
 - NoCode Builder to build forms rapidly🚀
 - Useful QuestionTypes 
+    - [x] [NPS](https://github.com/KyLoc20/snoopforms-laboratory/tree/master/lib/snoopforms/react/questions/NetPromoterScoreQuestion)⚡
     - [x] [MultipleChoice](https://github.com/KyLoc20/snoop-forms-laboratory/tree/master/lib/snoopforms/react/questions/MultipleChoiceQuestion)⚡
-    - [x] [Rating](https://github.com/KyLoc20/snoop-forms-laboratory/tree/master/lib/snoopforms/react/questions/RatingQuestion)⚡
+    - [x] [Rating](https://github.com/KyLoc20/snoop-forms-laboratory/tree/master/lib/snoopforms/react/questions/RatingQuestion)
     - [x] [Email](https://github.com/KyLoc20/snoop-forms-laboratory/tree/master/lib/snoopforms/react/questions/EmailQuestion)
     - [x] [Text](https://github.com/KyLoc20/snoop-forms-laboratory/tree/master/lib/snoopforms/react/questions/TextQuestion)
-    - [ ] NPS
+   
 - Auth
     - [x] No Login required!
     - [ ] Connect to wallet (*todo*)🦊
@@ -36,8 +37,9 @@
 - Juicy analytics out of the box (*doing*)🧐
     - [x] Simple text&charts to describe results📊
 - Painless Developer Experience to make new QuestionTypes (*doing*)😀
-- Smooth User Experience on mobile (now responsive but not smooth enough)
-- PWA (*todo*)
+- Smooth User Experience on mobile (*doing*)
+- PWA (*help wanted*)
+- a11y (*help wanted*)
 - Readable docs (*doing*)📘
  
 ## Getting Started
