@@ -1,5 +1,6 @@
 .cardGrid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+    padding: "32px 24px"
 }
 
 @media (max-width: 1024px) {
@@ -22,6 +23,7 @@
 
 @media (max-width: 428px) {
     .cardGrid {
-        grid-template-columns: repeat(1, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 0;
     }
 }

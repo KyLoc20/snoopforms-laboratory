@@ -1,0 +1,19 @@
+.description {
+    margin-top: 48px;
+    margin-left: -8px;
+}
+
+.consumeApp {
+    justify-content: center;
+    padding: 10vh 20px;
+}
+
+@media (max-width: 578px) {
+    .consumeApp {
+        justify-content: flex-start;
+        padding: 0 10px;
+    }
+    .description {
+        margin-top: 0;
+    }
+}

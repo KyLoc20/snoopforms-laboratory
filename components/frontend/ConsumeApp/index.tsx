@@ -7,6 +7,7 @@ import { Description, Button } from "@/components/modal/widgets";
 import { SnoopForm, SnoopPage, SnoopElement } from "@/lib/snoopforms/react";
 import usePages from "@/hooks/usePages";
 import useSubmissionResults, { DownloadButton } from "@/hooks/useSubmissionResults";
+import styles from "./ConsumeApp.module.css";
 export default function ConsumeApp({ formId, blocks }: { formId: string; blocks: BlockData[] }) {
   const { pages } = usePages(blocks);
 
@@ -27,7 +28,7 @@ export default function ConsumeApp({ formId, blocks }: { formId: string; blocks:
   if (!pages) return <Loading />;
   else {
     return (
-      <div className={clsx("comsume-app", "w-full h-full px-5 py-[10vh] flex flex-col justify-center overflow-auto")}>
+      <div className={clsx(styles.consumeApp, "comsume-app", "w-full h-full flex flex-col justify-center overflow-auto")}>
         {isCompleted ? (
           <CompletedView formId={formId} submissions={localSubmissions} whenSubmit={whenSubmit ?? 0} onReset={handleFormReset} />
         ) : (
@@ -64,7 +65,7 @@ function CompletedView({
   const { SubmissionResults } = useSubmissionResults(formId, submissions);
   return (
     <>
-      <div className="ml-[-8px] mt-[48px] mb-4">
+      <div className={clsx(styles.description)}>
         <Description>
           <i>Your submissions have been saved.</i>
         </Description>

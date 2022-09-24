@@ -44,8 +44,8 @@ export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { curr
           }}
           active={currentNav === "preview"}
         />
-        <Navigation id="publish" label="Publish" icon={PaperAirplaneIcon} onClick={showPublishModal} active={currentNav === "publish"} />
-        <Navigation id="share" label="Share" icon={ShareIcon} onClick={showShareModal} active={currentNav === "share"} />
+        <Navigation id="publish" label="Publish" icon={PaperAirplaneIcon} disabled={disabledAll} onClick={showPublishModal} active={currentNav === "publish"} />
+        <Navigation id="share" label="Share" icon={ShareIcon} disabled={disabledAll} onClick={showShareModal} active={currentNav === "share"} />
         <Navigation
           id="responses"
           label="Responses"
