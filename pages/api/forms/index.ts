@@ -15,7 +15,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   if (req.method === "GET") {
     const _res = await getAllForms();
     const forms: NoCodeFormData[] = _res.map((item) => {
-      return { formId: item.id, name: item.name, blocks: [], blocksDraft: JSON.parse(JSON.stringify(item.schema)) };
+      return { formId: item.id, name: item.name, blocks: JSON.parse(JSON.stringify(item.schema)), blocksDraft: JSON.parse(JSON.stringify(item.schemaDraft)) };
     });
     res.status(200).json(forms);
   }

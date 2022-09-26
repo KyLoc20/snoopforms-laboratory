@@ -6,10 +6,11 @@ interface FormCardProps {
   id: string;
   name: string;
   type: AvailableFormType;
-  responses: number;
+  // responses: number;
+  questions: number;
   onDelete: (formId: string) => void;
 }
-export default function FormCard({ id, name, type, responses, onDelete }: FormCardProps) {
+export default function FormCard({ id, name, type, questions, onDelete }: FormCardProps) {
   return (
     <Link href={`/forms/${id}`}>
       <a>
@@ -22,7 +23,7 @@ export default function FormCard({ id, name, type, responses, onDelete }: FormCa
               <FormType type={type}></FormType>
             </div>
             <ControlPanel>
-              {responses} {responses > 1 ? "responses" : "response"}
+              {questions} {questions > 1 ? "questions" : "question"}
               <DeleteButton
                 onClick={(e) => {
                   e.stopPropagation();

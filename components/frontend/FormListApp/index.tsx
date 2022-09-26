@@ -6,6 +6,7 @@ import AddFormButton from "./AddFormButton";
 import { useFormList } from "@/lib/forms";
 import { FullScreenLoading, CardGrid } from "@/components/layout";
 import useCreateFormModal from "@/hooks/useCreateFormModal";
+import { isQuestionType } from "@/lib/snoopforms/react/questions";
 export default function FormListApp({}) {
   const { formList, mutateFormList } = useFormList();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -38,7 +39,13 @@ export default function FormListApp({}) {
         </CardWrapper>
         {formList.map((form, i) => (
           <CardWrapper key={form.formId}>
-            <FormCard id={form.formId} name={form.name} type={"nocode"} responses={0} onDelete={handleDeleteOneForm} />
+            <FormCard
+              id={form.formId}
+              name={form.name}
+              type={"nocode"}
+              questions={form.blocks.filter((block) => isQuestionType(block.type)).length}
+              onDelete={handleDeleteOneForm}
+            />
           </CardWrapper>
         ))}
       </CardGrid>
