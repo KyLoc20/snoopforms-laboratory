@@ -1,12 +1,21 @@
 import { useState, PropsWithChildren } from "react";
-import { DocumentAddIcon, EyeIcon, PaperAirplaneIcon, ShareIcon, ChartBarIcon, InboxIcon, DocumentDuplicateIcon } from "@heroicons/react/outline";
+import {
+  DocumentAddIcon,
+  EyeIcon,
+  PaperAirplaneIcon,
+  ShareIcon,
+  ChartBarIcon,
+  InboxIcon,
+  DocumentDuplicateIcon,
+  AdjustmentsIcon,
+} from "@heroicons/react/outline";
 import { useNavigation } from "@/lib/router";
 import PublishShareCard from "@/components/modal/PublishShareCard";
 import clsx from "clsx";
 import styles from "./Navigation.module.css";
 import useModalPortal from "@/lib/modal";
 import FullScreenLoading from "../FullScreenLoading";
-export type AvailableNav = "builder" | "preview" | "publish" | "share" | "responses" | "summary" | "example";
+export type AvailableNav = "builder" | "preview" | "publish" | "share" | "responses" | "summary" | "example" | "flows";
 export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { currentNav?: AvailableNav; formId?: string; disabledAll?: boolean }) {
   //todo disable NavBar if formId is "__unknown"
   const { navigateTo } = useNavigation();
@@ -55,6 +64,16 @@ export function NavBar({ currentNav, formId = "__unknown", disabledAll }: { curr
             navigateTo(`/forms/${formId}/results/responses`);
           }}
           active={currentNav === "responses"}
+        />
+        <Navigation
+          id="flows"
+          label="Flows"
+          icon={AdjustmentsIcon}
+          disabled={disabledAll}
+          onClick={() => {
+            navigateTo(`/flows/${formId}`);
+          }}
+          active={currentNav === "flows"}
         />
         <Navigation
           id="summary"

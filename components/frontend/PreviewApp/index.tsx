@@ -39,7 +39,7 @@ export default function PreviewApp({ formId, blocks }: { formId: string; blocks:
                 <i>This is only a Preview.</i>
                 <Link href={`/to/${formId}`}>
                   <a>
-                    <i className="underline ml-1 cursor-pointer">Get your Published form here</i>
+                    <i className="underline ml-2 cursor-pointer">Reach your Published form here</i>
                   </a>
                 </Link>
               </Description>
