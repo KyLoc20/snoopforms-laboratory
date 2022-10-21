@@ -56,3 +56,20 @@ export default function FormListApp({}) {
 function CardWrapper({ children }: PropsWithChildren<{}>) {
   return <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>{children}</div>;
 }
+
+const isReady = true;
+const hasError = true;
+const shouldRetry = true;
+const canSubmit = true;
+
+function Component({}) {
+  const isActive = true;
+  return <Button disabled={false} active={isActive}></Button>;
+}
+type ButtonProps = {
+  disabled: boolean;
+  active: boolean;
+};
+function Button({ disabled, active }: ButtonProps) {
+  return <button>`Button`</button>;
+}

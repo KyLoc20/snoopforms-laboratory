@@ -1,10 +1,6 @@
 import { useEffect, useState, PropsWithChildren } from "react";
-import { useSubmissionSessions } from "@/lib/submissionSession";
-import { SubmissionSessionData } from "@/lib/types";
-import Loading from "@/components/layout/Loading";
 import { toast } from "react-toastify";
 import clsx from "clsx";
-import styles from "./ResponseApp.module.css";
 import { LightningBoltIcon, CubeIcon } from "@heroicons/react/outline";
 
 export default function FlowAdminApp({}: PropsWithChildren<{}>) {
@@ -25,6 +21,16 @@ export default function FlowAdminApp({}: PropsWithChildren<{}>) {
         {tabs === "flows" && (
           <>
             <h1 className="text-gray-700 font-bold text-3xl mb-8">Active Flows</h1>
+            <WorkFlow>
+              <Node label={"Form"} />
+              <Edge />
+              <Node label={"Discord"} />
+            </WorkFlow>
+
+            {/* <WorkFlow>
+              <Node label={"Form"} />
+              <Node label={"Discord"} />
+            </WorkFlow> */}
           </>
         )}
         {tabs === "integrations" && (
@@ -48,4 +54,13 @@ function NavigationItem({ children, onSelect, active }: PropsWithChildren<{ onSe
       {children}
     </div>
   );
+}
+function WorkFlow({ children }: PropsWithChildren<{}>) {
+  return <div className="flex">{children}</div>;
+}
+function Node({ children, label }: PropsWithChildren<{ label: string }>) {
+  return <div className={clsx("flex rounded-[6px] px-6 py-2 border-2 border-solid border-red cursor-pointer select-none")}>{label}</div>;
+}
+function Edge({}: PropsWithChildren<{}>) {
+  return <div className={clsx("border-t-2 border-dotted border-gray w-[80px] h-[2px] my-auto")}></div>;
 }
