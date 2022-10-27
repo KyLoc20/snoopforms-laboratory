@@ -12,6 +12,7 @@ export default function ConfigurablePanel({ children, wrap }: PropsWithChildren<
         alignItems: "center",
         minWidth: "220px",
         overflowX: "auto",
+        overflowY: "visible",
       }}
     >
       {children}
